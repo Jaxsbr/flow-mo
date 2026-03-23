@@ -7,16 +7,16 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 19
+  task_number: 20
   phase: flow-mo-ide-extension
   phase_complete: true
   review_stage: review_posted
-  review_complete: false
+  review_complete: true
   retro_complete: false
   pr_number: 1
   status: running
   last_result: pass
-  next_task: "[review] handle-pr-review pr=1 auto=true"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-F1

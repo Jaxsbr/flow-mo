@@ -41,7 +41,7 @@ entries:
     story: "US-F3"
     description: "Write docs/GUIDE.md with install, open, save, validation, external change sections"
     result: "pass"
-    notes: "✓ US-F3 complete. ✓ US-F4 complete (GUIDE.md was last criterion for both)."
+    notes: "✓ US-F3 complete. ✓ US-F4 complete."
     tokens: ~
   - task: 7
     time: "2026-03-23T23:32:00Z"
@@ -55,12 +55,26 @@ entries:
     story: "phase"
     description: "Update AGENTS.md, create ARCHITECTURE.md"
     result: "pass"
-    notes: "All phase criteria met. Phase completion gate passed."
+    notes: "All phase criteria met."
     tokens: ~
   - task: 9
     time: "2026-03-23T23:34:00Z"
     story: "phase"
     description: "Phase completion — all 25 done-when criteria verified"
     result: "pass"
-    notes: "Evidence: all checkboxes checked in phase-goal.md. Verify passes. AGENTS.md consistent. No new endpoints (no error-path gap)."
+    notes: "All checkboxes checked. Verify passes. AGENTS.md consistent."
+    tokens: ~
+  - task: 10
+    time: "2026-03-23T23:35:00Z"
+    story: "review"
+    description: "review-pr: posted 5 concerns as COMMENT review"
+    result: "pass"
+    notes: "5 concerns identified: raw .ts exports, shallow validation, feedback loop, CSP, tsbuildinfo"
+    tokens: ~
+  - task: 11
+    time: "2026-03-23T23:40:00Z"
+    story: "review"
+    description: "handle-pr-review: fixed 4, challenged 1, re-verified"
+    result: "pass"
+    notes: "Fixed: core build step, feedback loop suppression, CSP unsafe-inline, tsbuildinfo gitignore. Challenged: shallow validation. All checks pass."
     tokens: ~
