@@ -8,13 +8,13 @@ config:
 
 state:
   task_number: 1
-  phase: null
+  phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
   review_complete: false
   retro_complete: false
   pr_number: null
-  status: idle
+  status: running
   last_result: null
   next_task: null
   consecutive_fails: 0
