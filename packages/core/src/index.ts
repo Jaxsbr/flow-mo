@@ -5,9 +5,9 @@ export {
   flowToDocument,
   NODE_TYPE,
   EDGE_TYPE,
-} from './yamlFlow.ts'
+} from './yamlFlow.js'
 
-export { arrowMarker, markersFromStyles } from './edgeMarkers.ts'
+export { arrowMarker, markersFromStyles } from './edgeMarkers.js'
 
 export type {
   NodeShape,
@@ -20,4 +20,4 @@ export type {
   FlowYamlDoc,
   FlowYamlNode,
   FlowYamlEdge,
-} from './types.ts'
+} from './types.js'

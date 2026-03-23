@@ -30,6 +30,7 @@ export class FlowMoEditorProvider implements vscode.CustomTextEditorProvider {
     };
 
     const disposables: vscode.Disposable[] = [];
+    let suppressNextUpdate = false;
 
     // Send document text to webview when it's ready
     const updateWebview = () => {
@@ -54,6 +55,7 @@ export class FlowMoEditorProvider implements vscode.CustomTextEditorProvider {
                 new vscode.Range(0, 0, document.lineCount, 0),
                 message.text
               );
+              suppressNextUpdate = true;
               vscode.workspace.applyEdit(edit);
             }
             return;
@@ -65,6 +67,10 @@ export class FlowMoEditorProvider implements vscode.CustomTextEditorProvider {
     disposables.push(
       vscode.workspace.onDidChangeTextDocument((e) => {
         if (e.document.uri.toString() === document.uri.toString() && e.contentChanges.length > 0) {
+          if (suppressNextUpdate) {
+            suppressNextUpdate = false;
+            return;
+          }
           updateWebview();
         }
       })
@@ -92,7 +98,7 @@ export class FlowMoEditorProvider implements vscode.CustomTextEditorProvider {
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+    content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlowMo</title>
   <link rel="stylesheet" href="${styleUri}">

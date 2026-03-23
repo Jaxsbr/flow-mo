@@ -11,8 +11,8 @@ import type {
   MarkerEndStyle,
   MidpointColor,
   NodeShape,
-} from './types.ts'
-import { markersFromStyles } from './edgeMarkers.ts'
+} from './types.js'
+import { markersFromStyles } from './edgeMarkers.js'
 
 const NODE_TYPE = 'flowMo' as const
 const EDGE_TYPE = 'flowMoEdge' as const

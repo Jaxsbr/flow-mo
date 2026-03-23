@@ -35,5 +35,8 @@ credentials.json
 packages/vscode-extension/out/
 packages/vscode-extension/media/
 
+# Build artifacts
+*.tsbuildinfo
+
 # Build loop
 .build-loop.lock
