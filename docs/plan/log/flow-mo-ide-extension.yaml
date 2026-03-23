@@ -1,3 +1,10 @@
 phase: "flow-mo-ide-extension"
 started: "2026-03-23T23:24:54Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-23T23:25:00Z"
+    story: "US-F1"
+    description: "Investigation — identify files to extract for @flow-mo/core, plan monorepo structure"
+    result: "pass"
+    notes: "Verified current state: src/lib/yamlFlow.ts has parseFlowYaml, stringifyFlowDoc, documentToFlow, flowToDocument. src/lib/edgeMarkers.ts has marker helpers. src/types.ts has all types. Need npm workspaces with packages/core and packages/app. Verify passes on current code."
+    tokens: ~

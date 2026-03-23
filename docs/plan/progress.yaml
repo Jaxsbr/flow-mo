@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 1
+  task_number: 2
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: null
-  next_task: null
+  next_task: "[US-F1] Investigate: confirm current YAML/schema files to extract, plan packages/core structure, identify npm workspace setup needed"
   consecutive_fails: 0
   completed_stories: []
