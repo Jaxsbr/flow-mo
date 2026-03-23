@@ -15,3 +15,10 @@ entries:
     result: "pass"
     notes: "All 8 tests pass. tsc + lint pass. ✓ US-F1 complete"
     tokens: ~
+  - task: 3
+    time: "2026-03-23T23:27:00Z"
+    story: "US-F2"
+    description: "Investigate + rewire App.tsx, FlowMoNode.tsx, FlowMoEdge.tsx to import from @flow-mo/core; delete src/types.ts, src/lib/"
+    result: "pass"
+    notes: "All imports rewired. Old files deleted. tsc + lint + build pass. No duplicate logic in src/. ✓ US-F2 complete"
+    tokens: ~

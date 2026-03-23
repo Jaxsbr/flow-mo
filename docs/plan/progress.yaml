@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
+  task_number: 6
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
@@ -16,7 +16,8 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-F2] Investigate: confirm app imports to rewire from src/lib and src/types to @flow-mo/core, check if src/lib and src/types can be deleted"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-F1
+    - US-F2
