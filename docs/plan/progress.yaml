@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 10
+  task_number: 11
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
@@ -16,7 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-F4] Implement webview React app with VS Code message bridge, validation error display, external change notification, fitView, disposal"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-F1

@@ -29,3 +29,10 @@ entries:
     result: "pass"
     notes: "Extension compiles. vsce package produces .vsix. 3/4 US-F3 criteria met — GUIDE.md still needed."
     tokens: ~
+  - task: 5
+    time: "2026-03-23T23:30:00Z"
+    story: "US-F4"
+    description: "Implement webview React app with VS Code message bridge, validation error display, external change warning, fitView, disposal"
+    result: "pass"
+    notes: "Webview bundles via vite.webview.config.ts. Bidirectional sync works. All code criteria met (8/9). GUIDE.md still needed. Verification doc created."
+    tokens: ~
