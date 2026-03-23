@@ -16,6 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-F1] Create packages/core with npm workspace, move types + yamlFlow + edgeMarkers, add package.json with exports, write unit tests"
+  next_task: null
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories:
+    - US-F1

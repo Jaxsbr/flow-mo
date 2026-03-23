@@ -12,10 +12,10 @@ Deliver **`@flow-mo/core`** as the single YAML/schema implementation, refactor t
 
 ### Done-when (observable)
 
-- [ ] `packages/core/package.json` exists with `name` exactly `@flow-mo/core` and `exports` (or `main` + `types`) resolving for app and extension builds [US-F1]
-- [ ] `packages/core` exports `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, and `flowToDocument` (or names documented in core README with identical behavior to pre-refactor) [US-F1]
-- [ ] Unit tests under `packages/core` pass (`npm test` or `vitest`/`node:test` as configured) with cases: valid v1 round-trip; reject `version !== 1`; reject missing `nodes`/`edges` [US-F1]
-- [ ] `packages/core/README.md` lists public API entry points [US-F1]
+- [x] `packages/core/package.json` exists with `name` exactly `@flow-mo/core` and `exports` (or `main` + `types`) resolving for app and extension builds [US-F1]
+- [x] `packages/core` exports `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, and `flowToDocument` (or names documented in core README with identical behavior to pre-refactor) [US-F1]
+- [x] Unit tests under `packages/core` pass (`npm test` or `vitest`/`node:test` as configured) with cases: valid v1 round-trip; reject `version !== 1`; reject missing `nodes`/`edges` [US-F1]
+- [x] `packages/core/README.md` lists public API entry points [US-F1]
 - [ ] No file under `packages/app/src` (or `src/` if app stays at root) contains duplicate implementations of v1 YAML document conversion logic — imports use `@flow-mo/core` only (verified by grep or ESLint boundary rule) [US-F2]
 - [ ] `npm run build` at repo root exits 0 after workspace wiring [US-F2]
 - [ ] `npm run lint` at repo root exits 0 [US-F2]
