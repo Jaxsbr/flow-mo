@@ -16,19 +16,19 @@ import type {
   MarkerEndStyle,
   MidpointColor,
   NodeShape,
-} from './types'
+} from '@flow-mo/core'
+import {
+  markersFromStyles,
+  documentToFlow,
+  flowToDocument,
+  parseFlowYaml,
+  stringifyFlowDoc,
+} from '@flow-mo/core'
 import '@xyflow/react/dist/style.css'
 import { useCallback, useMemo, useState } from 'react'
 import defaultFlowYaml from './defaultFlow.yaml?raw'
 import './App.css'
 import { FlowMoEdge } from './edges/FlowMoEdge'
-import { markersFromStyles } from './lib/edgeMarkers'
-import {
-  documentToFlow,
-  flowToDocument,
-  parseFlowYaml,
-  stringifyFlowDoc,
-} from './lib/yamlFlow'
 import { FlowMoNode } from './nodes/FlowMoNode'
 
 const nodeTypes = { flowMo: FlowMoNode }

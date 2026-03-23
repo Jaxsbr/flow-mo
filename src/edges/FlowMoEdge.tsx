@@ -5,7 +5,7 @@ import {
   type EdgeProps,
   type Position,
 } from '@xyflow/react'
-import type { FlowMoRfEdge } from '../types'
+import type { FlowMoRfEdge } from '@flow-mo/core'
 
 export function FlowMoEdge({
   sourceX,

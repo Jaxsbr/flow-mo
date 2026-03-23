@@ -13,7 +13,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from 'react'
-import type { FlowMoRfNode, NodeShape } from '../types'
+import type { FlowMoRfNode, NodeShape } from '@flow-mo/core'
 
 export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
   const id = useNodeId()
