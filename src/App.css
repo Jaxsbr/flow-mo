@@ -112,6 +112,24 @@
   color: var(--flow-danger);
 }
 
+.flow-mo__warning {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: var(--flow-text);
+  background: var(--flow-warning-bg, #fef3cd);
+  border: 1px solid var(--flow-warning-border, #ffc107);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flow-mo__warning-dismiss {
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
 .flow-mo__split {
   flex: 1;
   display: flex;

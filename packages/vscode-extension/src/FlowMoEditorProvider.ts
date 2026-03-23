@@ -83,38 +83,23 @@ export class FlowMoEditorProvider implements vscode.CustomTextEditorProvider {
 
   private getHtmlForWebview(webview: vscode.Webview): string {
     const nonce = getNonce();
+    const mediaUri = vscode.Uri.joinPath(this.context.extensionUri, 'media');
+    const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(mediaUri, 'webview.js'));
+    const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(mediaUri, 'webview.css'));
 
-    // Placeholder HTML — US-F4 will replace with the bundled React app
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none'; style-src ${webview.cspSource} 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
+    content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlowMo</title>
-  <style nonce="${nonce}">
-    body { font-family: var(--vscode-font-family); padding: 20px; color: var(--vscode-foreground); }
-    .placeholder { text-align: center; margin-top: 40px; opacity: 0.7; }
-  </style>
+  <link rel="stylesheet" href="${styleUri}">
 </head>
 <body>
-  <div class="placeholder">
-    <h2>FlowMo Diagram Editor</h2>
-    <p>Custom editor registered. Webview UI loading…</p>
-    <p id="status">Waiting for document…</p>
-  </div>
-  <script nonce="${nonce}">
-    const vscode = acquireVsCodeApi();
-    vscode.postMessage({ type: 'ready' });
-    window.addEventListener('message', (event) => {
-      const message = event.data;
-      if (message.type === 'update') {
-        document.getElementById('status').textContent =
-          'Document loaded (' + message.text.length + ' chars)';
-      }
-    });
-  </script>
+  <div id="root"></div>
+  <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>
 </html>`;
   }

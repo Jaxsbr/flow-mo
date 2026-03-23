@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:webview": "vite build --config vite.webview.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "npm test --workspaces --if-present"

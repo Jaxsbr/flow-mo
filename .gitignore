@@ -33,6 +33,7 @@ credentials.json
 # Extension output
 *.vsix
 packages/vscode-extension/out/
+packages/vscode-extension/media/
 
 # Build loop
 .build-loop.lock
