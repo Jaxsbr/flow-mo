@@ -22,3 +22,10 @@ entries:
     result: "pass"
     notes: "All imports rewired. Old files deleted. tsc + lint + build pass. No duplicate logic in src/. ✓ US-F2 complete"
     tokens: ~
+  - task: 4
+    time: "2026-03-23T23:28:00Z"
+    story: "US-F3"
+    description: "Create VS Code extension skeleton: CustomTextEditorProvider, package.json with customEditors, vsce package"
+    result: "pass"
+    notes: "Extension compiles. vsce package produces .vsix. 3/4 US-F3 criteria met — GUIDE.md still needed."
+    tokens: ~
