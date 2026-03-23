@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 3
+  task_number: 4
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null

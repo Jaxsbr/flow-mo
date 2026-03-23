@@ -8,3 +8,10 @@ entries:
     result: "pass"
     notes: "Verified current state: src/lib/yamlFlow.ts has parseFlowYaml, stringifyFlowDoc, documentToFlow, flowToDocument. src/lib/edgeMarkers.ts has marker helpers. src/types.ts has all types. Need npm workspaces with packages/core and packages/app. Verify passes on current code."
     tokens: ~
+  - task: 2
+    time: "2026-03-23T23:26:00Z"
+    story: "US-F1"
+    description: "Create packages/core with npm workspace, types, yamlFlow, edgeMarkers, index, README, 8 unit tests"
+    result: "pass"
+    notes: "All 8 tests pass. tsc + lint pass. ✓ US-F1 complete"
+    tokens: ~
