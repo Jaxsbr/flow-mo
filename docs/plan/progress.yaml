@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 11
+  task_number: 12
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
@@ -16,7 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-F3] Write docs/GUIDE.md with install-from-VSIX, open-with, save, invalid-YAML, and external-change sections"
   consecutive_fails: 0
   completed_stories:
     - US-F1
