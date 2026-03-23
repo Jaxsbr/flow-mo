@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 6
+  task_number: 7
   phase: flow-mo-ide-extension
   phase_complete: false
   review_stage: null
@@ -16,7 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-F3] Investigate: determine VS Code extension structure for packages/vscode-extension, custom editor API pattern, vsce packaging requirements"
   consecutive_fails: 0
   completed_stories:
     - US-F1
