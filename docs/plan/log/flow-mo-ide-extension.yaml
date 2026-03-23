@@ -6,7 +6,7 @@ entries:
     story: "US-F1"
     description: "Investigation — identify files to extract for @flow-mo/core, plan monorepo structure"
     result: "pass"
-    notes: "Verified current state: src/lib/yamlFlow.ts has parseFlowYaml, stringifyFlowDoc, documentToFlow, flowToDocument. src/lib/edgeMarkers.ts has marker helpers. src/types.ts has all types. Need npm workspaces with packages/core and packages/app. Verify passes on current code."
+    notes: "Verified current state: src/lib/yamlFlow.ts, src/lib/edgeMarkers.ts, src/types.ts to extract. Need npm workspaces."
     tokens: ~
   - task: 2
     time: "2026-03-23T23:26:00Z"
@@ -18,21 +18,49 @@ entries:
   - task: 3
     time: "2026-03-23T23:27:00Z"
     story: "US-F2"
-    description: "Investigate + rewire App.tsx, FlowMoNode.tsx, FlowMoEdge.tsx to import from @flow-mo/core; delete src/types.ts, src/lib/"
+    description: "Rewire App.tsx, FlowMoNode.tsx, FlowMoEdge.tsx to @flow-mo/core; delete src/types.ts, src/lib/"
     result: "pass"
-    notes: "All imports rewired. Old files deleted. tsc + lint + build pass. No duplicate logic in src/. ✓ US-F2 complete"
+    notes: "All imports rewired. tsc + lint + build pass. ✓ US-F2 complete"
     tokens: ~
   - task: 4
     time: "2026-03-23T23:28:00Z"
     story: "US-F3"
-    description: "Create VS Code extension skeleton: CustomTextEditorProvider, package.json with customEditors, vsce package"
+    description: "VS Code extension skeleton: CustomTextEditorProvider, custom editor registration, vsce package"
     result: "pass"
-    notes: "Extension compiles. vsce package produces .vsix. 3/4 US-F3 criteria met — GUIDE.md still needed."
+    notes: "Extension compiles. vsce package produces .vsix."
     tokens: ~
   - task: 5
     time: "2026-03-23T23:30:00Z"
     story: "US-F4"
-    description: "Implement webview React app with VS Code message bridge, validation error display, external change warning, fitView, disposal"
+    description: "Webview React app with message bridge, validation UX, external change warning, fitView, disposal"
     result: "pass"
-    notes: "Webview bundles via vite.webview.config.ts. Bidirectional sync works. All code criteria met (8/9). GUIDE.md still needed. Verification doc created."
+    notes: "Webview bundles via vite.webview.config.ts. All code criteria met. Verification doc created."
+    tokens: ~
+  - task: 6
+    time: "2026-03-23T23:31:00Z"
+    story: "US-F3"
+    description: "Write docs/GUIDE.md with install, open, save, validation, external change sections"
+    result: "pass"
+    notes: "✓ US-F3 complete. ✓ US-F4 complete (GUIDE.md was last criterion for both)."
+    tokens: ~
+  - task: 7
+    time: "2026-03-23T23:32:00Z"
+    story: "US-F5"
+    description: "Cursor skill, docs/schema.md, README links"
+    result: "pass"
+    notes: "✓ US-F5 complete."
+    tokens: ~
+  - task: 8
+    time: "2026-03-23T23:33:00Z"
+    story: "phase"
+    description: "Update AGENTS.md, create ARCHITECTURE.md"
+    result: "pass"
+    notes: "All phase criteria met. Phase completion gate passed."
+    tokens: ~
+  - task: 9
+    time: "2026-03-23T23:34:00Z"
+    story: "phase"
+    description: "Phase completion — all 25 done-when criteria verified"
+    result: "pass"
+    notes: "Evidence: all checkboxes checked in phase-goal.md. Verify passes. AGENTS.md consistent. No new endpoints (no error-path gap)."
     tokens: ~

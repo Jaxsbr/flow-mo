@@ -33,8 +33,8 @@ Deliver **`@flow-mo/core`** as the single YAML/schema implementation, refactor t
 - [x] Root `README.md` contains links to `docs/GUIDE.md`, `docs/schema.md`, and `.cursor/skills/flow-mo-yaml/SKILL.md` [US-F5]
 - [x] `docs/GUIDE.md` includes install-from-VSIX and open-with sections matching US-F3 user guidance [US-F3]
 - [x] `docs/GUIDE.md` includes save, invalid-YAML, and external-change behavior sections matching US-F4 user guidance [US-F4]
-- [ ] `flow-mo/AGENTS.md` exists documenting monorepo package layout, build commands, and extension packaging expectations introduced in P1 [phase]
-- [ ] `docs/architecture/ARCHITECTURE.md` matches post-P1 layout (packages tree, data flow) [phase]
+- [x] `flow-mo/AGENTS.md` exists documenting monorepo package layout, build commands, and extension packaging expectations introduced in P1 [phase]
+- [x] `docs/architecture/ARCHITECTURE.md` matches post-P1 layout (packages tree, data flow) [phase]
 - [x] User-provided YAML is never executed as script; webview does not set `innerHTML` from raw YAML string (use text nodes or React text binding only) — verified by grep for `dangerouslySetInnerHTML` / `innerHTML` assignment from document text in webview bundle [US-F4]
 - [x] Error paths from parse failures show user-facing message only; no full exception object string with stack to webview UI [US-F4]
 
