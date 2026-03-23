@@ -1,0 +1,453 @@
+.flow-mo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.flow-mo__header {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--flow-border);
+  background: var(--flow-header-bg);
+}
+
+.flow-mo__title {
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--flow-text);
+}
+
+.flow-mo__subtitle {
+  margin: 0 0 10px;
+  font-size: 0.875rem;
+  color: var(--flow-muted);
+  max-width: 52rem;
+}
+
+.flow-mo__kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 0.8em;
+  font-family: ui-monospace, monospace;
+  border: 1px solid var(--flow-border);
+  border-radius: 4px;
+  background: var(--flow-editor-bg);
+  color: var(--flow-text);
+}
+
+.flow-mo__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.flow-mo__actions button {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--flow-border);
+  background: var(--flow-button-bg);
+  color: var(--flow-text);
+  cursor: pointer;
+}
+
+.flow-mo__actions button:hover {
+  background: var(--flow-button-hover);
+}
+
+.flow-mo__actions-label {
+  align-self: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--flow-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flow-mo__edge-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--flow-pane-header);
+  border: 1px solid var(--flow-border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.flow-mo__edge-panel-title {
+  font-weight: 600;
+  color: var(--flow-text);
+}
+
+.flow-mo__edge-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-mo__edge-field span {
+  color: var(--flow-muted);
+  font-size: 0.8rem;
+}
+
+.flow-mo__edge-field select {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--flow-border);
+  background: var(--flow-button-bg);
+  color: var(--flow-text);
+}
+
+.flow-mo__error {
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  color: var(--flow-danger);
+}
+
+.flow-mo__split {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+  min-width: 0;
+}
+
+.flow-mo__yaml-shell {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  align-items: stretch;
+  border-right: 1px solid var(--flow-border);
+  background: var(--flow-editor-bg);
+  transition:
+    flex-basis 0.2s ease,
+    min-width 0.2s ease,
+    max-width 0.2s ease,
+    width 0.2s ease;
+}
+
+.flow-mo__yaml-shell--expanded {
+  flex: 0 1 min(42vw, 520px);
+  min-width: 220px;
+  max-width: min(42vw, 520px);
+}
+
+.flow-mo__yaml-shell--collapsed {
+  flex: 0 0 40px;
+  min-width: 40px;
+  max-width: 40px;
+}
+
+.flow-mo__yaml-rail {
+  flex-shrink: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  border-left: 1px solid var(--flow-border);
+  background: var(--flow-pane-header);
+}
+
+.flow-mo__yaml-shell--collapsed .flow-mo__yaml-rail {
+  border-left: none;
+  width: 100%;
+}
+
+.flow-mo__yaml-toggle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 0;
+  padding: 8px 4px;
+  border: none;
+  background: transparent;
+  color: var(--flow-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.flow-mo__yaml-toggle:hover {
+  background: var(--flow-button-hover);
+  color: var(--flow-text);
+}
+
+.flow-mo__yaml-toggle-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.flow-mo__yaml-toggle-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  user-select: none;
+}
+
+.flow-mo__yaml-shell--collapsed .flow-mo__yaml-toggle-text {
+  writing-mode: horizontal-tb;
+  transform: none;
+}
+
+.flow-mo__pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.flow-mo__pane--yaml {
+  flex: 1;
+  border-right: none;
+}
+
+.flow-mo__pane-label {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--flow-muted);
+  background: var(--flow-pane-header);
+}
+
+.flow-mo__textarea {
+  flex: 1;
+  margin: 0;
+  padding: 10px 12px;
+  border: none;
+  resize: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--flow-text);
+  background: var(--flow-editor-bg);
+  outline: none;
+}
+
+.flow-mo__pane--canvas {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.flow-mo__pane--canvas .react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Zoom / fit controls: light theme uses pale button bg + color:inherit, which in
+ * prefers-color-scheme:dark inherits the body's light gray text — poor contrast.
+ * Force dark icons on light control chrome; keep light icons when .react-flow.dark.
+ */
+.flow-mo__pane--canvas .react-flow:not(.dark) .react-flow__controls {
+  --xy-controls-button-color-default: #0f172a;
+  --xy-controls-button-color-hover-default: #020617;
+}
+
+.flow-mo__pane--canvas .react-flow:not(.dark) .react-flow__controls-button {
+  color: #0f172a;
+}
+
+.flow-mo__pane--canvas .react-flow:not(.dark) .react-flow__controls-button svg {
+  fill: #0f172a;
+}
+
+.flow-mo__pane--canvas .react-flow:not(.dark) .react-flow__controls-button:hover {
+  color: #020617;
+}
+
+.flow-mo__pane--canvas .react-flow:not(.dark) .react-flow__controls-button:hover svg {
+  fill: #020617;
+}
+
+.flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button {
+  color: #f8f8f8;
+}
+
+.flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button svg {
+  fill: #f8f8f8;
+}
+
+.flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button:hover {
+  color: #fff;
+}
+
+.flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button:hover svg {
+  fill: #fff;
+}
+
+.flow-mo-node {
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-mo-node__label {
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--flow-text);
+  word-break: break-word;
+  cursor: text;
+  width: 100%;
+  padding: 0 2px;
+}
+
+.flow-mo-node__input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 2px 6px;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--flow-text);
+  background: var(--flow-bg);
+  border: 1px solid var(--flow-node-focus);
+  border-radius: 4px;
+  outline: none;
+}
+
+.flow-mo-node--circle {
+  border-radius: 50%;
+  padding: 8px 12px;
+}
+
+/* Outer is a square (see TSX). Inner is a square with side = outer / √2 so a 45° turn fits the outer box exactly. */
+.flow-mo-node--diamond-outer {
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-mo-node--diamond-inner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Square before rotation: side = 100% / √2 of outer edge → rhombus fills outer square */
+  width: calc(100% / 1.4142135623730951);
+  height: calc(100% / 1.4142135623730951);
+  transform: rotate(45deg);
+  border-radius: 0;
+  overflow: visible;
+}
+
+.flow-mo-node__label--diamond,
+.flow-mo-node__input--diamond {
+  transform: rotate(-45deg);
+  max-width: 85%;
+}
+
+.flow-mo-edge__overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.flow-mo-edge__text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--flow-text);
+}
+
+.flow-mo-edge__mid {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.flow-mo-edge__mid--red {
+  background: #dc2626;
+}
+
+.flow-mo-edge__mid--green {
+  background: #16a34a;
+}
+
+.react-flow__edge-text {
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+.react-flow__edge-textbg {
+  fill: var(--flow-bg) !important;
+}
+
+@media (max-width: 800px) {
+  .flow-mo__split {
+    flex-direction: column;
+  }
+
+  .flow-mo__yaml-shell--expanded {
+    flex: 0 0 min(38vh, 360px);
+    min-height: 160px;
+    width: 100%;
+    max-width: none;
+    border-right: none;
+    border-bottom: 1px solid var(--flow-border);
+  }
+
+  .flow-mo__yaml-shell--collapsed {
+    flex: 0 0 44px;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--flow-border);
+    flex-direction: row;
+  }
+
+  .flow-mo__yaml-shell--collapsed .flow-mo__yaml-rail {
+    border-left: none;
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .flow-mo__yaml-toggle {
+    flex-direction: row;
+    gap: 10px;
+    padding: 0 12px;
+  }
+
+  .flow-mo__yaml-toggle-text {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .flow-mo__pane--canvas {
+    flex: 1;
+    min-height: 200px;
+  }
+}

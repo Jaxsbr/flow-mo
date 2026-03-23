@@ -1,0 +1,14 @@
+# flow-mo diagram (version must be 1)
+#
+# nodes[].data:
+#   label (required), shape: rectangle | circle | diamond (default rectangle)
+#   optional: width, height, background, border_color, border_width
+#
+# edges:
+#   id, source, target (node ids)
+#   optional: label
+#   marker_start, marker_end: none | arrow (defaults: none at start, arrow at end)
+#   midpoint: red | green (optional; filled circle on the line; omit for none)
+version: 1
+nodes: []
+edges: []
