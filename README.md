@@ -4,26 +4,33 @@ Flow diagrams with [React Flow](https://reactflow.dev/) and a **YAML** source of
 
 Add **Rectangle**, **Circle**, or **Diamond** nodes from the toolbar. Select an edge to set **Start** / **End** arrows and a **Midpoint** red or green circle.
 
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| [`packages/core`](packages/core/README.md) | `@flow-mo/core` — YAML schema, parse, validate, and conversion |
+| [`packages/vscode-extension`](packages/vscode-extension/) | VS Code / Cursor custom editor extension |
+| Root (`src/`) | Vite web app (dev/preview) |
+
 ## Commands
 
 ```bash
 npm install
-npm run dev
-npm run build
+npm run dev              # Vite dev server (web app)
+npm run build            # Build web app
+npm run build:webview    # Build webview bundle for VS Code extension
+npm run test             # Run tests across all workspaces
+npm run lint             # Lint all packages
 ```
 
-## YAML shape
+## Documentation
 
-Root: `version: 1`, `nodes`, `edges`.
-
-- **nodes**: `id`, `position` (`x`, `y`), `data` with `label` (required), optional `shape` (`rectangle` \| `circle` \| `diamond`), and optional `width`, `height`, `background`, `border_color`, `border_width`.
-- **edges**: `id`, `source`, `target` (node ids), optional `label`, optional `marker_start` / `marker_end` (`none` \| `arrow`; defaults: start none, end arrow), optional `midpoint` (`red` \| `green`).
-
-See `src/defaultFlow.yaml` for commented field reference.
+- **[User guide](docs/GUIDE.md)** — Install extension, open flow files, save, validation, external changes
+- **[Schema reference](docs/schema.md)** — v1 YAML field names and allowed values
+- **[Cursor skill](.cursor/skills/flow-mo-yaml/SKILL.md)** — Agent-facing YAML editing rules and contract
 
 ## Product docs
 
 - **PRD & Phase P1 stories:** [`docs/product/PRD.md`](docs/product/PRD.md)
-- **Done-when draft (build-loop):** [`docs/plan/phase-goal-draft.md`](docs/plan/phase-goal-draft.md)
 - Intent brief (IDE extension, agent-first layout, MCP path): [`docs/briefs/flow-mo-ide-extension-brief.md`](docs/briefs/flow-mo-ide-extension-brief.md)
 - Phase 2 concept (MCP tools): [`docs/concepts/flow-mo-mcp-tools-phase-2.md`](docs/concepts/flow-mo-mcp-tools-phase-2.md)
