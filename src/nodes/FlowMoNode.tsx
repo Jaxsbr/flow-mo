@@ -180,9 +180,8 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         boxShadow: focusRing,
       }}
     >
-      {topHandles}
+      {handles}
       {labelOrInput}
-      {bottomHandles}
     </div>
   )
 }
