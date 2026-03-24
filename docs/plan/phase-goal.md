@@ -10,13 +10,13 @@ Deliver bidirectional editor switch buttons (text↔diagram) in the editor title
 ### Done-when (observable)
 
 **US-D1 — Bidirectional editor switch buttons**
-- [ ] `packages/vscode-extension/package.json` `contributes.commands` array includes entries for `flowMo.openDiagram` and `flowMo.openSource` with human-readable titles [US-D1]
-- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openDiagram` with a `when` clause that activates only when the active editor is a text editor and the resource filename matches `*.flow.yaml` [US-D1]
-- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openSource` with a `when` clause that activates only when the active custom editor is `flowMo.flowYaml` [US-D1]
-- [ ] `packages/vscode-extension/src/extension.ts` registers command handlers for both `flowMo.openDiagram` and `flowMo.openSource` that reopen the active file in the target editor type [US-D1]
-- [ ] Clicking the diagram button when a `*.flow.yaml` file is open as plain text reopens it in the FlowMo custom editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
-- [ ] Clicking the text button when a `*.flow.yaml` file is open in the FlowMo custom editor reopens it in the default text editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
-- [ ] `docs/GUIDE.md` contains a "Switching between diagram and text views" section documenting the editor title bar buttons and their behavior [US-D1]
+- [x] `packages/vscode-extension/package.json` `contributes.commands` array includes entries for `flowMo.openDiagram` and `flowMo.openSource` with human-readable titles [US-D1]
+- [x] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openDiagram` with a `when` clause that activates only when the active editor is a text editor and the resource filename matches `*.flow.yaml` [US-D1]
+- [x] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openSource` with a `when` clause that activates only when the active custom editor is `flowMo.flowYaml` [US-D1]
+- [x] `packages/vscode-extension/src/extension.ts` registers command handlers for both `flowMo.openDiagram` and `flowMo.openSource` that reopen the active file in the target editor type [US-D1]
+- [x] Clicking the diagram button when a `*.flow.yaml` file is open as plain text reopens it in the FlowMo custom editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
+- [x] Clicking the text button when a `*.flow.yaml` file is open in the FlowMo custom editor reopens it in the default text editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
+- [x] `docs/GUIDE.md` contains a "Switching between diagram and text views" section documenting the editor title bar buttons and their behavior [US-D1]
 
 **US-D2 — "New FlowMo Flow" scaffold command**
 - [ ] `packages/vscode-extension/package.json` `contributes.commands` array includes an entry for `flowMo.newFlow` with title "FlowMo: New Flow" [US-D2]

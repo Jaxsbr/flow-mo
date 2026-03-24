@@ -22,3 +22,10 @@ entries:
     result: "pass"
     notes: "Queued docs task for US-D1 completion."
     tokens: ~
+  - task: 4
+    time: "2026-03-24T09:22:00Z"
+    story: "US-D1"
+    description: "Added 'Switching between diagram and text views' section to GUIDE.md and created verification-discoverability.md with manual test steps for both stories."
+    result: "pass"
+    notes: "✓ US-D1 complete. All 7 criteria met."
+    tokens: ~
