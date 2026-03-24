@@ -16,7 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-R2] Investigate: read FlowMoEdge.tsx, check useNodes/useStore imports, plan integration of pathfinding into edge renderer with memoization"
   consecutive_fails: 0
   completed_stories:
     - US-R1
