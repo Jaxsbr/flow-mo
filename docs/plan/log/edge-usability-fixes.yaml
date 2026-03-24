@@ -1,0 +1,73 @@
+phase: "edge-usability-fixes"
+started: "2026-03-24T02:42:11Z"
+entries:
+  - task: 1
+    time: "2026-03-24T02:45:00Z"
+    story: "phase"
+    description: "Investigation — read FlowMoNode, FlowMoEdge, App.css, App.tsx. Circle handle likely CSS issue. Edge selection prop unused."
+    result: "pass"
+    notes: "Circle: border-radius 50% may clip handle hit area. Edge: selected prop not destructured. Queued US-E1 investigate task."
+    tokens: ~
+  - task: 2
+    time: "2026-03-24T02:47:00Z"
+    story: "US-E1"
+    description: "Investigate circle handle — no custom validation, CSS border-radius 50% likely clips handle hit area. Queued implement task."
+    result: "pass"
+    notes: "Root cause: circle node lacks overflow:visible, border-radius 50% may clip handle pointer events. Diamond works because handles are in transparent outer div."
+    tokens: ~
+  - task: 3
+    time: "2026-03-24T02:49:00Z"
+    story: "US-E1"
+    description: "Added overflow:visible to .flow-mo-node--circle in App.css. Verify + lint pass."
+    result: "pass"
+    notes: "Single CSS property addition. No other shapes touched — no regression risk."
+    tokens: ~
+  - task: 4
+    time: "2026-03-24T02:50:00Z"
+    story: "US-E2"
+    description: "Investigation — FlowMoEdge doesn't use selected prop. Need to destructure it and apply visual style change."
+    result: "pass"
+    notes: "Queued US-E2 implement task. Edge panel already works when edge is selected, just no visual feedback on the edge itself."
+    tokens: ~
+  - task: 5
+    time: "2026-03-24T02:52:00Z"
+    story: "US-E2"
+    description: "Added selected prop to FlowMoEdge, applied blue stroke + width 3 when selected. Added --flow-edge-selected CSS var for both themes."
+    result: "pass"
+    notes: "✓ US-E2 complete. Light: #3b82f6, dark: #60a5fa. Edge panel/delete unaffected."
+    tokens: ~
+  - task: 6
+    time: "2026-03-24T02:55:00Z"
+    story: "US-E1"
+    description: "Restructured circle node to outer/inner pattern (like diamond). Handles now in transparent outer div, visual circle in inner div."
+    result: "pass"
+    notes: "✓ US-E1 complete. border-radius 50% no longer on handle container."
+    tokens: ~
+  - task: 7
+    time: "2026-03-24T02:57:00Z"
+    story: "phase"
+    description: "Phase completion — all 8 done-when criteria verified. tsc + lint pass."
+    result: "pass"
+    notes: "Both stories complete. All criteria checked."
+    tokens: ~
+  - task: 8
+    time: "2026-03-24T02:58:00Z"
+    story: "review"
+    description: "Created PR #2 from build/edge-usability-fixes to main. Queued review-pr."
+    result: "pass"
+    notes: "PR URL: https://github.com/Jaxsbr/flow-mo/pull/2"
+    tokens: ~
+  - task: 9
+    time: "2026-03-24T02:55:00Z"
+    story: "review"
+    description: "review-pr: posted 1 concern (circle focus ring shape) as COMMENT review"
+    result: "pass"
+    notes: "1 concern: focus ring square around circle (matches diamond pattern, non-blocking). No critical issues."
+    tokens: ~
+  - task: 10
+    time: "2026-03-24T02:58:00Z"
+    story: "review"
+    description: "handle-pr-review: fixed 1 concern (circle focus ring), resolved thread, posted summary"
+    result: "pass"
+    notes: "Added borderRadius 50% to circle outer div for circular focus ring. Verify passes. Review complete."
+    tokens: ~

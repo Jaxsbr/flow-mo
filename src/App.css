@@ -319,6 +319,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .flow-mo-node__label {
@@ -351,6 +352,7 @@
 .flow-mo-node--circle {
   border-radius: 50%;
   padding: 8px 12px;
+  overflow: visible;
 }
 
 /* Outer is a square (see TSX). Inner is a square with side = outer / √2 so a 45° turn fits the outer box exactly. */

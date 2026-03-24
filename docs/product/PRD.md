@@ -8,7 +8,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| [FlowMo P1 — agent-first core + extension + skill](#phase-flowmo-p1--agent-first-core-extension-webview-skill) | Extract core, extension + webview bridge, skill, MLP criteria | Planned |
+| [FlowMo P1 — agent-first core + extension + skill](#phase-flowmo-p1--agent-first-core-extension-webview-skill) | Extract core, extension + webview bridge, skill, MLP criteria | [Shipped] |
 
 **Done-when checklist (draft):** [`docs/plan/phase-goal-draft.md`](../plan/phase-goal-draft.md) — review in editor; after approval, transpose to `docs/plan/phase-goal.md` for build-loop.
 
@@ -16,7 +16,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 
 ## Phase: FlowMo P1 — agent-first core, extension, webview, skill
 
-### US-F1 — Extract `@flow-mo/core` (schema, YAML IO, validation)
+### US-F1 — Extract `@flow-mo/core` (schema, YAML IO, validation) [Shipped]
 
 As a **maintainer**, I want **flow diagram YAML logic in a dedicated package**, so that **the web app, extension webview, and future MCP share one implementation**.
 
@@ -32,7 +32,7 @@ As a **maintainer**, I want **flow diagram YAML logic in a dedicated package**, 
 
 ---
 
-### US-F2 — Wire the Vite app to `@flow-mo/core`
+### US-F2 — Wire the Vite app to `@flow-mo/core` [Shipped]
 
 As a **developer**, I want **the existing React app to import diagram logic only from `@flow-mo/core`**, so that **no duplicate YAML/schema code remains in `src/`**.
 
@@ -47,7 +47,7 @@ As a **developer**, I want **the existing React app to import diagram logic only
 
 ---
 
-### US-F3 — VS Code extension skeleton + custom editor registration
+### US-F3 — VS Code extension skeleton + custom editor registration [Shipped]
 
 As a **user**, I want **to open `*.flow.yaml` files with a FlowMo custom editor from the IDE**, so that **I can choose the diagram experience without leaving the editor**.
 
@@ -66,7 +66,7 @@ As a **user**, I want **to open `*.flow.yaml` files with a FlowMo custom editor 
 
 ---
 
-### US-F4 — Webview bridge, document sync, validation UX, and MLP “delight”
+### US-F4 — Webview bridge, document sync, validation UX, and MLP “delight” [Shipped]
 
 As a **user**, I want **the webview to show the FlowMo diagram and save edits back to the file**, with **clear errors when YAML is invalid** and **a polished first open**, so that **I trust the tool for real edits**.
 
@@ -87,7 +87,7 @@ As a **user**, I want **the webview to show the FlowMo diagram and save edits ba
 
 ---
 
-### US-F5 — Cursor skill + agent-facing schema reference
+### US-F5 — Cursor skill + agent-facing schema reference [Shipped]
 
 As an **agent operator**, I want **a skill and stable schema reference** for FlowMo YAML, so that **agents can edit flow files correctly without the visual editor**.
 

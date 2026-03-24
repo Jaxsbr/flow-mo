@@ -20,6 +20,7 @@ export function FlowMoEdge({
   label,
   labelStyle,
   data,
+  selected,
 }: EdgeProps<FlowMoRfEdge>) {
   const [path, labelX, labelY] = getSmoothStepPath({
     sourceX,
@@ -40,7 +41,15 @@ export function FlowMoEdge({
         path={path}
         markerEnd={markerEnd}
         markerStart={markerStart}
-        style={style}
+        style={
+          selected
+            ? {
+                ...style,
+                stroke: 'var(--flow-edge-selected)',
+                strokeWidth: 3,
+              }
+            : style
+        }
       />
       {(label || midpoint) ? (
         <EdgeLabelRenderer>
