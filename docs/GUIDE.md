@@ -16,6 +16,17 @@
 4. Click the `...` menu → **Install from VSIX…** and select the generated `.vsix` file from `packages/vscode-extension/`.
 5. Reload the editor when prompted.
 
+## Switching between diagram and text views
+
+When a `*.flow.yaml` file is open, the editor title bar shows a toggle button:
+
+- **In the text editor**: A diagram icon (preview) appears. Click it to reopen the file in the FlowMo diagram editor.
+- **In the FlowMo diagram editor**: A code icon (go-to-file) appears. Click it to reopen the file in the default text editor.
+
+Only the relevant button appears — you won't see both at once. This mirrors the Markdown preview toggle pattern built into VS Code.
+
+Unsaved changes are handled by VS Code's native editor lifecycle — switching editors prompts to save if needed.
+
 ## Open a flow file
 
 FlowMo registers a custom editor for files matching `*.flow.yaml`.
