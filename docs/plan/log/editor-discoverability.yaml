@@ -4,42 +4,49 @@ entries:
   - task: 1
     time: "2026-03-24T09:15:00Z"
     story: "phase"
-    description: "Investigation — read extension package.json (only customEditors, no commands/menus), extension.ts (only registers editor provider), FlowMoEditorProvider.ts (CustomTextEditorProvider), defaultFlow.yaml template. Verify passes. 2 stories, 15 criteria. US-D1 first (switch buttons), US-D2 second (new flow command)."
+    description: "Investigation — read extension package.json, extension.ts, FlowMoEditorProvider.ts, defaultFlow.yaml. Verify passes. 2 stories, 15 criteria."
     result: "pass"
-    notes: "Queued US-D1 implement task — add commands + menus to package.json, register handlers in extension.ts."
+    notes: "Queued US-D1 implement task."
     tokens: ~
   - task: 2
     time: "2026-03-24T09:18:00Z"
     story: "US-D1"
     description: "Added openDiagram and openSource commands to package.json contributes (commands + editor/title menus with when clauses) and registered command handlers in extension.ts."
     result: "pass"
-    notes: "4/7 US-D1 criteria met (commands, menus, handlers). Remaining: verification doc, GUIDE.md section."
+    notes: "4/7 US-D1 criteria met."
     tokens: ~
   - task: 3
     time: "2026-03-24T09:20:00Z"
     story: "US-D1"
-    description: "Investigation — US-D1 remaining criteria: verification-discoverability.md (manual test doc) and GUIDE.md section. Queued implement task."
+    description: "Investigation — US-D1 remaining criteria."
     result: "pass"
-    notes: "Queued docs task for US-D1 completion."
+    notes: "Queued docs task."
     tokens: ~
   - task: 4
     time: "2026-03-24T09:22:00Z"
     story: "US-D1"
-    description: "Added 'Switching between diagram and text views' section to GUIDE.md and created verification-discoverability.md with manual test steps for both stories."
+    description: "Added 'Switching between diagram and text views' to GUIDE.md, created verification-discoverability.md."
     result: "pass"
-    notes: "✓ US-D1 complete. All 7 criteria met."
+    notes: "✓ US-D1 complete."
     tokens: ~
   - task: 5
     time: "2026-03-24T09:24:00Z"
     story: "US-D2"
-    description: "Investigation — US-D2 needs: newFlow command in package.json, explorer/context menu, handler that creates template file with auto-increment, opens in custom editor. Template from src/defaultFlow.yaml."
+    description: "Investigation — US-D2 needs."
     result: "pass"
     notes: "Queued US-D2 implement task."
     tokens: ~
   - task: 6
     time: "2026-03-24T09:27:00Z"
     story: "US-D2"
-    description: "Added flowMo.newFlow command to package.json (contributes.commands + explorer/context menu). Implemented handler in extension.ts: creates template file with auto-increment naming, opens in FlowMo custom editor."
+    description: "Added flowMo.newFlow command to package.json + explorer/context menu. Implemented handler with template scaffold and auto-increment."
     result: "pass"
-    notes: "6/7 US-D2 criteria met. Remaining: GUIDE.md 'Creating a new flow file' section."
+    notes: "6/7 US-D2 criteria met."
+    tokens: ~
+  - task: 7
+    time: "2026-03-24T09:29:00Z"
+    story: "US-D2"
+    description: "Added 'Creating a new flow file' section to GUIDE.md before 'Open a flow file'."
+    result: "pass"
+    notes: "✓ US-D2 complete."
     tokens: ~

@@ -19,13 +19,13 @@ Deliver bidirectional editor switch buttons (text↔diagram) in the editor title
 - [x] `docs/GUIDE.md` contains a "Switching between diagram and text views" section documenting the editor title bar buttons and their behavior [US-D1]
 
 **US-D2 — "New FlowMo Flow" scaffold command**
-- [ ] `packages/vscode-extension/package.json` `contributes.commands` array includes an entry for `flowMo.newFlow` with title "FlowMo: New Flow" [US-D2]
-- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `explorer/context` entry for `flowMo.newFlow` so the command appears when right-clicking a folder in the explorer [US-D2]
-- [ ] `packages/vscode-extension/src/extension.ts` registers a command handler for `flowMo.newFlow` that creates a `.flow.yaml` file and opens it [US-D2]
-- [ ] The created file contains valid FlowMo v1 YAML with `version: 1`, `nodes: []`, `edges: []`, and at least one schema-documenting comment [US-D2]
-- [ ] Running `flowMo.newFlow` when `new-flow.flow.yaml` already exists in the target directory creates a file with an incremented name (e.g. `new-flow-2.flow.yaml`) without overwriting the existing file [US-D2]
-- [ ] After creation, the new file opens automatically in the FlowMo custom editor (not the plain text editor) [US-D2]
-- [ ] `docs/GUIDE.md` contains a "Creating a new flow file" section placed before "Open a flow file" documenting the command palette and explorer context menu entry points [US-D2]
+- [x] `packages/vscode-extension/package.json` `contributes.commands` array includes an entry for `flowMo.newFlow` with title "FlowMo: New Flow" [US-D2]
+- [x] `packages/vscode-extension/package.json` `contributes.menus` includes an `explorer/context` entry for `flowMo.newFlow` so the command appears when right-clicking a folder in the explorer [US-D2]
+- [x] `packages/vscode-extension/src/extension.ts` registers a command handler for `flowMo.newFlow` that creates a `.flow.yaml` file and opens it [US-D2]
+- [x] The created file contains valid FlowMo v1 YAML with `version: 1`, `nodes: []`, `edges: []`, and at least one schema-documenting comment [US-D2]
+- [x] Running `flowMo.newFlow` when `new-flow.flow.yaml` already exists in the target directory creates a file with an incremented name (e.g. `new-flow-2.flow.yaml`) without overwriting the existing file [US-D2]
+- [x] After creation, the new file opens automatically in the FlowMo custom editor (not the plain text editor) [US-D2]
+- [x] `docs/GUIDE.md` contains a "Creating a new flow file" section placed before "Open a flow file" documenting the command palette and explorer context menu entry points [US-D2]
 
 **Structural**
 - [ ] `AGENTS.md` reflects the new commands (`flowMo.openDiagram`, `flowMo.openSource`, `flowMo.newFlow`) and menu contributions introduced in this phase [phase]
