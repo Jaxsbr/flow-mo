@@ -10,7 +10,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 |-------|------|--------|
 | [FlowMo P1 — agent-first core + extension + skill](#phase-flowmo-p1--agent-first-core-extension-webview-skill) | Extract core, extension + webview bridge, skill, MLP criteria | [Shipped] |
 | [Smart edge routing](#phase-smart-edge-routing) | Orthogonal pathfinding around nodes, UI polish (panel default, header cleanup, brand font) | [Shipped] |
-| [Editor discoverability](#phase-editor-discoverability) | Bidirectional editor switch buttons, "New Flow" scaffold command | Spec ready |
+| [Editor discoverability](#phase-editor-discoverability) | Bidirectional editor switch buttons, "New Flow" scaffold command | [Shipped] |
 
 ---
 
