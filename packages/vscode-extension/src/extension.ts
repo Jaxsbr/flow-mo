@@ -70,7 +70,7 @@ export function activate(context: vscode.ExtensionContext): void {
       }
 
       const fileUri = vscode.Uri.joinPath(targetDir, fileName);
-      await vscode.workspace.fs.writeFile(fileUri, Buffer.from(FLOW_TEMPLATE, 'utf-8'));
+      await vscode.workspace.fs.writeFile(fileUri, new TextEncoder().encode(FLOW_TEMPLATE));
       await vscode.commands.executeCommand('vscode.openWith', fileUri, 'flowMo.flowYaml');
     })
   );
