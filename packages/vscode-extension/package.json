@@ -27,7 +27,43 @@
         ],
         "priority": "default"
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "flowMo.openDiagram",
+        "title": "Open with FlowMo Diagram",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "flowMo.openSource",
+        "title": "Open as Text",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "flowMo.newFlow",
+        "title": "FlowMo: New Flow"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "flowMo.openDiagram",
+          "when": "resourceFilename =~ /\\.flow\\.yaml$/ && activeEditor != 'workbench.editors.flowMo.flowYaml'",
+          "group": "navigation"
+        },
+        {
+          "command": "flowMo.openSource",
+          "when": "activeCustomEditorId == 'flowMo.flowYaml'",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "flowMo.newFlow",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "compile": "tsc -p ./",

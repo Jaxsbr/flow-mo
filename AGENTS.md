@@ -26,7 +26,7 @@ flow-mo/
 | Package | Path | Description |
 |---------|------|-------------|
 | `@flow-mo/core` | `packages/core/` | YAML schema types, `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, `flowToDocument`. Consumed by the web app, extension webview, and future MCP. |
-| `flow-mo-vscode` | `packages/vscode-extension/` | VS Code extension. Registers `flowMo.flowYaml` custom editor for `*.flow.yaml` files. Bundles the React Flow UI as a webview. |
+| `flow-mo-vscode` | `packages/vscode-extension/` | VS Code extension. Registers `flowMo.flowYaml` custom editor for `*.flow.yaml` files. Bundles the React Flow UI as a webview. Provides editor switch commands and "New Flow" scaffold. |
 | Root app | `src/` | Vite dev/preview web app. Also contains the webview entry point (`src/webview/`). |
 
 ## Build commands
@@ -59,7 +59,7 @@ npx @vscode/vsce package --no-dependencies # Produce .vsix
 
 - Core: `packages/core/tests/` — `node:test` runner via `tsx`. Covers YAML parsing, validation, round-trip, normalisation.
 - Pathfinding: `src/edges/pathfinding.test.ts` — `node:test` runner via `tsx`. Run with `node --import tsx --test src/edges/pathfinding.test.ts`.
-- Extension: Code inspection + manual verification (`docs/plan/verification-flow-mo-p1.md`).
+- Extension: Code inspection + manual verification (`docs/plan/verification-flow-mo-p1.md`, `docs/plan/verification-discoverability.md`).
 
 ## Key conventions
 
@@ -68,3 +68,4 @@ npx @vscode/vsce package --no-dependencies # Produce .vsix
 - `FlowMoEdge` uses `findOrthogonalRoute` as the primary path calculation. When pathfinding returns `null`, it falls back to `getSmoothStepPath`. Path computation is memoized via `useMemo`.
 - The webview bundle is a build artifact (`packages/vscode-extension/media/`). Rebuild with `npm run build:webview` after changing `src/webview/` or shared components.
 - Extension TypeScript compiles separately from the app (`packages/vscode-extension/tsconfig.json` uses Node16 modules).
+- Extension registers three commands: `flowMo.openDiagram` (switch to diagram editor), `flowMo.openSource` (switch to text editor), `flowMo.newFlow` (create new flow file from template). Switch buttons appear in the editor title bar via `contributes.menus` `editor/title` with `when` clauses. "New Flow" is also available in the explorer context menu.

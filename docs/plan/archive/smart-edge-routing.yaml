@@ -71,3 +71,9 @@ entries:
     result: "pass"
     notes: "No code changes needed. Review complete."
     tokens: ~
+reconciliation_status:
+  r1: done
+  r2: done
+  r3: done
+  r4: done
+  r5: done
