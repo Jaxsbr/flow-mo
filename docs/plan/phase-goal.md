@@ -1,34 +1,37 @@
 ## Phase goal
 
-Deliver automatic orthogonal edge routing around nodes, replacing the default smooth-step paths with obstacle-avoiding right-angle routes. Polish the UI: collapse the YAML panel by default, remove the subtitle paragraph, and apply a brand font to the title.
+Deliver bidirectional editor switch buttons (text↔diagram) in the editor title bar and a "New FlowMo Flow" scaffold command, so users can toggle views with a single click and create their first flow file without knowing the schema.
 
 ### Stories in scope
 
-- US-R1 — Orthogonal pathfinding utility
-- US-R2 — Smart edge rendering with obstacle avoidance
-- US-R3 — UI polish: collapsed panel, header cleanup, brand font
+- US-D1 — Bidirectional editor switch buttons
+- US-D2 — "New FlowMo Flow" scaffold command
 
 ### Done-when (observable)
 
-- [x] `src/edges/pathfinding.ts` (or equivalent path) exists and exports a route function that accepts source position + cardinal direction, target position + cardinal direction, and an array of obstacle rectangles with configurable padding [US-R1]
-- [x] Unit test verifies all returned path segments are strictly horizontal or vertical — no diagonal segments [US-R1]
-- [x] Unit test verifies the first path segment exits in the source handle's cardinal direction and the last segment arrives from the target handle's cardinal direction [US-R1]
-- [x] Route function returns `null` (or equivalent sentinel) when no valid path exists — unit test covers this case with an enclosed-node scenario [US-R1]
-- [x] Pathfinding test suite passes with >= 4 test cases covering: obstacle avoidance, direct path (no obstacles), no-valid-path fallback, and handle direction compliance [US-R1]
-- [x] `FlowMoEdge.tsx` imports and calls the pathfinding route function as the primary path calculation, replacing `getSmoothStepPath` as the default code path [US-R2]
-- [x] `FlowMoEdge` reads node bounding boxes from React Flow (via `useNodes()`, `useStore()`, or equivalent) and passes them as obstacles to the pathfinding function, excluding the edge's own source and target nodes from the obstacle list [US-R2]
-- [x] When the pathfinding function returns no valid path, `FlowMoEdge` falls back to `getSmoothStepPath` with no visual glitch or console error [US-R2]
-- [x] Path computation in `FlowMoEdge` is memoized (`useMemo`, `useCallback`, or equivalent caching) — not recomputed unconditionally on every render [US-R2]
-- [x] Edge labels and midpoint indicators render at the geometric midpoint of the routed SVG path, not at a fixed coordinate that ignores the route [US-R2]
-- [x] `docs/GUIDE.md` contains an "Edge routing" section documenting the automatic obstacle-avoidance behavior and the `getSmoothStepPath` fallback [US-R2]
-- [x] `yamlPanelOpen` initial state is `false` in both `src/App.tsx` and `src/webview/WebviewApp.tsx` [US-R3]
-- [x] No `flow-mo__subtitle` paragraph element exists in `src/App.tsx` or `src/webview/WebviewApp.tsx` — the element and its content are fully removed [US-R3]
-- [x] `.flow-mo__title` CSS rule in `App.css` specifies a `font-family` that is a named display or monospace web font, visibly different from the default system font stack [US-R3]
-- [x] Brand font is either bundled locally in the repo or loaded via `@import` / `<link>` with `font-display: swap` to prevent render-blocking FOUT [US-R3]
-- [x] `AGENTS.md` reflects the new `src/edges/pathfinding.ts` module and updated edge rendering behavior introduced in this phase [phase]
+**US-D1 — Bidirectional editor switch buttons**
+- [ ] `packages/vscode-extension/package.json` `contributes.commands` array includes entries for `flowMo.openDiagram` and `flowMo.openSource` with human-readable titles [US-D1]
+- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openDiagram` with a `when` clause that activates only when the active editor is a text editor and the resource filename matches `*.flow.yaml` [US-D1]
+- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `editor/title` entry for `flowMo.openSource` with a `when` clause that activates only when the active custom editor is `flowMo.flowYaml` [US-D1]
+- [ ] `packages/vscode-extension/src/extension.ts` registers command handlers for both `flowMo.openDiagram` and `flowMo.openSource` that reopen the active file in the target editor type [US-D1]
+- [ ] Clicking the diagram button when a `*.flow.yaml` file is open as plain text reopens it in the FlowMo custom editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
+- [ ] Clicking the text button when a `*.flow.yaml` file is open in the FlowMo custom editor reopens it in the default text editor — verified via manual test documented in `docs/plan/verification-discoverability.md` [US-D1]
+- [ ] `docs/GUIDE.md` contains a "Switching between diagram and text views" section documenting the editor title bar buttons and their behavior [US-D1]
+
+**US-D2 — "New FlowMo Flow" scaffold command**
+- [ ] `packages/vscode-extension/package.json` `contributes.commands` array includes an entry for `flowMo.newFlow` with title "FlowMo: New Flow" [US-D2]
+- [ ] `packages/vscode-extension/package.json` `contributes.menus` includes an `explorer/context` entry for `flowMo.newFlow` so the command appears when right-clicking a folder in the explorer [US-D2]
+- [ ] `packages/vscode-extension/src/extension.ts` registers a command handler for `flowMo.newFlow` that creates a `.flow.yaml` file and opens it [US-D2]
+- [ ] The created file contains valid FlowMo v1 YAML with `version: 1`, `nodes: []`, `edges: []`, and at least one schema-documenting comment [US-D2]
+- [ ] Running `flowMo.newFlow` when `new-flow.flow.yaml` already exists in the target directory creates a file with an incremented name (e.g. `new-flow-2.flow.yaml`) without overwriting the existing file [US-D2]
+- [ ] After creation, the new file opens automatically in the FlowMo custom editor (not the plain text editor) [US-D2]
+- [ ] `docs/GUIDE.md` contains a "Creating a new flow file" section placed before "Open a flow file" documenting the command palette and explorer context menu entry points [US-D2]
+
+**Structural**
+- [ ] `AGENTS.md` reflects the new commands (`flowMo.openDiagram`, `flowMo.openSource`, `flowMo.newFlow`) and menu contributions introduced in this phase [phase]
 
 ### Golden principles (phase-relevant)
 
-- **No regressions:** Existing edge rendering, node connections, and panel functionality must remain intact. Fallback to `getSmoothStepPath` when pathfinding fails.
-- **Both surfaces:** Changes must work in both Vite dev app and VS Code extension webview — shared components ensure this automatically.
-- **Pathfinding in `src/edges/`, not core:** Pathfinding is rendering logic, not schema logic. It stays co-located with the edge renderer.
+- **No regressions:** Existing custom editor registration, webview bridge, and document sync must remain intact. New commands are additive.
+- **Both surfaces:** Switch buttons must work in both VS Code and Cursor (same extension host, same VSIX).
+- **Honest behavior:** File creation must not silently overwrite. Editor switching must not lose unsaved changes (VS Code handles this natively via its editor lifecycle).
