@@ -4,28 +4,28 @@ entries:
   - task: 1
     time: "2026-03-24T09:15:00Z"
     story: "phase"
-    description: "Investigation — read extension package.json, extension.ts, FlowMoEditorProvider.ts, defaultFlow.yaml. Verify passes. 2 stories, 15 criteria."
+    description: "Investigation — read extension source, verify passes. 2 stories, 15 criteria."
     result: "pass"
     notes: "Queued US-D1 implement task."
     tokens: ~
   - task: 2
     time: "2026-03-24T09:18:00Z"
     story: "US-D1"
-    description: "Added openDiagram and openSource commands to package.json contributes (commands + editor/title menus with when clauses) and registered command handlers in extension.ts."
+    description: "Added openDiagram/openSource commands + editor/title menus + handlers."
     result: "pass"
     notes: "4/7 US-D1 criteria met."
     tokens: ~
   - task: 3
     time: "2026-03-24T09:20:00Z"
     story: "US-D1"
-    description: "Investigation — US-D1 remaining criteria."
+    description: "Investigation — remaining US-D1 docs criteria."
     result: "pass"
     notes: "Queued docs task."
     tokens: ~
   - task: 4
     time: "2026-03-24T09:22:00Z"
     story: "US-D1"
-    description: "Added 'Switching between diagram and text views' to GUIDE.md, created verification-discoverability.md."
+    description: "Added GUIDE.md section + verification-discoverability.md."
     result: "pass"
     notes: "✓ US-D1 complete."
     tokens: ~
@@ -39,14 +39,28 @@ entries:
   - task: 6
     time: "2026-03-24T09:27:00Z"
     story: "US-D2"
-    description: "Added flowMo.newFlow command to package.json + explorer/context menu. Implemented handler with template scaffold and auto-increment."
+    description: "Added newFlow command + explorer/context menu + handler with template scaffold and auto-increment."
     result: "pass"
     notes: "6/7 US-D2 criteria met."
     tokens: ~
   - task: 7
     time: "2026-03-24T09:29:00Z"
     story: "US-D2"
-    description: "Added 'Creating a new flow file' section to GUIDE.md before 'Open a flow file'."
+    description: "Added 'Creating a new flow file' section to GUIDE.md."
     result: "pass"
     notes: "✓ US-D2 complete."
+    tokens: ~
+  - task: 8
+    time: "2026-03-24T09:31:00Z"
+    story: "phase"
+    description: "Phase completion gate — all 15 criteria verified, AGENTS.md updated, verify passes."
+    result: "pass"
+    notes: "Phase marked complete."
+    tokens: ~
+  - task: 9
+    time: "2026-03-24T09:33:00Z"
+    story: "review"
+    description: "Created PR #4 from build/editor-discoverability to main. Queued review-pr."
+    result: "pass"
+    notes: "PR URL: https://github.com/Jaxsbr/flow-mo/pull/4"
     tokens: ~

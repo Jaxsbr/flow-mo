@@ -7,16 +7,16 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 9
+  task_number: 10
   phase: editor-discoverability
   phase_complete: true
-  review_stage: null
+  review_stage: pr_created
   review_complete: false
   retro_complete: false
-  pr_number: null
+  pr_number: 4
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[review] review-pr pr=4 auto=true"
   consecutive_fails: 0
   completed_stories:
     - US-D1
