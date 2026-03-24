@@ -29,3 +29,10 @@ entries:
     result: "pass"
     notes: "Queued US-E2 implement task. Edge panel already works when edge is selected, just no visual feedback on the edge itself."
     tokens: ~
+  - task: 5
+    time: "2026-03-24T02:52:00Z"
+    story: "US-E2"
+    description: "Added selected prop to FlowMoEdge, applied blue stroke + width 3 when selected. Added --flow-edge-selected CSS var for both themes."
+    result: "pass"
+    notes: "✓ US-E2 complete. Light: #3b82f6, dark: #60a5fa. Edge panel/delete unaffected."
+    tokens: ~
