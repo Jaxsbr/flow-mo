@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
+  task_number: 6
   phase: smart-edge-routing
   phase_complete: false
   review_stage: null
@@ -16,7 +16,8 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-R2] Implement smart edge rendering — integrate pathfinding into FlowMoEdge with useNodes for obstacles, useMemo for caching, getSmoothStepPath fallback, and geometric midpoint for labels"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-R1
+    - US-R2
