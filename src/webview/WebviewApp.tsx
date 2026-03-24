@@ -345,7 +345,6 @@ function WebviewEditor() {
             onConnect={onConnect}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
-            connectionMode="loose"
             deleteKeyCode={['Backspace', 'Delete']}
             defaultEdgeOptions={{
               type: 'flowMoEdge',

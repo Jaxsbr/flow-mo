@@ -110,25 +110,18 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
     const size = Math.max(80, data.width ?? data.height ?? 120)
     return (
       <div
-        className="flow-mo-node flow-mo-node--circle-outer"
+        className="flow-mo-node flow-mo-node--circle"
         style={{
           width: size,
           height: size,
-          borderRadius: '50%',
+          background: bg,
+          border: `${bw}px solid ${bc}`,
           boxShadow: focusRing,
         }}
       >
-        <Handle type="target" position={Position.Top} />
-        <div
-          className="flow-mo-node--circle-inner"
-          style={{
-            background: bg,
-            border: `${bw}px solid ${bc}`,
-          }}
-        >
-          {labelOrInput}
-        </div>
-        <Handle type="source" position={Position.Bottom} />
+        <Handle type="target" position={Position.Top} id="target" />
+        {labelOrInput}
+        <Handle type="source" position={Position.Bottom} id="source" />
       </div>
     )
   }
@@ -146,7 +139,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
           boxShadow: focusRing,
         }}
       >
-        <Handle type="target" position={Position.Top} />
+        <Handle type="target" position={Position.Top} id="target" />
         <div
           className="flow-mo-node--diamond-inner"
           style={{
@@ -156,7 +149,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         >
           {labelOrInput}
         </div>
-        <Handle type="source" position={Position.Bottom} />
+        <Handle type="source" position={Position.Bottom} id="source" />
       </div>
     )
   }
@@ -172,9 +165,9 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         boxShadow: focusRing,
       }}
     >
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Top} id="target" />
       {labelOrInput}
-      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" position={Position.Bottom} id="source" />
     </div>
   )
 }
