@@ -50,7 +50,7 @@ function FlowEditor() {
     [],
   )
   const [yamlText, setYamlText] = useState(defaultFlowYaml)
-  const [yamlPanelOpen, setYamlPanelOpen] = useState(true)
+  const [yamlPanelOpen, setYamlPanelOpen] = useState(false)
   const [applyError, setApplyError] = useState<string | null>(null)
   const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges)
@@ -177,12 +177,6 @@ function FlowEditor() {
     <div className="flow-mo">
       <header className="flow-mo__header">
         <h1 className="flow-mo__title">flow-mo</h1>
-        <p className="flow-mo__subtitle">
-          Edit YAML or the canvas — Apply loads YAML; Sync writes the graph to
-          YAML. Double-click a node to edit its label. Select a node or edge,
-          then <kbd className="flow-mo__kbd">Delete</kbd> /{' '}
-          <kbd className="flow-mo__kbd">Backspace</kbd> or Delete selected.
-        </p>
         <div className="flow-mo__actions">
           <button type="button" onClick={applyYaml}>
             Apply YAML

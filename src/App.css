@@ -15,15 +15,9 @@
 .flow-mo__title {
   margin: 0 0 4px;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: 'Space Mono', ui-monospace, monospace;
   color: var(--flow-text);
-}
-
-.flow-mo__subtitle {
-  margin: 0 0 10px;
-  font-size: 0.875rem;
-  color: var(--flow-muted);
-  max-width: 52rem;
 }
 
 .flow-mo__kbd {

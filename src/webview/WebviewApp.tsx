@@ -51,7 +51,7 @@ function WebviewEditor() {
   const [parseError, setParseError] = useState<string | null>(null)
   const [externalChangeWarning, setExternalChangeWarning] = useState(false)
   const { fitView, deleteElements, getNodes, getEdges } = useReactFlow()
-  const [yamlPanelOpen, setYamlPanelOpen] = useState(true)
+  const [yamlPanelOpen, setYamlPanelOpen] = useState(false)
   const [yamlText, setYamlText] = useState('')
   const lastSentRef = useRef<string>('')
   const initialLoadDone = useRef(false)
@@ -212,12 +212,6 @@ function WebviewEditor() {
     <div className="flow-mo">
       <header className="flow-mo__header">
         <h1 className="flow-mo__title">flow-mo</h1>
-        <p className="flow-mo__subtitle">
-          Edit YAML or the canvas — Apply loads YAML; Sync writes the graph to
-          YAML and saves. Double-click a node to edit its label. Select a node or edge,
-          then <kbd className="flow-mo__kbd">Delete</kbd> /{' '}
-          <kbd className="flow-mo__kbd">Backspace</kbd> or Delete selected.
-        </p>
         <div className="flow-mo__actions">
           <button type="button" onClick={applyYaml}>
             Apply YAML
