@@ -36,3 +36,10 @@ entries:
     result: "pass"
     notes: "Queued US-D2 implement task."
     tokens: ~
+  - task: 6
+    time: "2026-03-24T09:27:00Z"
+    story: "US-D2"
+    description: "Added flowMo.newFlow command to package.json (contributes.commands + explorer/context menu). Implemented handler in extension.ts: creates template file with auto-increment naming, opens in FlowMo custom editor."
+    result: "pass"
+    notes: "6/7 US-D2 criteria met. Remaining: GUIDE.md 'Creating a new flow file' section."
+    tokens: ~
