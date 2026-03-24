@@ -46,6 +46,17 @@ If the YAML text cannot be parsed (syntax error, missing `version: 1`, missing `
 
 Fix the YAML in the text panel and click **Apply YAML** again.
 
+## Edge routing
+
+Edges automatically route around nodes using orthogonal (right-angle) paths. When you drag nodes or load a diagram, edges recalculate their paths to avoid crossing through other nodes.
+
+- Routed paths use only horizontal and vertical segments — no diagonals.
+- Each edge avoids all nodes except its own source and target.
+- If the layout is too cramped for the pathfinder to find a valid route, the edge falls back to the default smooth-step style (the same curved path used before smart routing was added).
+- Path recalculation is memoized — edges only recompute when node positions or edge endpoints change.
+
+No configuration is needed. Smart routing is the default behavior.
+
 ## External changes
 
 If the file is modified on disk while the FlowMo editor is open (for example, by another editor, a git operation, or an agent), the extension detects the change and updates the webview with the new content. A **warning banner** is shown:

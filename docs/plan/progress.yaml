@@ -8,16 +8,17 @@ config:
 
 state:
   task_number: 11
-  phase: edge-usability-fixes
+  phase: smart-edge-routing
   phase_complete: true
   review_stage: review_posted
   review_complete: true
   retro_complete: true
-  pr_number: 2
+  pr_number: 3
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-E2
-    - US-E1
+    - US-R1
+    - US-R2
+    - US-R3

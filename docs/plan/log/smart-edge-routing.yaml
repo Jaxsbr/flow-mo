@@ -1,0 +1,73 @@
+phase: "smart-edge-routing"
+started: "2026-03-24T08:27:09Z"
+entries:
+  - task: 1
+    time: "2026-03-24T08:30:00Z"
+    story: "phase"
+    description: "Investigation — read FlowMoEdge.tsx, source structure, test setup, verify passes. Phase is cross-cutting (new pathfinding module + edge renderer). 16 done-when criteria across 3 stories. US-R1 (pathfinding) has no deps, US-R2 depends on US-R1, US-R3 is independent."
+    result: "pass"
+    notes: "Current state: FlowMoEdge uses getSmoothStepPath directly. No pathfinding.ts exists yet. yamlPanelOpen defaults to true in both surfaces. Subtitle paragraph exists. Only test file is packages/core/tests/yamlFlow.test.ts. Queued US-R1 investigate task."
+    tokens: ~
+  - task: 2
+    time: "2026-03-24T08:33:00Z"
+    story: "US-R1"
+    description: "Investigate pathfinding approach — Position type is string enum (top/right/bottom/left), test runner is node:test + tsx, pathfinding is a pure function with no React deps."
+    result: "pass"
+    notes: "Pathfinding module: pure function in src/edges/pathfinding.ts. Tests co-located or in src/edges/tests/. Uses cardinal directions matching React Flow Position. Queued implement task for pathfinding.ts + tests."
+    tokens: ~
+  - task: 3
+    time: "2026-03-24T08:38:00Z"
+    story: "US-R1"
+    description: "Implemented pathfinding.ts with orthogonal route function + 5 test cases. All verify + tests pass."
+    result: "pass"
+    notes: "✓ US-R1 complete. Pure function with multiple candidate strategies (L-shape, Z-shape, detour). 5 tests: direct, obstacle avoidance, enclosed-null, handle directions, orthogonal-only."
+    tokens: ~
+  - task: 4
+    time: "2026-03-24T08:42:00Z"
+    story: "US-R2"
+    description: "Investigate edge renderer integration — FlowMoEdge needs useNodes for bounding boxes, source/target from EdgeProps to exclude own nodes, useMemo for caching, geometric midpoint for labels."
+    result: "pass"
+    notes: "Queued implement task. Plan: import useNodes, findOrthogonalRoute; build Rect[] from nodes excluding source/target; memoize; fallback to getSmoothStepPath on null; compute label at path midpoint."
+    tokens: ~
+  - task: 5
+    time: "2026-03-24T08:48:00Z"
+    story: "US-R2"
+    description: "Integrated pathfinding into FlowMoEdge — useNodes for obstacles, useMemo, getSmoothStepPath fallback, geometric midpoint labels. Added Edge routing section to GUIDE.md."
+    result: "pass"
+    notes: "✓ US-R2 complete. All 6 criteria met. Shared component ensures both surfaces get smart routing."
+    tokens: ~
+  - task: 6
+    time: "2026-03-24T08:55:00Z"
+    story: "US-R3"
+    description: "UI polish — yamlPanelOpen=false in both surfaces, removed subtitle paragraph, added Space Mono brand font via Google Fonts @import with font-display:swap."
+    result: "pass"
+    notes: "✓ US-R3 complete. All 4 criteria met."
+    tokens: ~
+  - task: 7
+    time: "2026-03-24T09:00:00Z"
+    story: "phase"
+    description: "Phase completion gate — all 16 done-when criteria verified. Updated AGENTS.md. tsc + lint pass. Error-path spot check: pathfinding null → getSmoothStepPath fallback."
+    result: "pass"
+    notes: "All stories complete (US-R1, US-R2, US-R3). Phase marked complete."
+    tokens: ~
+  - task: 8
+    time: "2026-03-24T09:03:00Z"
+    story: "review"
+    description: "Created PR #3 from build/smart-edge-routing to main. Queued review-pr."
+    result: "pass"
+    notes: "PR URL: https://github.com/Jaxsbr/flow-mo/pull/3"
+    tokens: ~
+  - task: 9
+    time: "2026-03-24T09:08:00Z"
+    story: "review"
+    description: "review-pr: posted 1 concern (useNodes performance with many nodes) as COMMENT review. No critical issues."
+    result: "pass"
+    notes: "1 concern: useNodes triggers re-render on any node change — suggest useStore selector for 50+ nodes. Non-blocking."
+    tokens: ~
+  - task: 10
+    time: "2026-03-24T09:12:00Z"
+    story: "review"
+    description: "handle-pr-review: skipped 1 non-blocking concern (useNodes performance), replied + resolved thread, posted summary"
+    result: "pass"
+    notes: "No code changes needed. Review complete."
+    tokens: ~
