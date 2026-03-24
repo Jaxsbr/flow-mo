@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
+  task_number: 6
   phase: edge-usability-fixes
   phase_complete: false
   review_stage: null
@@ -20,3 +20,4 @@ state:
   consecutive_fails: 0
   completed_stories:
     - US-E2
+    - US-E1
