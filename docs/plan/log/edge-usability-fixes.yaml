@@ -1,3 +1,10 @@
 phase: "edge-usability-fixes"
 started: "2026-03-24T02:42:11Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-24T02:45:00Z"
+    story: "phase"
+    description: "Investigation — read FlowMoNode, FlowMoEdge, App.css, App.tsx. Circle handle likely CSS issue. Edge selection prop unused."
+    result: "pass"
+    notes: "Circle: border-radius 50% may clip handle hit area. Edge: selected prop not destructured. Queued US-E1 investigate task."
+    tokens: ~

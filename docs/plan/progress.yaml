@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: null
-  next_task: null
+  next_task: "[US-E1] Investigate circle node bottom handle connection failure — check CSS overflow, handle positioning, and React Flow connection validation"
   consecutive_fails: 0
   completed_stories: []
