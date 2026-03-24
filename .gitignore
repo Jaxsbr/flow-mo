@@ -30,5 +30,13 @@ dist-ssr
 *.pem
 credentials.json
 
+# Extension output
+*.vsix
+packages/vscode-extension/out/
+packages/vscode-extension/media/
+
+# Build artifacts
+*.tsbuildinfo
+
 # Build loop
 .build-loop.lock

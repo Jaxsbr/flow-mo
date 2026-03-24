@@ -25,14 +25,15 @@ import {
   stringifyFlowDoc,
 } from '@flow-mo/core'
 import '@xyflow/react/dist/style.css'
-import { useCallback, useMemo, useState } from 'react'
-import defaultFlowYaml from './defaultFlow.yaml?raw'
-import './App.css'
-import { FlowMoEdge } from './edges/FlowMoEdge'
-import { FlowMoNode } from './nodes/FlowMoNode'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import '../App.css'
+import { FlowMoEdge } from '../edges/FlowMoEdge'
+import { FlowMoNode } from '../nodes/FlowMoNode'
+import { getVsCodeApi } from './vscodeApi'
 
 const nodeTypes = { flowMo: FlowMoNode }
 const edgeTypes = { flowMoEdge: FlowMoEdge }
+const vscode = getVsCodeApi()
 
 const defaultNewEdge = {
   type: 'flowMoEdge' as const,
@@ -44,22 +45,67 @@ const defaultNewEdge = {
   },
 }
 
-function FlowEditor() {
-  const initial = useMemo(
-    () => documentToFlow(parseFlowYaml(defaultFlowYaml)),
-    [],
-  )
-  const [yamlText, setYamlText] = useState(defaultFlowYaml)
-  const [yamlPanelOpen, setYamlPanelOpen] = useState(true)
-  const [applyError, setApplyError] = useState<string | null>(null)
-  const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges)
+function WebviewEditor() {
+  const [nodes, setNodes, onNodesChange] = useNodesState<FlowMoRfNode>([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [parseError, setParseError] = useState<string | null>(null)
+  const [externalChangeWarning, setExternalChangeWarning] = useState(false)
   const { fitView, deleteElements, getNodes, getEdges } = useReactFlow()
+  const [yamlPanelOpen, setYamlPanelOpen] = useState(true)
+  const [yamlText, setYamlText] = useState('')
+  const lastSentRef = useRef<string>('')
+  const initialLoadDone = useRef(false)
 
   const selectedEdge = useMemo(
     () => edges.find((e) => e.selected && e.type === 'flowMoEdge'),
     [edges],
   )
+
+  // Load document text from extension host
+  const loadDocument = useCallback((text: string) => {
+    setYamlText(text)
+    try {
+      const doc = parseFlowYaml(text)
+      const { nodes: n, edges: e } = documentToFlow(doc)
+      setNodes(n)
+      setEdges(e)
+      setParseError(null)
+      if (!initialLoadDone.current) {
+        initialLoadDone.current = true
+        requestAnimationFrame(() => fitView({ padding: 0.2 }))
+      }
+    } catch (err) {
+      setParseError(err instanceof Error ? err.message : String(err))
+    }
+  }, [setNodes, setEdges, fitView])
+
+  // Listen for messages from extension host
+  useEffect(() => {
+    const handler = (event: MessageEvent) => {
+      const message = event.data
+      if (message.type === 'update') {
+        const text = message.text as string
+        // Check if this is an external change (not our own edit)
+        if (lastSentRef.current && text !== lastSentRef.current) {
+          setExternalChangeWarning(true)
+        }
+        loadDocument(text)
+      }
+    }
+    window.addEventListener('message', handler)
+    return () => window.removeEventListener('message', handler)
+  }, [loadDocument])
+
+  // Tell extension we're ready
+  useEffect(() => {
+    vscode.postMessage({ type: 'ready' })
+  }, [])
+
+  // Send edit to extension host
+  const sendEdit = useCallback((text: string) => {
+    lastSentRef.current = text
+    vscode.postMessage({ type: 'edit', text })
+  }, [])
 
   const updateSelectedEdge = useCallback(
     (patch: Partial<FlowMoEdgeData>) => {
@@ -112,42 +158,27 @@ function FlowEditor() {
       const { nodes: nextNodes, edges: nextEdges } = documentToFlow(doc)
       setNodes(nextNodes)
       setEdges(nextEdges)
-      setApplyError(null)
+      setParseError(null)
+      sendEdit(yamlText)
       if (nextNodes.length > 0 || nextEdges.length > 0) {
         requestAnimationFrame(() => fitView({ padding: 0.2 }))
       }
     } catch (e) {
-      setApplyError(e instanceof Error ? e.message : String(e))
+      setParseError(e instanceof Error ? e.message : String(e))
     }
-  }, [yamlText, setNodes, setEdges, fitView])
+  }, [yamlText, setNodes, setEdges, fitView, sendEdit])
 
   const syncYamlFromCanvas = useCallback(() => {
     const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
-    setYamlText(stringifyFlowDoc(doc))
-    setApplyError(null)
-  }, [nodes, edges])
-
-  const downloadYaml = useCallback(() => {
-    const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
-    const blob = new Blob([stringifyFlowDoc(doc)], {
-      type: 'text/yaml;charset=utf-8',
-    })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'flow.yaml'
-    a.click()
-    URL.revokeObjectURL(url)
-  }, [nodes, edges])
-
-  const copyYaml = useCallback(async () => {
-    const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
-    await navigator.clipboard.writeText(stringifyFlowDoc(doc))
-  }, [nodes, edges])
+    const text = stringifyFlowDoc(doc)
+    setYamlText(text)
+    setParseError(null)
+    sendEdit(text)
+  }, [nodes, edges, sendEdit])
 
   const addNode = useCallback(
     (shape: NodeShape) => {
-      const id = `step_${crypto.randomUUID().slice(0, 8)}`
+      const id = `step_${Date.now().toString(36)}`
       setNodes((nds) => [
         ...nds,
         {
@@ -171,6 +202,10 @@ function FlowEditor() {
     await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
   }, [deleteElements, getNodes, getEdges])
 
+  const dismissWarning = useCallback(() => {
+    setExternalChangeWarning(false)
+  }, [])
+
   const edgeForm = selectedEdge ? (selectedEdge.data as FlowMoEdgeData) : null
 
   return (
@@ -179,7 +214,7 @@ function FlowEditor() {
         <h1 className="flow-mo__title">flow-mo</h1>
         <p className="flow-mo__subtitle">
           Edit YAML or the canvas — Apply loads YAML; Sync writes the graph to
-          YAML. Double-click a node to edit its label. Select a node or edge,
+          YAML and saves. Double-click a node to edit its label. Select a node or edge,
           then <kbd className="flow-mo__kbd">Delete</kbd> /{' '}
           <kbd className="flow-mo__kbd">Backspace</kbd> or Delete selected.
         </p>
@@ -202,12 +237,6 @@ function FlowEditor() {
           </button>
           <button type="button" onClick={deleteSelected}>
             Delete selected
-          </button>
-          <button type="button" onClick={copyYaml}>
-            Copy YAML
-          </button>
-          <button type="button" onClick={downloadYaml}>
-            Download flow.yaml
           </button>
         </div>
         {selectedEdge && selectedEdge.type === 'flowMoEdge' && edgeForm ? (
@@ -258,9 +287,17 @@ function FlowEditor() {
             </label>
           </div>
         ) : null}
-        {applyError ? (
+        {externalChangeWarning ? (
+          <p className="flow-mo__warning" role="alert">
+            File changed on disk. The editor has been updated with the new content.
+            <button type="button" onClick={dismissWarning} className="flow-mo__warning-dismiss">
+              Dismiss
+            </button>
+          </p>
+        ) : null}
+        {parseError ? (
           <p className="flow-mo__error" role="alert">
-            {applyError}
+            {parseError}
           </p>
         ) : null}
       </header>
@@ -335,10 +372,10 @@ function FlowEditor() {
   )
 }
 
-export default function App() {
+export default function WebviewApp() {
   return (
     <ReactFlowProvider>
-      <FlowEditor />
+      <WebviewEditor />
     </ReactFlowProvider>
   )
 }

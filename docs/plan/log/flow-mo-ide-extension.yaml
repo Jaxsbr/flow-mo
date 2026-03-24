@@ -1,0 +1,80 @@
+phase: "flow-mo-ide-extension"
+started: "2026-03-23T23:24:54Z"
+entries:
+  - task: 1
+    time: "2026-03-23T23:25:00Z"
+    story: "US-F1"
+    description: "Investigation — identify files to extract for @flow-mo/core, plan monorepo structure"
+    result: "pass"
+    notes: "Verified current state: src/lib/yamlFlow.ts, src/lib/edgeMarkers.ts, src/types.ts to extract. Need npm workspaces."
+    tokens: ~
+  - task: 2
+    time: "2026-03-23T23:26:00Z"
+    story: "US-F1"
+    description: "Create packages/core with npm workspace, types, yamlFlow, edgeMarkers, index, README, 8 unit tests"
+    result: "pass"
+    notes: "All 8 tests pass. tsc + lint pass. ✓ US-F1 complete"
+    tokens: ~
+  - task: 3
+    time: "2026-03-23T23:27:00Z"
+    story: "US-F2"
+    description: "Rewire App.tsx, FlowMoNode.tsx, FlowMoEdge.tsx to @flow-mo/core; delete src/types.ts, src/lib/"
+    result: "pass"
+    notes: "All imports rewired. tsc + lint + build pass. ✓ US-F2 complete"
+    tokens: ~
+  - task: 4
+    time: "2026-03-23T23:28:00Z"
+    story: "US-F3"
+    description: "VS Code extension skeleton: CustomTextEditorProvider, custom editor registration, vsce package"
+    result: "pass"
+    notes: "Extension compiles. vsce package produces .vsix."
+    tokens: ~
+  - task: 5
+    time: "2026-03-23T23:30:00Z"
+    story: "US-F4"
+    description: "Webview React app with message bridge, validation UX, external change warning, fitView, disposal"
+    result: "pass"
+    notes: "Webview bundles via vite.webview.config.ts. All code criteria met. Verification doc created."
+    tokens: ~
+  - task: 6
+    time: "2026-03-23T23:31:00Z"
+    story: "US-F3"
+    description: "Write docs/GUIDE.md with install, open, save, validation, external change sections"
+    result: "pass"
+    notes: "✓ US-F3 complete. ✓ US-F4 complete."
+    tokens: ~
+  - task: 7
+    time: "2026-03-23T23:32:00Z"
+    story: "US-F5"
+    description: "Cursor skill, docs/schema.md, README links"
+    result: "pass"
+    notes: "✓ US-F5 complete."
+    tokens: ~
+  - task: 8
+    time: "2026-03-23T23:33:00Z"
+    story: "phase"
+    description: "Update AGENTS.md, create ARCHITECTURE.md"
+    result: "pass"
+    notes: "All phase criteria met."
+    tokens: ~
+  - task: 9
+    time: "2026-03-23T23:34:00Z"
+    story: "phase"
+    description: "Phase completion — all 25 done-when criteria verified"
+    result: "pass"
+    notes: "All checkboxes checked. Verify passes. AGENTS.md consistent."
+    tokens: ~
+  - task: 10
+    time: "2026-03-23T23:35:00Z"
+    story: "review"
+    description: "review-pr: posted 5 concerns as COMMENT review"
+    result: "pass"
+    notes: "5 concerns identified: raw .ts exports, shallow validation, feedback loop, CSP, tsbuildinfo"
+    tokens: ~
+  - task: 11
+    time: "2026-03-23T23:40:00Z"
+    story: "review"
+    description: "handle-pr-review: fixed 4, challenged 1, re-verified"
+    result: "pass"
+    notes: "Fixed: core build step, feedback loop suppression, CSP unsafe-inline, tsbuildinfo gitignore. Challenged: shallow validation. All checks pass."
+    tokens: ~

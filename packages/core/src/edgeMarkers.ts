@@ -1,5 +1,5 @@
 import { MarkerType, type EdgeMarker } from '@xyflow/react'
-import type { MarkerEndStyle } from '../types'
+import type { MarkerEndStyle } from './types.js'
 
 const EDGE_MARKER_COLOR = 'var(--flow-edge)'
 
