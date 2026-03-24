@@ -22,3 +22,10 @@ entries:
     result: "pass"
     notes: "Single CSS property addition. No other shapes touched — no regression risk."
     tokens: ~
+  - task: 4
+    time: "2026-03-24T02:50:00Z"
+    story: "US-E2"
+    description: "Investigation — FlowMoEdge doesn't use selected prop. Need to destructure it and apply visual style change."
+    result: "pass"
+    notes: "Queued US-E2 implement task. Edge panel already works when edge is selected, just no visual feedback on the edge itself."
+    tokens: ~

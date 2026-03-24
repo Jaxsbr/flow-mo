@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 3
+  task_number: 4
   phase: edge-usability-fixes
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-E2] Add selected edge visual feedback — use selected prop in FlowMoEdge, apply distinct stroke/color style, ensure both themes work"
   consecutive_fails: 0
   completed_stories: []
