@@ -15,3 +15,10 @@ entries:
     result: "pass"
     notes: "4/7 US-D1 criteria met (commands, menus, handlers). Remaining: verification doc, GUIDE.md section."
     tokens: ~
+  - task: 3
+    time: "2026-03-24T09:20:00Z"
+    story: "US-D1"
+    description: "Investigation — US-D1 remaining criteria: verification-discoverability.md (manual test doc) and GUIDE.md section. Queued implement task."
+    result: "pass"
+    notes: "Queued docs task for US-D1 completion."
+    tokens: ~
