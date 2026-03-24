@@ -12,7 +12,10 @@ flow-mo/
 │   └── vscode-extension/ # VS Code/Cursor custom editor extension
 ├── src/                # Vite web app (dev/preview) + webview entry point
 │   ├── webview/        # Webview-specific React app for the extension
-│   ├── edges/          # Custom edge components
+│   ├── edges/          # Custom edge components + orthogonal pathfinding
+│   │   ├── FlowMoEdge.tsx    # Edge renderer (smart routing with fallback)
+│   │   ├── pathfinding.ts    # Orthogonal A* route function
+│   │   └── pathfinding.test.ts # Pathfinding unit tests (node:test)
 │   └── nodes/          # Custom node components
 ├── docs/               # User guide, schema reference, product docs
 └── .cursor/skills/     # Agent-facing YAML editing skill
@@ -55,10 +58,13 @@ npx @vscode/vsce package --no-dependencies # Produce .vsix
 ## Testing
 
 - Core: `packages/core/tests/` — `node:test` runner via `tsx`. Covers YAML parsing, validation, round-trip, normalisation.
+- Pathfinding: `src/edges/pathfinding.test.ts` — `node:test` runner via `tsx`. Run with `node --import tsx --test src/edges/pathfinding.test.ts`.
 - Extension: Code inspection + manual verification (`docs/plan/verification-flow-mo-p1.md`).
 
 ## Key conventions
 
 - All YAML schema logic lives in `@flow-mo/core`. Never duplicate parse/stringify/conversion in `src/` or the extension.
+- Pathfinding is rendering logic, not schema logic. It lives in `src/edges/pathfinding.ts`, co-located with the edge renderer. Do not move it into `@flow-mo/core`.
+- `FlowMoEdge` uses `findOrthogonalRoute` as the primary path calculation. When pathfinding returns `null`, it falls back to `getSmoothStepPath`. Path computation is memoized via `useMemo`.
 - The webview bundle is a build artifact (`packages/vscode-extension/media/`). Rebuild with `npm run build:webview` after changing `src/webview/` or shared components.
 - Extension TypeScript compiles separately from the app (`packages/vscode-extension/tsconfig.json` uses Node16 modules).
