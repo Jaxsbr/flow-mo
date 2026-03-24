@@ -12,6 +12,7 @@
   --flow-node-border: #94a3b8;
   --flow-node-focus: #3b82f6;
   --flow-edge: #475569;
+  --flow-edge-selected: #3b82f6;
   --flow-danger: #b91c1c;
 }
 
@@ -30,6 +31,7 @@
     --flow-node-border: #64748b;
     --flow-node-focus: #60a5fa;
     --flow-edge: #94a3b8;
+    --flow-edge-selected: #60a5fa;
     --flow-danger: #fca5a5;
   }
 }
