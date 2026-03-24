@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 3
+  task_number: 4
   phase: smart-edge-routing
   phase_complete: false
   review_stage: null
@@ -16,6 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-R1] Implement pathfinding.ts — orthogonal route function with obstacle avoidance, plus test suite with >= 4 cases"
+  next_task: null
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories:
+    - US-R1

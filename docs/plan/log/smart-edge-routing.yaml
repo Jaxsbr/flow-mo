@@ -15,3 +15,10 @@ entries:
     result: "pass"
     notes: "Pathfinding module: pure function in src/edges/pathfinding.ts. Tests co-located or in src/edges/tests/. Uses cardinal directions matching React Flow Position. Queued implement task for pathfinding.ts + tests."
     tokens: ~
+  - task: 3
+    time: "2026-03-24T08:38:00Z"
+    story: "US-R1"
+    description: "Implemented pathfinding.ts with orthogonal route function + 5 test cases. All verify + tests pass."
+    result: "pass"
+    notes: "✓ US-R1 complete. Pure function with multiple candidate strategies (L-shape, Z-shape, detour). 5 tests: direct, obstacle avoidance, enclosed-null, handle directions, orthogonal-only."
+    tokens: ~
