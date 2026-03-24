@@ -7,16 +7,16 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 8
+  task_number: 9
   phase: edge-usability-fixes
   phase_complete: true
-  review_stage: pr_created
+  review_stage: review_posted
   review_complete: false
   retro_complete: false
   pr_number: 2
   status: running
   last_result: pass
-  next_task: "[review] review-pr pr=2 auto=true"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-E2
