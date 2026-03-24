@@ -114,6 +114,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         style={{
           width: size,
           height: size,
+          borderRadius: '50%',
           boxShadow: focusRing,
         }}
       >
