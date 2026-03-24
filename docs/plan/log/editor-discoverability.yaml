@@ -1,3 +1,10 @@
 phase: "editor-discoverability"
 started: "2026-03-24T09:11:24Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-24T09:15:00Z"
+    story: "phase"
+    description: "Investigation — read extension package.json (only customEditors, no commands/menus), extension.ts (only registers editor provider), FlowMoEditorProvider.ts (CustomTextEditorProvider), defaultFlow.yaml template. Verify passes. 2 stories, 15 criteria. US-D1 first (switch buttons), US-D2 second (new flow command)."
+    result: "pass"
+    notes: "Queued US-D1 implement task — add commands + menus to package.json, register handlers in extension.ts."
+    tokens: ~
