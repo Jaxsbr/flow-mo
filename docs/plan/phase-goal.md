@@ -1,46 +1,25 @@
 ## Phase goal
 
-Deliver **`@flow-mo/core`** as the single YAML/schema implementation, refactor the Vite app to consume it, ship a **VS Code/Cursor extension** that registers a **custom editor** for `*.flow.yaml` with a **webview** that runs the FlowMo UI, **bidirectional document sync**, **validation/error UX**, **external-change notification**, **fit-view on successful load** (MLP delight), and a **Cursor skill** plus **`docs/schema.md`** for agents. No MCP in this phase.
+Fix two usability blockers in the FlowMo diagram editor: (1) circle node bottom handle connections fail silently, and (2) selected edges have no visual feedback. Both issues affect the Vite dev app and VS Code extension webview equally since they share `FlowMoNode` and `FlowMoEdge` components. No `@flow-mo/core` schema changes.
 
 ### Stories in scope
 
-- US-F1 — Extract `@flow-mo/core` (schema, YAML IO, validation)
-- US-F2 — Wire the Vite app to `@flow-mo/core`
-- US-F3 — VS Code extension skeleton + custom editor registration
-- US-F4 — Webview bridge, document sync, validation UX, MLP delight, disposal
-- US-F5 — Cursor skill + agent-facing schema reference
+- US-E1 — Fix circle node bottom handle connection bug
+- US-E2 — Add visual feedback for selected edges
 
 ### Done-when (observable)
 
-- [x] `packages/core/package.json` exists with `name` exactly `@flow-mo/core` and `exports` (or `main` + `types`) resolving for app and extension builds [US-F1]
-- [x] `packages/core` exports `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, and `flowToDocument` (or names documented in core README with identical behavior to pre-refactor) [US-F1]
-- [x] Unit tests under `packages/core` pass (`npm test` or `vitest`/`node:test` as configured) with cases: valid v1 round-trip; reject `version !== 1`; reject missing `nodes`/`edges` [US-F1]
-- [x] `packages/core/README.md` lists public API entry points [US-F1]
-- [x] No file under `packages/app/src` (or `src/` if app stays at root) contains duplicate implementations of v1 YAML document conversion logic — imports use `@flow-mo/core` only (verified by grep or ESLint boundary rule) [US-F2]
-- [x] `npm run build` at repo root exits 0 after workspace wiring [US-F2]
-- [x] `npm run lint` at repo root exits 0 [US-F2]
-- [x] Extension `package.json` includes `contributes.customEditors` with `viewType` and `selector` for `*.flow.yaml` (or documented equivalent glob) [US-F3]
-- [x] Extension source registers a custom editor provider via `vscode.window.registerCustomEditorProvider` (or documented equivalent for the chosen VS Code API) [US-F3]
-- [x] `npx @vscode/vsce package` (or `vsce package`) run from the extension package directory produces a `.vsix` file without error [US-F3]
-- [x] Webview HTML/JS/CSS is loaded from extension-local `media/` or `out/` paths only (no `http://` or `https://` script src in shipped HTML) [US-F4]
-- [x] Saving from the custom editor updates the backing `TextDocument` with UTF-8 text produced by core `stringifyFlowDoc` (or equivalent) when diagram/YAML changes — verified by integration test or documented manual checklist with file hash before/after [US-F4]
-- [x] When parse fails, webview shows a non-empty error message string to the user (test assertion or screenshot test) [US-F4]
-- [x] On external file change on disk while editor is open, an informational message or webview banner is shown before overwriting user edits (code path exists; verified by test or manual script in `docs/plan/verification-flow-mo-p1.md`) [US-F4]
-- [x] On successful load of valid YAML, `fitView` (or equivalent) runs once after graph init — asserted by Playwright test in extension package or checkbox in verification doc [US-F4]
-- [x] `onDidDispose` (or equivalent) clears webview message listeners / timers — verified by code inspection checklist in PR or test [US-F4]
-- [x] `.cursor/skills/flow-mo-yaml/SKILL.md` exists and references `version: 1`, nodes/edges, and at least one "don't" rule [US-F5]
-- [x] `docs/schema.md` exists and enumerates top-level keys and edge/node fields for v1 [US-F5]
-- [x] Root `README.md` contains links to `docs/GUIDE.md`, `docs/schema.md`, and `.cursor/skills/flow-mo-yaml/SKILL.md` [US-F5]
-- [x] `docs/GUIDE.md` includes install-from-VSIX and open-with sections matching US-F3 user guidance [US-F3]
-- [x] `docs/GUIDE.md` includes save, invalid-YAML, and external-change behavior sections matching US-F4 user guidance [US-F4]
-- [x] `flow-mo/AGENTS.md` exists documenting monorepo package layout, build commands, and extension packaging expectations introduced in P1 [phase]
-- [x] `docs/architecture/ARCHITECTURE.md` matches post-P1 layout (packages tree, data flow) [phase]
-- [x] User-provided YAML is never executed as script; webview does not set `innerHTML` from raw YAML string (use text nodes or React text binding only) — verified by grep for `dangerouslySetInnerHTML` / `innerHTML` assignment from document text in webview bundle [US-F4]
-- [x] Error paths from parse failures show user-facing message only; no full exception object string with stack to webview UI [US-F4]
+- [ ] Dragging a connection from a circle node's bottom (source) handle to any other node's target handle creates a valid edge — verified by opening the Vite dev app, adding a circle node, and connecting its bottom handle to a rectangle's top handle [US-E1]
+- [ ] Circle-to-rectangle, circle-to-diamond, and circle-to-circle connections all work from the bottom source handle [US-E1]
+- [ ] Rectangle and diamond source handle connections still work (no regression) [US-E1]
+- [ ] Clicking an edge visually changes its appearance (colour, stroke width, glow, or combination) so the selected state is obviously different from unselected [US-E2]
+- [ ] The selected edge style is visible in both light and dark themes (uses CSS custom properties or adapts to both) [US-E2]
+- [ ] The edge panel (arrow config, midpoint color) and delete functionality remain functional when an edge is selected [US-E2]
+- [ ] `npx tsc --noEmit` exits 0 [phase]
+- [ ] `npm run lint` exits 0 [phase]
 
 ### Golden principles (phase-relevant)
 
-- **Faithful stewardship / clarity:** One core package; documented schema; no silent schema forks.
-- **People first:** Clear validation errors; external-change awareness; fit view reduces friction on open.
-- **Continuous improvement:** Skill + `docs/schema.md` so agents and humans share the same contract.
-- **Tests:** Core unit tests required; extension bridge covered by test or explicit verification doc.
+- **People first:** Both fixes remove friction that blocks real diagram editing workflows.
+- **No regressions:** Rectangle and diamond handle connections must not break. Existing edge functionality (panel, delete) must remain intact.
+- **Both surfaces:** Changes must work in both Vite dev app (`src/App.tsx`) and VS Code extension webview (`src/webview/WebviewApp.tsx`) — shared components ensure this automatically.
