@@ -8,3 +8,10 @@ entries:
     result: "pass"
     notes: "Queued US-D1 implement task — add commands + menus to package.json, register handlers in extension.ts."
     tokens: ~
+  - task: 2
+    time: "2026-03-24T09:18:00Z"
+    story: "US-D1"
+    description: "Added openDiagram and openSource commands to package.json contributes (commands + editor/title menus with when clauses) and registered command handlers in extension.ts."
+    result: "pass"
+    notes: "4/7 US-D1 criteria met (commands, menus, handlers). Remaining: verification doc, GUIDE.md section."
+    tokens: ~
