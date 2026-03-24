@@ -8,3 +8,10 @@ entries:
     result: "pass"
     notes: "Circle: border-radius 50% may clip handle hit area. Edge: selected prop not destructured. Queued US-E1 investigate task."
     tokens: ~
+  - task: 2
+    time: "2026-03-24T02:47:00Z"
+    story: "US-E1"
+    description: "Investigate circle handle — no custom validation, CSS border-radius 50% likely clips handle hit area. Queued implement task."
+    result: "pass"
+    notes: "Root cause: circle node lacks overflow:visible, border-radius 50% may clip handle pointer events. Diamond works because handles are in transparent outer div."
+    tokens: ~

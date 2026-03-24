@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 1
+  task_number: 2
   phase: edge-usability-fixes
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: null
-  next_task: "[US-E1] Investigate circle node bottom handle connection failure — check CSS overflow, handle positioning, and React Flow connection validation"
+  next_task: "[US-E1] Fix circle bottom handle — add overflow: visible to .flow-mo-node--circle and verify connections work"
   consecutive_fails: 0
   completed_stories: []
