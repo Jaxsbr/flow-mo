@@ -106,6 +106,24 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
     </div>
   )
 
+  // Dual handles at each position: a target (drop-only) and a source (drag-only).
+  // This lets any position connect to any position in strict mode, because
+  // dragging always starts from a source handle and drops on a target handle.
+  // The edge renderer requires sourceHandle→source-type and targetHandle→target-type,
+  // which dual handles satisfy for all 4 combinations (top→top, top→bottom, etc.).
+  const topHandles = (
+    <>
+      <Handle type="target" position={Position.Top} id="top-target" isConnectableStart={false} />
+      <Handle type="source" position={Position.Top} id="top-source" isConnectableEnd={false} />
+    </>
+  )
+  const bottomHandles = (
+    <>
+      <Handle type="target" position={Position.Bottom} id="bottom-target" isConnectableStart={false} />
+      <Handle type="source" position={Position.Bottom} id="bottom-source" isConnectableEnd={false} />
+    </>
+  )
+
   if (shape === 'circle') {
     const size = Math.max(80, data.width ?? data.height ?? 120)
     return (
@@ -119,9 +137,9 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
           boxShadow: focusRing,
         }}
       >
-        <Handle type="target" position={Position.Top} id="target" />
+        {topHandles}
         {labelOrInput}
-        <Handle type="source" position={Position.Bottom} id="source" />
+        {bottomHandles}
       </div>
     )
   }
@@ -139,7 +157,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
           boxShadow: focusRing,
         }}
       >
-        <Handle type="target" position={Position.Top} id="target" />
+        {topHandles}
         <div
           className="flow-mo-node--diamond-inner"
           style={{
@@ -149,7 +167,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         >
           {labelOrInput}
         </div>
-        <Handle type="source" position={Position.Bottom} id="source" />
+        {bottomHandles}
       </div>
     )
   }
@@ -165,9 +183,9 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         boxShadow: focusRing,
       }}
     >
-      <Handle type="target" position={Position.Top} id="target" />
+      {topHandles}
       {labelOrInput}
-      <Handle type="source" position={Position.Bottom} id="source" />
+      {bottomHandles}
     </div>
   )
 }
