@@ -15,3 +15,10 @@ entries:
     result: "pass"
     notes: "Root cause: circle node lacks overflow:visible, border-radius 50% may clip handle pointer events. Diamond works because handles are in transparent outer div."
     tokens: ~
+  - task: 3
+    time: "2026-03-24T02:49:00Z"
+    story: "US-E1"
+    description: "Added overflow:visible to .flow-mo-node--circle in App.css. Verify + lint pass."
+    result: "pass"
+    notes: "Single CSS property addition. No other shapes touched — no regression risk."
+    tokens: ~
