@@ -38,6 +38,10 @@
         "command": "flowMo.openSource",
         "title": "Open as Text",
         "icon": "$(go-to-file)"
+      },
+      {
+        "command": "flowMo.newFlow",
+        "title": "FlowMo: New Flow"
       }
     ],
     "menus": {
@@ -50,6 +54,12 @@
         {
           "command": "flowMo.openSource",
           "when": "activeCustomEditorId == 'flowMo.flowYaml'",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "flowMo.newFlow",
           "group": "navigation"
         }
       ]
