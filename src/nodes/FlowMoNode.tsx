@@ -110,17 +110,23 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
     const size = Math.max(80, data.width ?? data.height ?? 120)
     return (
       <div
-        className="flow-mo-node flow-mo-node--circle"
+        className="flow-mo-node flow-mo-node--circle-outer"
         style={{
           width: size,
           height: size,
-          background: bg,
-          border: `${bw}px solid ${bc}`,
           boxShadow: focusRing,
         }}
       >
         <Handle type="target" position={Position.Top} />
-        {labelOrInput}
+        <div
+          className="flow-mo-node--circle-inner"
+          style={{
+            background: bg,
+            border: `${bw}px solid ${bc}`,
+          }}
+        >
+          {labelOrInput}
+        </div>
         <Handle type="source" position={Position.Bottom} />
       </div>
     )

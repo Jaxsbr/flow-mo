@@ -348,10 +348,25 @@
   outline: none;
 }
 
-.flow-mo-node--circle {
+.flow-mo-node--circle-outer {
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-mo-node--circle-inner {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 12px;
-  overflow: visible;
 }
 
 /* Outer is a square (see TSX). Inner is a square with side = outer / √2 so a 45° turn fits the outer box exactly. */
