@@ -8,3 +8,10 @@ entries:
     result: "pass"
     notes: "Current state: FlowMoEdge uses getSmoothStepPath directly. No pathfinding.ts exists yet. yamlPanelOpen defaults to true in both surfaces. Subtitle paragraph exists. Only test file is packages/core/tests/yamlFlow.test.ts. Queued US-R1 investigate task."
     tokens: ~
+  - task: 2
+    time: "2026-03-24T08:33:00Z"
+    story: "US-R1"
+    description: "Investigate pathfinding approach — Position type is string enum (top/right/bottom/left), test runner is node:test + tsx, pathfinding is a pure function with no React deps."
+    result: "pass"
+    notes: "Pathfinding module: pure function in src/edges/pathfinding.ts. Tests co-located or in src/edges/tests/. Uses cardinal directions matching React Flow Position. Queued implement task for pathfinding.ts + tests."
+    tokens: ~

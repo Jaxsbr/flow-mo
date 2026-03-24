@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 2
+  task_number: 3
   phase: smart-edge-routing
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-R1] Investigate: confirm pathfinding approach — review React Flow Position type, node bounding box access patterns, and test runner setup before implementing pathfinding.ts"
+  next_task: "[US-R1] Implement pathfinding.ts — orthogonal route function with obstacle avoidance, plus test suite with >= 4 cases"
   consecutive_fails: 0
   completed_stories: []
