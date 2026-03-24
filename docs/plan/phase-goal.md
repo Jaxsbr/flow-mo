@@ -28,7 +28,7 @@ Deliver bidirectional editor switch buttons (text↔diagram) in the editor title
 - [x] `docs/GUIDE.md` contains a "Creating a new flow file" section placed before "Open a flow file" documenting the command palette and explorer context menu entry points [US-D2]
 
 **Structural**
-- [ ] `AGENTS.md` reflects the new commands (`flowMo.openDiagram`, `flowMo.openSource`, `flowMo.newFlow`) and menu contributions introduced in this phase [phase]
+- [x] `AGENTS.md` reflects the new commands (`flowMo.openDiagram`, `flowMo.openSource`, `flowMo.newFlow`) and menu contributions introduced in this phase [phase]
 
 ### Golden principles (phase-relevant)
 
