@@ -6,15 +6,15 @@ config:
 
 state:
   task_number: 1
-  phase: copy-paste-nodes
+  phase: edge-spreading
   phase_complete: true
   review_stage: null
   review_complete: true
   retro_complete: true
-  pr_number: 10
+  pr_number: 11
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-CP1
+    - US-ES1
