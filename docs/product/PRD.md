@@ -18,7 +18,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Multi-select enhancements](phases/multi-select-enhancements.md) | Box selection, multi-edge panel, selection count indicator | [Shipped] |
 | [Copy-paste nodes](phases/copy-paste-nodes.md) | Ctrl/Cmd+C/V for duplicating selected nodes + internal edges | [Shipped] |
 | [Edge spreading](phases/edge-spreading.md) | Visual spreading of parallel edges between same node pair | [Shipped] |
-| [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [In Progress] |
+| [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [Shipped] |
 
 ---
 
@@ -274,5 +274,5 @@ As a **user**, I want **a command palette command that creates a new `.flow.yaml
 
 - MCP server (validate/read/patch) — see `docs/concepts/flow-mo-mcp-tools-phase-2.md`.
 - Optional JSON Schema export from core — backlog if not in P1.
-- Edge waypoint dragging (interactive bend points + schema change) — deferred from smart-edge-routing to isolate risk. See `docs/briefs/smart-edge-routing-brief.md` key decisions.
+- ~~Edge waypoint dragging~~ — shipped in PR #12.
 - Edge-to-edge spreading (fanning out overlapping edges) — out of scope for smart-edge-routing; only node avoidance shipped.
