@@ -1,26 +1,20 @@
 ## Phase goal
 
-Fix the visual "stick-out" artifact on edges between closely-spaced nodes by making the pathfinding step-out distance adaptive. The fixed 20px step-out in `buildCandidateRoutes` produces visible stubs on short connections — adaptive scaling eliminates the artifact while preserving routing quality for normal-distance edges.
+Smooth the edge settings panel appearance by always rendering the container and using CSS transitions, eliminating the abrupt layout reflow when selecting/deselecting edges.
 
 ### Stories in scope
-- US-S1 — Adaptive step-out distance for short edges
-- US-S2 — Unit tests for short-edge scenarios
+- US-EP1 — Smooth edge panel transition
 
 ### Done-when (observable)
-- [x] `src/edges/pathfinding.ts` `buildCandidateRoutes` computes step-out distance as a function of handle-to-handle distance, not fixed at `padding` [US-S1]
-- [x] Step-out has a minimum floor ≥ 4px to prevent degenerate segments [US-S1]
-- [x] When handle gap ≥ 2× padding, step-out equals the default padding value (no behavior change for normal edges) [US-S1]
-- [x] Obstacle padding in `findOrthogonalRoute` remains the same `padding` value regardless of step-out scaling [US-S1]
-- [x] All returned path segments are strictly orthogonal — no diagonals [US-S1]
-- [x] `getSmoothStepPath` fallback still triggers correctly when no valid route exists [US-S1]
-- [x] `npx tsc --noEmit && npm run lint` passes [US-S1]
-- [x] `src/edges/pathfinding.test.ts` contains ≥ 2 new test cases with source and target handles closer than the default padding [US-S2]
-- [x] New tests verify returned paths are orthogonal [US-S2]
-- [x] New tests verify step-out segments do not exceed the handle gap distance [US-S2]
-- [x] All existing pathfinding tests continue to pass [US-S2]
-- [x] `AGENTS.md` reflects any new conventions or API changes from this phase [phase] (no changes needed — internal helper, no new exports or conventions)
+- [x] Edge panel container (`flow-mo__edge-panel`) is always rendered in `App.tsx` and `WebviewApp.tsx`, not conditionally removed from DOM [US-EP1]
+- [x] CSS for `flow-mo__edge-panel` includes `transition` on `max-height` and `opacity` with duration matching YAML panel (0.2s ease) [US-EP1]
+- [x] When no edge is selected, panel has `max-height: 0`, `overflow: hidden`, `opacity: 0` [US-EP1]
+- [x] When an edge is selected, panel transitions to visible state [US-EP1]
+- [x] Edge settings dropdowns (Start, End, Midpoint) remain functional when an edge is selected [US-EP1]
+- [x] `npx tsc --noEmit && npm run lint` passes [US-EP1]
+- [x] `AGENTS.md` reflects any changes from this phase [phase] (no changes needed — CSS/UI polish only)
 
 ### Golden principles (phase-relevant)
-- **No regressions:** Normal-distance edges must render identically. Existing tests must pass.
-- **Orthogonal only:** All segments horizontal or vertical. No diagonals.
-- **Pathfinding stays in `src/edges/`:** This is rendering logic, not schema logic. No changes to `@flow-mo/core`.
+- **Both surfaces:** Changes must work in Vite dev app and VS Code extension webview.
+- **No regressions:** Existing edge panel functionality must be preserved.
+- **Match existing polish:** Transition timing matches the YAML panel (0.2s ease).

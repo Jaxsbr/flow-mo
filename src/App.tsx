@@ -204,54 +204,52 @@ function FlowEditor() {
             Download flow.yaml
           </button>
         </div>
-        {selectedEdge && selectedEdge.type === 'flowMoEdge' && edgeForm ? (
-          <div className="flow-mo__edge-panel" role="group" aria-label="Edge options">
-            <span className="flow-mo__edge-panel-title">Selected edge</span>
-            <label className="flow-mo__edge-field">
-              <span>Start</span>
-              <select
-                value={edgeForm.marker_start ?? 'none'}
-                onChange={(e) =>
-                  updateSelectedEdge({
-                    marker_start: e.target.value as MarkerEndStyle,
-                  })
-                }
-              >
-                <option value="none">None</option>
-                <option value="arrow">Arrow</option>
-              </select>
-            </label>
-            <label className="flow-mo__edge-field">
-              <span>End</span>
-              <select
-                value={edgeForm.marker_end ?? 'arrow'}
-                onChange={(e) =>
-                  updateSelectedEdge({
-                    marker_end: e.target.value as MarkerEndStyle,
-                  })
-                }
-              >
-                <option value="none">None</option>
-                <option value="arrow">Arrow</option>
-              </select>
-            </label>
-            <label className="flow-mo__edge-field">
-              <span>Midpoint</span>
-              <select
-                value={edgeForm.midpoint_color ?? 'none'}
-                onChange={(e) =>
-                  updateSelectedEdge({
-                    midpoint_color: e.target.value as MidpointColor,
-                  })
-                }
-              >
-                <option value="none">None</option>
-                <option value="red">Red circle</option>
-                <option value="green">Green circle</option>
-              </select>
-            </label>
-          </div>
-        ) : null}
+        <div className={`flow-mo__edge-panel${edgeForm ? ' flow-mo__edge-panel--visible' : ''}`} role="group" aria-label="Edge options">
+          <span className="flow-mo__edge-panel-title">Selected edge</span>
+          <label className="flow-mo__edge-field">
+            <span>Start</span>
+            <select
+              value={edgeForm?.marker_start ?? 'none'}
+              onChange={(e) =>
+                updateSelectedEdge({
+                  marker_start: e.target.value as MarkerEndStyle,
+                })
+              }
+            >
+              <option value="none">None</option>
+              <option value="arrow">Arrow</option>
+            </select>
+          </label>
+          <label className="flow-mo__edge-field">
+            <span>End</span>
+            <select
+              value={edgeForm?.marker_end ?? 'arrow'}
+              onChange={(e) =>
+                updateSelectedEdge({
+                  marker_end: e.target.value as MarkerEndStyle,
+                })
+              }
+            >
+              <option value="none">None</option>
+              <option value="arrow">Arrow</option>
+            </select>
+          </label>
+          <label className="flow-mo__edge-field">
+            <span>Midpoint</span>
+            <select
+              value={edgeForm?.midpoint_color ?? 'none'}
+              onChange={(e) =>
+                updateSelectedEdge({
+                  midpoint_color: e.target.value as MidpointColor,
+                })
+              }
+            >
+              <option value="none">None</option>
+              <option value="red">Red circle</option>
+              <option value="green">Green circle</option>
+            </select>
+          </label>
+        </div>
         {applyError ? (
           <p className="flow-mo__error" role="alert">
             {applyError}

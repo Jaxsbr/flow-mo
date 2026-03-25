@@ -7,17 +7,16 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
-  phase: short-edge-rendering
+  task_number: 3
+  phase: edge-panel-ux
   phase_complete: true
-  review_stage: review_posted
+  review_stage: null
   review_complete: true
   retro_complete: true
-  pr_number: 5
+  pr_number: 6
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-S1
-    - US-S2
+    - US-EP1
