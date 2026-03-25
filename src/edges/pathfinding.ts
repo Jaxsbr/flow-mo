@@ -77,9 +77,16 @@ function pathIntersectsAnyObstacle(waypoints: Point[], obstacles: Rect[]): boole
  * Build candidate orthogonal routes from source to target.
  * Each route starts by stepping out in sourceDirection and arrives from OPPOSITE(targetDirection).
  */
+function computeAdaptiveStepOut(source: Point, target: Point, padding: number): number {
+  const gap = Math.abs(target.x - source.x) + Math.abs(target.y - source.y)
+  const MIN_STEP_OUT = 5
+  if (gap >= 2 * padding) return padding
+  return Math.max(MIN_STEP_OUT, gap / 2)
+}
+
 function buildCandidateRoutes(input: RouteInput, paddedObstacles: Rect[]): Point[][] {
   const { source, sourceDirection, target, targetDirection, padding = 20 } = input
-  const stepOut = padding
+  const stepOut = computeAdaptiveStepOut(source, target, padding)
   const srcVec = DIRECTION_VECTORS[sourceDirection]
   const tgtVec = DIRECTION_VECTORS[targetDirection]
 
