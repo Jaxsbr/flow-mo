@@ -92,3 +92,16 @@ phases:
     pr_number: 10
     retro_findings_count: 0
     must_fix_count: 0
+  - brief: "edge-spreading"
+    phase_name: "edge-spreading"
+    started: "2026-03-25T02:00:00Z"
+    spec_complete: "2026-03-25T02:00:00Z"
+    build_complete: "2026-03-25T02:05:00Z"
+    review_complete: "2026-03-25T02:06:00Z"
+    retro_complete: "2026-03-25T02:07:00Z"
+    merged: "2026-03-25T02:08:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 11
+    retro_findings_count: 0
+    must_fix_count: 0
