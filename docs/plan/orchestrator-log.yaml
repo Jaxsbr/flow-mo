@@ -40,6 +40,19 @@ phases:
     pr_number: 6
     retro_findings_count: 0
     must_fix_count: 0
+  - brief: "auto-sync"
+    phase_name: "auto-sync"
+    started: "2026-03-25T00:16:00Z"
+    spec_complete: "2026-03-25T00:16:00Z"
+    build_complete: "2026-03-25T00:17:00Z"
+    review_complete: "2026-03-25T00:18:00Z"
+    retro_complete: "2026-03-25T00:19:00Z"
+    merged: "2026-03-25T00:19:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 7
+    retro_findings_count: 0
+    must_fix_count: 0
   - brief: "error-resilience"
     phase_name: "error-resilience"
     started: "2026-03-25T00:20:00Z"
@@ -51,5 +64,18 @@ phases:
     status: "merged"
     failure_reason: null
     pr_number: 8
+    retro_findings_count: 0
+    must_fix_count: 0
+  - brief: "multi-select-enhancements"
+    phase_name: "multi-select-enhancements"
+    started: "2026-03-25T01:00:00Z"
+    spec_complete: "2026-03-25T01:00:00Z"
+    build_complete: "2026-03-25T01:10:00Z"
+    review_complete: "2026-03-25T01:15:00Z"
+    retro_complete: "2026-03-25T01:20:00Z"
+    merged: "2026-03-25T01:25:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 9
     retro_findings_count: 0
     must_fix_count: 0
