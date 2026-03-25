@@ -463,6 +463,7 @@ export function FlowMoEdge({
             style={{
               position: 'absolute',
               transform: `translate(-50%, -70%) translate(${labelX}px,${labelY}px)`,
+              ...(selected ? { filter: 'drop-shadow(0 0 4px rgba(99, 102, 241, 0.4))' } : {}),
             }}
           >
             {midpoint ? (

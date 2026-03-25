@@ -304,6 +304,12 @@
   position: relative;
   flex: 1;
   min-width: 0;
+  /* Subtle warm tint to canvas area — ties background to brand accent */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--flow-accent) 2%, var(--flow-bg)) 0%,
+    var(--flow-bg) 100%
+  );
 }
 
 .flow-mo__pane--canvas .react-flow {
@@ -338,19 +344,19 @@
 }
 
 .flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button {
-  color: #f8f8f8;
+  color: #e2e8f0 !important;
 }
 
 .flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button svg {
-  fill: #f8f8f8;
+  fill: #e2e8f0 !important;
 }
 
 .flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button:hover {
-  color: #fff;
+  color: #fff !important;
 }
 
 .flow-mo__pane--canvas .react-flow.dark .react-flow__controls-button:hover svg {
-  fill: #fff;
+  fill: #fff !important;
 }
 
 .flow-mo-node {
@@ -363,6 +369,22 @@
   position: relative;
   box-shadow: var(--flow-node-shadow);
   border-width: 2px;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+/* Node hover — subtle lift effect */
+.flow-mo-node:hover {
+  box-shadow: var(--flow-node-shadow), 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Node selected state (React Flow adds .selected class to the wrapper) */
+.react-flow__node.selected .flow-mo-node {
+  box-shadow: 0 0 0 2px var(--flow-node-focus), 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* Selected node label tints with accent color */
+.react-flow__node.selected .flow-mo-node__label {
+  color: var(--flow-accent);
 }
 
 .flow-mo-node__label {
@@ -489,6 +511,17 @@
 
 .react-flow__edge-path {
   stroke-width: 2.5px;
+  transition: stroke-width 0.15s ease, filter 0.15s ease;
+}
+
+/* Edge hover — more prominent stroke */
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke-width: 3.5px;
+  filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.3));
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.4));
 }
 
 .react-flow__arrowhead polyline,
@@ -532,9 +565,14 @@
   background: var(--flow-button-hover) !important;
 }
 
+.react-flow__controls-button svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* --- Subtler background grid --- */
 .react-flow__background {
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 /* --- Handle visibility: hidden by default, shown on hover --- */
@@ -549,6 +587,16 @@
 
 .flow-mo-node:hover .react-flow__handle {
   opacity: 1;
+}
+
+/* --- Dark mode: stronger shadows for node hover/selection --- */
+@media (prefers-color-scheme: dark) {
+  .flow-mo-node:hover {
+    box-shadow: var(--flow-node-shadow), 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .react-flow__node.selected .flow-mo-node {
+    box-shadow: 0 0 0 2px var(--flow-node-focus), 0 4px 12px rgba(0,0,0,0.3);
+  }
 }
 
 @media (max-width: 800px) {

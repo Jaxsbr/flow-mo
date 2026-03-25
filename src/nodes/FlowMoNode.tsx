@@ -15,7 +15,7 @@ import {
 } from 'react'
 import type { FlowMoRfNode, NodeShape } from '@flow-mo/core'
 
-export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
+export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
   const id = useNodeId()
   const { updateNodeData } = useReactFlow()
   const [editing, setEditing] = useState(false)
@@ -83,8 +83,6 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
   const bg = data.background ?? 'var(--flow-node-bg)'
   const bc = data.border_color ?? 'var(--flow-node-border)'
   const bw = data.border_width ?? 1
-  const focusRing = selected ? '0 0 0 2px var(--flow-node-focus)' : undefined
-
   const labelOrInput = editing ? (
     <input
       ref={inputRef}
@@ -133,7 +131,6 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
           height: size,
           background: bg,
           border: `${bw}px solid ${bc}`,
-          boxShadow: focusRing,
         }}
       >
         {handles}
@@ -152,7 +149,6 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
           width: size,
           height: size,
           boxSizing: 'border-box',
-          boxShadow: focusRing,
         }}
       >
         {handles}
@@ -177,7 +173,6 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
         minHeight: minH,
         background: bg,
         border: `${bw}px solid ${bc}`,
-        boxShadow: focusRing,
       }}
     >
       {handles}
