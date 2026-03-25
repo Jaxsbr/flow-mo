@@ -1,7 +1,7 @@
 # FlowMo
 
 ## Purpose
-Two-way YAML-to-visual-diagram VS Code/Cursor extension. Allows agents (YAML) and humans (visual diagram) to communicate and design complex flows. Exposes the extension as an MCP server for other agents to use (future phase).
+Two-way YAML-to-visual-diagram VS Code/Cursor extension. Allows agents (YAML) and humans (visual diagram) to communicate and design complex flows. Exposes an MCP server for other agents to use (`@flow-mo/mcp`).
 
 ## Monorepo layout
 
@@ -9,6 +9,7 @@ Two-way YAML-to-visual-diagram VS Code/Cursor extension. Allows agents (YAML) an
 flow-mo/
 ├── packages/
 │   ├── core/           # @flow-mo/core — YAML schema, parse, validate, conversion
+│   ├── mcp/            # @flow-mo/mcp — stdio MCP server (validate, read, write tools)
 │   └── vscode-extension/ # VS Code/Cursor custom editor extension
 ├── src/                # Vite web app (dev/preview) + webview entry point
 │   ├── webview/        # Webview-specific React app for the extension
@@ -25,8 +26,9 @@ flow-mo/
 
 | Package | Path | Description |
 |---------|------|-------------|
-| `@flow-mo/core` | `packages/core/` | YAML schema types, `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, `flowToDocument`. Consumed by the web app, extension webview, and future MCP. |
+| `@flow-mo/core` | `packages/core/` | YAML schema types, `parseFlowYaml`, `stringifyFlowDoc`, `documentToFlow`, `flowToDocument`. Consumed by the web app, extension webview, and MCP server. |
 | `flow-mo-vscode` | `packages/vscode-extension/` | VS Code extension. Registers `flowMo.flowYaml` custom editor for `*.flow.yaml` files. Bundles the React Flow UI as a webview. Provides editor switch commands and "New Flow" scaffold. |
+| `@flow-mo/mcp` | `packages/mcp/` | stdio MCP server exposing `validate`, `read`, `write` tools for FlowMo YAML files. Imports only `@flow-mo/core`. Line-delimited JSON-RPC 2.0 over stdin/stdout. |
 | Root app | `src/` | Vite dev/preview web app. Also contains the webview entry point (`src/webview/`). |
 
 ## Build commands
