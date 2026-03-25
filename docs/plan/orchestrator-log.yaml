@@ -105,3 +105,16 @@ phases:
     pr_number: 11
     retro_findings_count: 0
     must_fix_count: 0
+  - brief: "edge-waypoint-dragging"
+    phase_name: "edge-waypoint-dragging"
+    started: "2026-03-25T02:10:00Z"
+    spec_complete: "2026-03-25T02:10:00Z"
+    build_complete: "2026-03-25T02:15:00Z"
+    review_complete: "2026-03-25T02:16:00Z"
+    retro_complete: "2026-03-25T02:17:00Z"
+    merged: "2026-03-25T02:18:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 12
+    retro_findings_count: 0
+    must_fix_count: 0
