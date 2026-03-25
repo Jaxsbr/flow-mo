@@ -41,15 +41,22 @@
   font: inherit;
   font-size: 0.875rem;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid var(--flow-border);
   background: var(--flow-button-bg);
   color: var(--flow-text);
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .flow-mo__actions button:hover {
   background: var(--flow-button-hover);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.flow-mo__actions button:focus-visible {
+  outline: 2px solid var(--flow-node-focus);
+  outline-offset: 2px;
 }
 
 .flow-mo__actions-label {
@@ -59,6 +66,25 @@
   color: var(--flow-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  padding-left: 10px;
+  margin-left: 2px;
+  border-left: 1px solid var(--flow-border);
+}
+
+/* Visual separator before the export button group (Copy YAML) */
+.flow-mo__actions > :nth-child(7) {
+  margin-left: 10px;
+  position: relative;
+}
+
+.flow-mo__actions > :nth-child(7)::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--flow-border);
 }
 
 .flow-mo__edge-panel {
@@ -334,6 +360,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  box-shadow: var(--flow-node-shadow);
+  border-width: 2px;
 }
 
 .flow-mo-node__label {
@@ -367,6 +395,9 @@
   border-radius: 50%;
   padding: 8px 12px;
   overflow: visible;
+  background: var(--flow-circle-bg) !important;
+  border-style: dashed !important;
+  border-color: var(--flow-circle-border) !important;
 }
 
 /* Outer is a square (see TSX). Inner is a square with side = outer / √2 so a 45° turn fits the outer box exactly. */
@@ -392,6 +423,8 @@
   transform: rotate(45deg);
   border-radius: 0;
   overflow: visible;
+  background: var(--flow-diamond-bg) !important;
+  border-color: var(--flow-diamond-border) !important;
 }
 
 .flow-mo-node__label--diamond,
@@ -437,6 +470,33 @@
 
 .react-flow__edge-textbg {
   fill: var(--flow-bg) !important;
+}
+
+/* --- React Flow controls panel --- */
+.react-flow__controls {
+  border-radius: 8px !important;
+  border: 1px solid var(--flow-border) !important;
+  box-shadow: var(--flow-node-shadow) !important;
+  overflow: hidden;
+}
+
+/* --- Subtler background grid --- */
+.react-flow__background {
+  opacity: 0.4;
+}
+
+/* --- Handle visibility: hidden by default, shown on hover --- */
+.flow-mo-node .react-flow__handle {
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  background: var(--flow-node-focus);
+  border: 2px solid var(--flow-node-bg);
+}
+
+.flow-mo-node:hover .react-flow__handle {
+  opacity: 1;
 }
 
 @media (max-width: 800px) {

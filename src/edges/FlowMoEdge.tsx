@@ -402,7 +402,7 @@ export function FlowMoEdge({
                 height: WP_HANDLE_SIZE,
                 borderRadius: '50%',
                 background: selected ? 'var(--flow-edge-selected, #3b82f6)' : 'var(--flow-edge-waypoint, #6b7280)',
-                border: '2px solid white',
+                border: '2px solid var(--flow-node-bg)',
                 cursor: 'grab',
                 transform: `translate(-50%, -50%) translate(${wp.x}px, ${wp.y}px)`,
                 zIndex: 10,
@@ -429,10 +429,17 @@ export function FlowMoEdge({
               <span
                 className={`flow-mo-edge__mid flow-mo-edge__mid--${midpoint}`}
                 aria-hidden
+                style={{ width: 16, height: 16 }}
               />
             ) : null}
             {label ? (
-              <span className="flow-mo-edge__text" style={labelStyle}>
+              <span className="flow-mo-edge__text" style={{
+                ...labelStyle,
+                background: 'var(--flow-bg)',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                fontSize: '11px',
+              }}>
                 {label}
               </span>
             ) : null}
