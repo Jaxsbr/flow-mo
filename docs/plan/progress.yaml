@@ -9,9 +9,9 @@ state:
   phase: error-resilience
   phase_complete: true
   review_stage: null
-  review_complete: false
-  retro_complete: false
-  pr_number: null
+  review_complete: true
+  retro_complete: true
+  pr_number: 8
   status: running
   last_result: pass
   next_task: null
