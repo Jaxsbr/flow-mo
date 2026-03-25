@@ -34,6 +34,7 @@ import { getVsCodeApi } from './vscodeApi'
 const nodeTypes = { flowMo: FlowMoNode }
 const edgeTypes = { flowMoEdge: FlowMoEdge }
 const vscode = getVsCodeApi()
+const AUTO_SYNC_DELAY_MS = 800
 
 const defaultNewEdge = {
   type: 'flowMoEdge' as const,
@@ -106,6 +107,19 @@ function WebviewEditor() {
     lastSentRef.current = text
     vscode.postMessage({ type: 'edit', text })
   }, [])
+
+  // Auto-sync: debounce canvas changes to extension document
+  useEffect(() => {
+    if (!initialLoadDone.current) return
+    const timer = setTimeout(() => {
+      const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
+      const text = stringifyFlowDoc(doc)
+      setYamlText(text)
+      setParseError(null)
+      sendEdit(text)
+    }, AUTO_SYNC_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [nodes, edges, sendEdit])
 
   const updateSelectedEdge = useCallback(
     (patch: Partial<FlowMoEdgeData>) => {
