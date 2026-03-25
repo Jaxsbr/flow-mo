@@ -281,8 +281,9 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--flow-muted);
+  color: var(--flow-accent);
   background: var(--flow-pane-header);
+  border-bottom: 1px solid var(--flow-border);
 }
 
 .flow-mo__textarea {
@@ -354,8 +355,8 @@
 
 .flow-mo-node {
   box-sizing: border-box;
-  border-radius: 8px;
-  padding: 10px 14px;
+  border-radius: 10px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,8 +366,10 @@
 }
 
 .flow-mo-node__label {
-  font-size: 14px;
-  line-height: 1.35;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
   text-align: center;
   color: var(--flow-text);
   word-break: break-word;
@@ -393,7 +396,7 @@
 
 .flow-mo-node--circle {
   border-radius: 50%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   overflow: visible;
   background: var(--flow-circle-bg) !important;
   border-style: dashed !important;
@@ -401,8 +404,11 @@
 }
 
 .flow-mo-node--circle .flow-mo-node__label {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   line-height: 1.3;
+  color: var(--flow-muted);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -440,6 +446,12 @@
   max-width: 92%;
 }
 
+.flow-mo-node--diamond-inner .flow-mo-node__label--diamond {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .flow-mo-edge__overlay {
   display: flex;
   flex-direction: column;
@@ -449,8 +461,9 @@
 }
 
 .flow-mo-edge__text {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--flow-text);
   border: 1px solid var(--flow-border);
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
@@ -494,10 +507,29 @@
 
 /* --- React Flow controls panel --- */
 .react-flow__controls {
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   border: 1px solid var(--flow-border) !important;
   box-shadow: var(--flow-node-shadow) !important;
-  overflow: hidden;
+  overflow: hidden !important;
+  background: var(--flow-button-bg) !important;
+}
+
+.react-flow__controls-button {
+  border: none !important;
+  border-bottom: 1px solid var(--flow-border) !important;
+  background: var(--flow-button-bg) !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 6px !important;
+  transition: background 0.15s ease !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--flow-button-hover) !important;
 }
 
 /* --- Subtler background grid --- */

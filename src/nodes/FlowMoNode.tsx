@@ -124,7 +124,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
   )
 
   if (shape === 'circle') {
-    const size = Math.max(80, data.width ?? data.height ?? 120)
+    const size = Math.max(100, data.width ?? data.height ?? 120)
     return (
       <div
         className="flow-mo-node flow-mo-node--circle"
@@ -144,7 +144,7 @@ export function FlowMoNode({ data, selected }: NodeProps<FlowMoRfNode>) {
 
   if (shape === 'diamond') {
     // Single square dimension: diamond outer is always a square so the inner square + 45° reads as a rhombus.
-    const size = Math.max(100, data.width ?? data.height ?? 120)
+    const size = Math.max(120, data.width ?? data.height ?? 130)
     return (
       <div
         className="flow-mo-node flow-mo-node--diamond-outer"

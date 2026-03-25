@@ -462,7 +462,7 @@ export function FlowMoEdge({
             className="nodrag nopan flow-mo-edge__overlay"
             style={{
               position: 'absolute',
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              transform: `translate(-50%, -70%) translate(${labelX}px,${labelY}px)`,
             }}
           >
             {midpoint ? (
