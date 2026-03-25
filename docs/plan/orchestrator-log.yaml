@@ -13,4 +13,17 @@ briefs_queued:
 skipped:
   - edge-usability-fixes  # already merged (PR #2)
   - editor-switch-buttons  # already merged as editor-discoverability (PR #4)
-phases: []
+phases:
+  - brief: "short-edge-rendering"
+    phase_name: "short-edge-rendering"
+    started: "2026-03-25T00:01:00Z"
+    spec_complete: "2026-03-25T00:01:00Z"
+    build_complete: "2026-03-25T00:06:00Z"
+    review_complete: "2026-03-25T00:09:00Z"
+    retro_complete: "2026-03-25T00:10:00Z"
+    merged: "2026-03-25T00:11:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 5
+    retro_findings_count: 0
+    must_fix_count: 0

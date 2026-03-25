@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: edge-panel-ux
-status: draft
+status: specced
 ---
 
 # Intent Brief: Smooth Edge Panel UX
