@@ -58,10 +58,19 @@ function WebviewEditor() {
   const lastSentRef = useRef<string>('')
   const initialLoadDone = useRef(false)
 
-  const selectedEdge = useMemo(
-    () => edges.find((e) => e.selected && e.type === 'flowMoEdge'),
+  const selectedFlowMoEdges = useMemo(
+    () => edges.filter((e) => e.selected && e.type === 'flowMoEdge'),
     [edges],
   )
+
+  const selectedEdge = selectedFlowMoEdges.length === 1 ? selectedFlowMoEdges[0] : undefined
+
+  const selectedNodeCount = useMemo(
+    () => nodes.filter((n) => n.selected).length,
+    [nodes],
+  )
+  const selectedEdgeCount = selectedFlowMoEdges.length
+  const totalSelected = selectedNodeCount + selectedEdgeCount
 
   // Load document text from extension host
   const loadDocument = useCallback((text: string) => {
@@ -230,7 +239,22 @@ function WebviewEditor() {
     setExternalChangeWarning(false)
   }, [])
 
+  const multiEdgeValues = useMemo(() => {
+    if (selectedFlowMoEdges.length < 2) return null
+    const allData = selectedFlowMoEdges.map((e) => e.data as FlowMoEdgeData)
+    const getShared = <K extends keyof FlowMoEdgeData>(key: K): FlowMoEdgeData[K] | 'mixed' => {
+      const first = allData[0][key]
+      return allData.every((d) => d[key] === first) ? first : 'mixed' as const
+    }
+    return {
+      marker_start: getShared('marker_start'),
+      marker_end: getShared('marker_end'),
+      midpoint_color: getShared('midpoint_color'),
+    }
+  }, [selectedFlowMoEdges])
+
   const edgeForm = selectedEdge ? (selectedEdge.data as FlowMoEdgeData) : null
+  const showEdgePanel = selectedFlowMoEdges.length >= 1
 
   return (
     <div className="flow-mo">
@@ -257,18 +281,32 @@ function WebviewEditor() {
             Delete selected
           </button>
         </div>
-        <div className={`flow-mo__edge-panel${edgeForm ? ' flow-mo__edge-panel--visible' : ''}`} role="group" aria-label="Edge options">
-          <span className="flow-mo__edge-panel-title">Selected edge</span>
+        {totalSelected >= 2 ? (
+          <div className="flow-mo__selection-count" aria-live="polite">
+            {[
+              selectedNodeCount > 0 ? `${selectedNodeCount} node${selectedNodeCount !== 1 ? 's' : ''}` : '',
+              selectedEdgeCount > 0 ? `${selectedEdgeCount} edge${selectedEdgeCount !== 1 ? 's' : ''}` : '',
+            ].filter(Boolean).join(', ')}{' '}
+            selected
+          </div>
+        ) : null}
+        <div className={`flow-mo__edge-panel${showEdgePanel ? ' flow-mo__edge-panel--visible' : ''}`} role="group" aria-label="Edge options">
+          <span className="flow-mo__edge-panel-title">
+            {selectedFlowMoEdges.length > 1
+              ? `${selectedFlowMoEdges.length} edges selected`
+              : 'Selected edge'}
+          </span>
           <label className="flow-mo__edge-field">
             <span>Start</span>
             <select
-              value={edgeForm?.marker_start ?? 'none'}
+              value={multiEdgeValues ? (multiEdgeValues.marker_start === 'mixed' ? 'mixed' : multiEdgeValues.marker_start) : (edgeForm?.marker_start ?? 'none')}
               onChange={(e) =>
                 updateSelectedEdge({
                   marker_start: e.target.value as MarkerEndStyle,
                 })
               }
             >
+              {multiEdgeValues?.marker_start === 'mixed' ? <option value="mixed" disabled>Mixed</option> : null}
               <option value="none">None</option>
               <option value="arrow">Arrow</option>
             </select>
@@ -276,13 +314,14 @@ function WebviewEditor() {
           <label className="flow-mo__edge-field">
             <span>End</span>
             <select
-              value={edgeForm?.marker_end ?? 'arrow'}
+              value={multiEdgeValues ? (multiEdgeValues.marker_end === 'mixed' ? 'mixed' : multiEdgeValues.marker_end) : (edgeForm?.marker_end ?? 'arrow')}
               onChange={(e) =>
                 updateSelectedEdge({
                   marker_end: e.target.value as MarkerEndStyle,
                 })
               }
             >
+              {multiEdgeValues?.marker_end === 'mixed' ? <option value="mixed" disabled>Mixed</option> : null}
               <option value="none">None</option>
               <option value="arrow">Arrow</option>
             </select>
@@ -290,13 +329,14 @@ function WebviewEditor() {
           <label className="flow-mo__edge-field">
             <span>Midpoint</span>
             <select
-              value={edgeForm?.midpoint_color ?? 'none'}
+              value={multiEdgeValues ? (multiEdgeValues.midpoint_color === 'mixed' ? 'mixed' : multiEdgeValues.midpoint_color) : (edgeForm?.midpoint_color ?? 'none')}
               onChange={(e) =>
                 updateSelectedEdge({
                   midpoint_color: e.target.value as MidpointColor,
                 })
               }
             >
+              {multiEdgeValues?.midpoint_color === 'mixed' ? <option value="mixed" disabled>Mixed</option> : null}
               <option value="none">None</option>
               <option value="red">Red circle</option>
               <option value="green">Green circle</option>
@@ -362,6 +402,8 @@ function WebviewEditor() {
             onConnect={onConnect}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
+            selectionOnDrag
+            panOnDrag={[1, 2]}
             deleteKeyCode={['Backspace', 'Delete']}
             defaultEdgeOptions={{
               type: 'flowMoEdge',

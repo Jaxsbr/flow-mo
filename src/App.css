@@ -113,6 +113,13 @@
   color: var(--flow-text);
 }
 
+.flow-mo__selection-count {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--flow-muted);
+  font-weight: 500;
+}
+
 .flow-mo__error {
   margin: 8px 0 0;
   font-size: 0.875rem;
