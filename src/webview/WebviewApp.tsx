@@ -27,6 +27,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import '../App.css'
+import { ErrorBoundary } from '../components/ErrorBoundary'
 import { FlowMoEdge } from '../edges/FlowMoEdge'
 import { FlowMoNode } from '../nodes/FlowMoNode'
 import { getVsCodeApi } from './vscodeApi'
@@ -82,7 +83,9 @@ function WebviewEditor() {
 
   // Listen for messages from extension host
   useEffect(() => {
+    let mounted = true
     const handler = (event: MessageEvent) => {
+      if (!mounted) return
       const message = event.data
       if (message.type === 'update') {
         const text = message.text as string
@@ -94,7 +97,10 @@ function WebviewEditor() {
       }
     }
     window.addEventListener('message', handler)
-    return () => window.removeEventListener('message', handler)
+    return () => {
+      mounted = false
+      window.removeEventListener('message', handler)
+    }
   }, [loadDocument])
 
   // Tell extension we're ready
@@ -210,10 +216,14 @@ function WebviewEditor() {
   )
 
   const deleteSelected = useCallback(async () => {
-    const selectedNodes = getNodes().filter((n) => n.selected)
-    const selectedEdges = getEdges().filter((e) => e.selected)
-    if (selectedNodes.length === 0 && selectedEdges.length === 0) return
-    await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
+    try {
+      const selectedNodes = getNodes().filter((n) => n.selected)
+      const selectedEdges = getEdges().filter((e) => e.selected)
+      if (selectedNodes.length === 0 && selectedEdges.length === 0) return
+      await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
+    } catch (err) {
+      console.error('Failed to delete selected elements:', err)
+    }
   }, [deleteElements, getNodes, getEdges])
 
   const dismissWarning = useCallback(() => {
@@ -343,6 +353,7 @@ function WebviewEditor() {
           </div>
         </div>
         <div className="flow-mo__pane flow-mo__pane--canvas">
+          <ErrorBoundary>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -372,6 +383,7 @@ function WebviewEditor() {
             <Background gap={16} />
             <Controls />
           </ReactFlow>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

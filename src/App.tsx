@@ -28,6 +28,7 @@ import '@xyflow/react/dist/style.css'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import defaultFlowYaml from './defaultFlow.yaml?raw'
 import './App.css'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { FlowMoEdge } from './edges/FlowMoEdge'
 import { FlowMoNode } from './nodes/FlowMoNode'
 
@@ -157,8 +158,12 @@ function FlowEditor() {
   }, [nodes, edges])
 
   const copyYaml = useCallback(async () => {
-    const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
-    await navigator.clipboard.writeText(stringifyFlowDoc(doc))
+    try {
+      const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
+      await navigator.clipboard.writeText(stringifyFlowDoc(doc))
+    } catch (err) {
+      console.error('Failed to copy YAML to clipboard:', err)
+    }
   }, [nodes, edges])
 
   const addNode = useCallback(
@@ -181,10 +186,14 @@ function FlowEditor() {
   )
 
   const deleteSelected = useCallback(async () => {
-    const selectedNodes = getNodes().filter((n) => n.selected)
-    const selectedEdges = getEdges().filter((e) => e.selected)
-    if (selectedNodes.length === 0 && selectedEdges.length === 0) return
-    await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
+    try {
+      const selectedNodes = getNodes().filter((n) => n.selected)
+      const selectedEdges = getEdges().filter((e) => e.selected)
+      if (selectedNodes.length === 0 && selectedEdges.length === 0) return
+      await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
+    } catch (err) {
+      console.error('Failed to delete selected elements:', err)
+    }
   }, [deleteElements, getNodes, getEdges])
 
   const edgeForm = selectedEdge ? (selectedEdge.data as FlowMoEdgeData) : null
@@ -308,6 +317,7 @@ function FlowEditor() {
           </div>
         </div>
         <div className="flow-mo__pane flow-mo__pane--canvas">
+          <ErrorBoundary>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -337,6 +347,7 @@ function FlowEditor() {
             <Background gap={16} />
             <Controls />
           </ReactFlow>
+          </ErrorBoundary>
         </div>
       </div>
     </div>
