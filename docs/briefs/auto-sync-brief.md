@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: auto-sync
-status: draft
+status: specced
 ---
 
 # Intent Brief: Auto-Sync Canvas to Document

@@ -1,22 +1,19 @@
 # Build Loop — Progress State
-# Schema: config + state read every iteration. Validate with yamllint.
-
 config:
   verify: "npx tsc --noEmit && npm run lint"
   max_tasks_per_phase: 200
   quality_check_suppressions: []
 
 state:
-  task_number: 3
-  phase: edge-panel-ux
-  phase_complete: true
+  task_number: 1
+  phase: auto-sync
+  phase_complete: false
   review_stage: null
-  review_complete: true
-  retro_complete: true
-  pr_number: 6
+  review_complete: false
+  retro_complete: false
+  pr_number: null
   status: running
-  last_result: pass
-  next_task: null
+  last_result: null
+  next_task: "[US-AS1] Implement debounced auto-sync in App.tsx and WebviewApp.tsx"
   consecutive_fails: 0
-  completed_stories:
-    - US-EP1
+  completed_stories: []
