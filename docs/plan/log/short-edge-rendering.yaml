@@ -8,3 +8,10 @@ entries:
     result: "pass"
     notes: "Root cause: buildCandidateRoutes line 82 sets stepOut = padding (fixed 20px). Need adaptive scaling based on handle gap."
     tokens: ~
+  - task: 2
+    time: "2026-03-25T00:03:00Z"
+    story: "US-S1"
+    description: "Implemented computeAdaptiveStepOut — scales step-out when gap < 2× padding, min 5px floor. Obstacle padding unchanged."
+    result: "pass"
+    notes: "✓ US-S1 complete. All 7 criteria met. Verify passes. 5 existing tests pass."
+    tokens: ~
