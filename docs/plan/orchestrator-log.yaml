@@ -118,3 +118,16 @@ phases:
     pr_number: 12
     retro_findings_count: 0
     must_fix_count: 0
+  - brief: "mcp-tools"
+    phase_name: "mcp-tools"
+    started: "2026-03-25T03:00:00Z"
+    spec_complete: "2026-03-25T03:00:00Z"
+    build_complete: "2026-03-25T03:05:00Z"
+    review_complete: "2026-03-25T03:06:00Z"
+    retro_complete: "2026-03-25T03:07:00Z"
+    merged: "2026-03-25T03:08:00Z"
+    status: "merged"
+    failure_reason: null
+    pr_number: 13
+    retro_findings_count: 0
+    must_fix_count: 0
