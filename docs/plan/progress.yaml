@@ -16,7 +16,7 @@ state:
   pr_number: 5
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[review] handle-pr-review pr=5 auto=true"
   consecutive_fails: 0
   completed_stories:
     - US-S1
