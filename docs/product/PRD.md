@@ -19,6 +19,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Copy-paste nodes](phases/copy-paste-nodes.md) | Ctrl/Cmd+C/V for duplicating selected nodes + internal edges | [Shipped] |
 | [Edge spreading](phases/edge-spreading.md) | Visual spreading of parallel edges between same node pair | [Shipped] |
 | [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [Shipped] |
+| [MCP tools](phases/mcp-tools.md) | stdio MCP server — validate, read, write tools for FlowMo YAML | [In Progress] |
 
 ---
 

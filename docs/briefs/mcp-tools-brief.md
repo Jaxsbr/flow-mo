@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: mcp-tools
-status: draft
+status: specced
 ---
 
 # Intent Brief: FlowMo MCP Server for Agents

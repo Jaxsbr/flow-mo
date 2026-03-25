@@ -4,6 +4,7 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" },
     { "path": "./packages/core" },
-    { "path": "./packages/vscode-extension" }
+    { "path": "./packages/vscode-extension" },
+    { "path": "./packages/mcp" }
   ]
 }
