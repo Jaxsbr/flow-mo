@@ -8,7 +8,7 @@
 .flow-mo__header {
   flex-shrink: 0;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--flow-border);
+  border-bottom: 2px solid var(--flow-accent);
   background: var(--flow-header-bg);
 }
 
@@ -63,7 +63,7 @@
   align-self: center;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--flow-muted);
+  color: var(--flow-accent);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding-left: 10px;
@@ -400,6 +400,13 @@
   border-color: var(--flow-circle-border) !important;
 }
 
+.flow-mo-node--circle .flow-mo-node__label {
+  font-size: 12px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Outer is a square (see TSX). Inner is a square with side = outer / √2 so a 45° turn fits the outer box exactly. */
 .flow-mo-node--diamond-outer {
   padding: 0;
@@ -430,7 +437,7 @@
 .flow-mo-node__label--diamond,
 .flow-mo-node__input--diamond {
   transform: rotate(-45deg);
-  max-width: 85%;
+  max-width: 92%;
 }
 
 .flow-mo-edge__overlay {
@@ -445,6 +452,8 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--flow-text);
+  border: 1px solid var(--flow-border);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
 
 .flow-mo-edge__mid {
@@ -453,6 +462,8 @@
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
+  border: 2px solid var(--flow-bg);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
 }
 
 .flow-mo-edge__mid--red {
@@ -461,6 +472,15 @@
 
 .flow-mo-edge__mid--green {
   background: #16a34a;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2.5px;
+}
+
+.react-flow__arrowhead polyline,
+.react-flow__arrowhead polygon {
+  stroke-width: 1.5;
 }
 
 .react-flow__edge-text {

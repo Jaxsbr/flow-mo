@@ -364,8 +364,48 @@ export function FlowMoEdge({
     [userWaypoints, updateWaypoints, screenToFlowPosition, sourceX, sourceY, targetX, targetY],
   )
 
+  // Custom arrow marker fill: use selected color when edge is selected
+  const arrowFill = selected ? 'var(--flow-edge-selected)' : 'var(--flow-edge)'
+
+  // Override markerEnd/markerStart to use custom arrow markers
+  const customMarkerEnd = markerEnd ? `url(#flow-mo-arrow-${id})` : undefined
+  const customMarkerStart = markerStart ? `url(#flow-mo-arrow-start-${id})` : undefined
+
   return (
     <>
+      {/* Custom arrow marker definitions */}
+      <defs>
+        <marker
+          id={`flow-mo-arrow-${id}`}
+          markerWidth="10"
+          markerHeight="8"
+          refX="9"
+          refY="4"
+          orient="auto"
+          markerUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 0 0 L 10 4 L 0 8 L 2 4 Z"
+            fill={arrowFill}
+            className="flow-mo-arrow"
+          />
+        </marker>
+        <marker
+          id={`flow-mo-arrow-start-${id}`}
+          markerWidth="10"
+          markerHeight="8"
+          refX="1"
+          refY="4"
+          orient="auto-start-reverse"
+          markerUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 10 0 L 0 4 L 10 8 L 8 4 Z"
+            fill={arrowFill}
+            className="flow-mo-arrow"
+          />
+        </marker>
+      </defs>
       {/* Invisible wider hit area for edge mousedown (waypoint creation) */}
       <path
         d={path}
@@ -377,8 +417,8 @@ export function FlowMoEdge({
       />
       <BaseEdge
         path={path}
-        markerEnd={markerEnd}
-        markerStart={markerStart}
+        markerEnd={customMarkerEnd}
+        markerStart={customMarkerStart}
         style={
           selected
             ? {

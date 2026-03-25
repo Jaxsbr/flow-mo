@@ -13,10 +13,12 @@
   --flow-node-bg: #fff;
   --flow-node-border: #94a3b8;
   --flow-node-focus: #3b82f6;
-  --flow-edge: #475569;
+  --flow-edge: #334155;
   --flow-edge-selected: #3b82f6;
   --flow-danger: #b91c1c;
   --flow-node-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --flow-accent: #6366f1;
+  --flow-accent-muted: #818cf8;
   --flow-circle-bg: #f0f4ff;
   --flow-circle-border: #94a3b8;
   --flow-diamond-bg: #fffbf0;
@@ -37,10 +39,12 @@
     --flow-node-bg: #1a222d;
     --flow-node-border: #64748b;
     --flow-node-focus: #60a5fa;
-    --flow-edge: #94a3b8;
+    --flow-edge: #a0aec0;
     --flow-edge-selected: #60a5fa;
     --flow-danger: #fca5a5;
     --flow-node-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --flow-accent: #818cf8;
+    --flow-accent-muted: #6366f1;
     --flow-circle-bg: #1a1f2e;
     --flow-circle-border: #64748b;
     --flow-diamond-bg: #221f1a;
