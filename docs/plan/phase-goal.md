@@ -18,7 +18,7 @@ Fix the visual "stick-out" artifact on edges between closely-spaced nodes by mak
 - [x] New tests verify returned paths are orthogonal [US-S2]
 - [x] New tests verify step-out segments do not exceed the handle gap distance [US-S2]
 - [x] All existing pathfinding tests continue to pass [US-S2]
-- [ ] `AGENTS.md` reflects any new conventions or API changes from this phase [phase]
+- [x] `AGENTS.md` reflects any new conventions or API changes from this phase [phase] (no changes needed — internal helper, no new exports or conventions)
 
 ### Golden principles (phase-relevant)
 - **No regressions:** Normal-distance edges must render identically. Existing tests must pass.
