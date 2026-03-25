@@ -1,6 +1,4 @@
 # Build Loop — Progress State
-# Schema: config + state read every iteration. Validate with yamllint.
-
 config:
   verify: "npx tsc --noEmit && npm run lint"
   max_tasks_per_phase: 200
@@ -8,15 +6,15 @@ config:
 
 state:
   task_number: 3
-  phase: edge-panel-ux
+  phase: auto-sync
   phase_complete: true
   review_stage: null
   review_complete: true
   retro_complete: true
-  pr_number: 6
+  pr_number: 7
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-EP1
+    - US-AS1

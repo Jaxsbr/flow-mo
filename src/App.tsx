@@ -25,7 +25,7 @@ import {
   stringifyFlowDoc,
 } from '@flow-mo/core'
 import '@xyflow/react/dist/style.css'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import defaultFlowYaml from './defaultFlow.yaml?raw'
 import './App.css'
 import { FlowMoEdge } from './edges/FlowMoEdge'
@@ -33,6 +33,7 @@ import { FlowMoNode } from './nodes/FlowMoNode'
 
 const nodeTypes = { flowMo: FlowMoNode }
 const edgeTypes = { flowMoEdge: FlowMoEdge }
+const AUTO_SYNC_DELAY_MS = 800
 
 const defaultNewEdge = {
   type: 'flowMoEdge' as const,
@@ -55,6 +56,21 @@ function FlowEditor() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges)
   const { fitView, deleteElements, getNodes, getEdges } = useReactFlow()
+  const initialLoadDoneRef = useRef(false)
+
+  // Auto-sync: debounce canvas changes to yamlText
+  useEffect(() => {
+    if (!initialLoadDoneRef.current) {
+      initialLoadDoneRef.current = true
+      return
+    }
+    const timer = setTimeout(() => {
+      const doc = flowToDocument(nodes as FlowMoRfNode[], edges as Edge[])
+      setYamlText(stringifyFlowDoc(doc))
+      setApplyError(null)
+    }, AUTO_SYNC_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [nodes, edges])
 
   const selectedEdge = useMemo(
     () => edges.find((e) => e.selected && e.type === 'flowMoEdge'),

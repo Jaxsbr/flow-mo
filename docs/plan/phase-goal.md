@@ -1,20 +1,21 @@
 ## Phase goal
 
-Smooth the edge settings panel appearance by always rendering the container and using CSS transitions, eliminating the abrupt layout reflow when selecting/deselecting edges.
+Automatically sync canvas changes to the document buffer using a debounced approach, so visual edits persist without manual "Sync canvas → YAML" clicks.
 
 ### Stories in scope
-- US-EP1 — Smooth edge panel transition
+- US-AS1 — Debounced auto-sync from canvas to document
 
 ### Done-when (observable)
-- [x] Edge panel container (`flow-mo__edge-panel`) is always rendered in `App.tsx` and `WebviewApp.tsx`, not conditionally removed from DOM [US-EP1]
-- [x] CSS for `flow-mo__edge-panel` includes `transition` on `max-height` and `opacity` with duration matching YAML panel (0.2s ease) [US-EP1]
-- [x] When no edge is selected, panel has `max-height: 0`, `overflow: hidden`, `opacity: 0` [US-EP1]
-- [x] When an edge is selected, panel transitions to visible state [US-EP1]
-- [x] Edge settings dropdowns (Start, End, Midpoint) remain functional when an edge is selected [US-EP1]
-- [x] `npx tsc --noEmit && npm run lint` passes [US-EP1]
-- [x] `AGENTS.md` reflects any changes from this phase [phase] (no changes needed — CSS/UI polish only)
+- [x] `App.tsx` contains a `useEffect` that debounces `nodes`/`edges` changes and updates `yamlText` state [US-AS1]
+- [x] `WebviewApp.tsx` contains a `useEffect` that debounces `nodes`/`edges` changes and calls `sendEdit` [US-AS1]
+- [x] Debounce delay is a named constant, not a magic number [US-AS1]
+- [x] Auto-sync does not fire on initial load (ref guard prevents first trigger) [US-AS1]
+- [x] Echo loop prevention: WebviewApp's auto-sync uses `lastSentRef` to avoid document→webview→document cycles [US-AS1]
+- [x] Manual "Sync canvas → YAML" and "Apply YAML" buttons still work [US-AS1]
+- [x] `npx tsc --noEmit && npm run lint` passes [US-AS1]
+- [x] `AGENTS.md` reflects any changes from this phase [phase] (no changes needed — no new exports or conventions)
 
 ### Golden principles (phase-relevant)
-- **Both surfaces:** Changes must work in Vite dev app and VS Code extension webview.
-- **No regressions:** Existing edge panel functionality must be preserved.
-- **Match existing polish:** Transition timing matches the YAML panel (0.2s ease).
+- **Both surfaces:** Must work in Vite dev app and VS Code extension webview.
+- **No echo loops:** Canvas→document sync must not trigger document→canvas update.
+- **No schema changes:** This is purely a canvas interaction feature.
