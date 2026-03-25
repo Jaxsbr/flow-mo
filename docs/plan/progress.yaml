@@ -16,7 +16,7 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-S2] Add unit tests for close-node edge routing scenarios"
   consecutive_fails: 0
   completed_stories:
     - US-S1
