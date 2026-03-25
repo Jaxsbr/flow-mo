@@ -4,4 +4,5 @@ tasks:
   - task: 1
     action: implement
     description: "Create ErrorBoundary component, wrap ReactFlow, add try/catch to async ops, add unmount guard"
-    status: in_progress
+    status: pass
+    verify: pass
