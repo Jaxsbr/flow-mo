@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: edge-spreading
-status: draft
+status: specced
 ---
 
 # Intent Brief: Parallel Edge Spreading
