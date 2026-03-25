@@ -5,16 +5,18 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 3
-  phase: auto-sync
+  task_number: 1
+  phase: error-resilience
   phase_complete: true
   review_stage: null
   review_complete: true
   retro_complete: true
-  pr_number: 7
+  pr_number: 8
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-AS1
+    - US-ER1
+    - US-ER2
+    - US-ER3

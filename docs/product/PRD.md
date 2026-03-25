@@ -14,6 +14,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Short edge rendering](phases/short-edge-rendering.md) | Fix short-edge stub artifacts with adaptive step-out | [Shipped] |
 | [Edge panel UX](phases/edge-panel-ux.md) | Smooth edge panel transitions | [Shipped] |
 | [Auto-sync](phases/auto-sync.md) | Debounced canvas-to-document sync | [Shipped] |
+| [Error resilience](phases/error-resilience.md) | React error boundary, async error handling, unmount guard | [Shipped] |
 
 ---
 

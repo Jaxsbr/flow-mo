@@ -1,0 +1,8 @@
+phase: error-resilience
+started: "2026-03-25T00:20:00Z"
+tasks:
+  - task: 1
+    action: implement
+    description: "Create ErrorBoundary component, wrap ReactFlow, add try/catch to async ops, add unmount guard"
+    status: pass
+    verify: pass
