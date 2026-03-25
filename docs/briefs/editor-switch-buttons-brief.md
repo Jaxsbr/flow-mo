@@ -1,7 +1,7 @@
 ---
 date: 2026-03-24
 topic: editor-switch-discoverability
-status: draft
+status: shipped
 ---
 
 # Intent Brief: FlowMo editor discoverability — switch buttons and new-file scaffold

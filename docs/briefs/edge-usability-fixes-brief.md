@@ -1,7 +1,7 @@
 ---
 date: 2026-03-24
 topic: edge-usability-fixes
-status: draft
+status: shipped
 ---
 
 # Intent Brief: Edge Usability Fixes

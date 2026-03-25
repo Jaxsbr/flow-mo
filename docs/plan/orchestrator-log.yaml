@@ -1,0 +1,16 @@
+run_started: "2026-03-25T00:00:00Z"
+mode: "supervised"
+briefs_queued:
+  - short-edge-rendering
+  - edge-panel-ux
+  - auto-sync
+  - error-resilience
+  - multi-select-enhancements
+  - copy-paste-nodes
+  - edge-spreading
+  - edge-waypoint-dragging
+  - mcp-tools
+skipped:
+  - edge-usability-fixes  # already merged (PR #2)
+  - editor-switch-buttons  # already merged as editor-discoverability (PR #4)
+phases: []

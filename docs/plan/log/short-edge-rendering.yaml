@@ -1,0 +1,59 @@
+phase: "short-edge-rendering"
+started: "2026-03-25T00:01:00Z"
+entries:
+  - task: 1
+    time: "2026-03-25T00:02:00Z"
+    story: "phase"
+    description: "Investigation — read pathfinding.ts, pathfinding.test.ts, FlowMoEdge.tsx. Verify passes. 5 existing tests pass. Queued US-S1 implement task."
+    result: "pass"
+    notes: "Root cause: buildCandidateRoutes line 82 sets stepOut = padding (fixed 20px). Need adaptive scaling based on handle gap."
+    tokens: ~
+  - task: 2
+    time: "2026-03-25T00:03:00Z"
+    story: "US-S1"
+    description: "Implemented computeAdaptiveStepOut — scales step-out when gap < 2× padding, min 5px floor. Obstacle padding unchanged."
+    result: "pass"
+    notes: "✓ US-S1 complete. All 7 criteria met. Verify passes. 5 existing tests pass."
+    tokens: ~
+  - task: 3
+    time: "2026-03-25T00:04:00Z"
+    story: "phase"
+    description: "Investigation — US-S1 complete, US-S2 pending. Queued test implementation task."
+    result: "pass"
+    notes: "Need ≥ 2 new test cases for close-node scenarios."
+    tokens: ~
+  - task: 4
+    time: "2026-03-25T00:05:00Z"
+    story: "US-S2"
+    description: "Added 3 new test cases: horizontal close nodes, vertical close nodes, normal-distance regression. All verify orthogonality and step-out bounds."
+    result: "pass"
+    notes: "✓ US-S2 complete. 8/8 tests pass. All 4 criteria met."
+    tokens: ~
+  - task: 5
+    time: "2026-03-25T00:06:00Z"
+    story: "phase"
+    description: "Phase completion gate — all 12 done-when criteria verified. tsc + lint + 8 tests pass. AGENTS.md consistent (no changes needed)."
+    result: "pass"
+    notes: "Both stories complete. Phase marked complete."
+    tokens: ~
+  - task: 6
+    time: "2026-03-25T00:07:00Z"
+    story: "review"
+    description: "Created PR #5 from build/short-edge-rendering to main. Queued review-pr."
+    result: "pass"
+    notes: "PR URL: https://github.com/Jaxsbr/flow-mo/pull/5"
+    tokens: ~
+  - task: 7
+    time: "2026-03-25T00:08:00Z"
+    story: "review"
+    description: "review-pr: posted 1 concern (Manhattan distance for diagonal cases) as COMMENT review"
+    result: "pass"
+    notes: "0 critical, 1 concern (non-blocking), 0 nits. Clean implementation."
+    tokens: ~
+  - task: 8
+    time: "2026-03-25T00:09:00Z"
+    story: "review"
+    description: "handle-pr-review: challenged 1 concern (Manhattan distance intentional), resolved thread, posted summary"
+    result: "pass"
+    notes: "Review complete. 0 fixed, 1 challenged, 0 skipped. Quality checks pass."
+    tokens: ~

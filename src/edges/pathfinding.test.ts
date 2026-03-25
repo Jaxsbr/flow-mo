@@ -128,4 +128,58 @@ describe('findOrthogonalRoute', () => {
     assert.notEqual(result, null)
     assert.ok(allSegmentsOrthogonal(result!), 'All segments must be horizontal or vertical')
   })
+
+  it('handles close nodes without stub artifacts (horizontal, gap < padding)', () => {
+    // Two nodes 15px apart with default padding 20 — step-out should adapt
+    const input: RouteInput = {
+      source: { x: 100, y: 100 },
+      sourceDirection: 'right',
+      target: { x: 115, y: 100 },
+      targetDirection: 'left',
+      obstacles: [],
+      padding: 20,
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    // Step-out segments should not exceed the gap distance (15px)
+    // The second point (after source) is the step-out point
+    const stepOutDist = Math.abs(result![1].x - result![0].x) + Math.abs(result![1].y - result![0].y)
+    assert.ok(stepOutDist <= 15, `Step-out distance ${stepOutDist} should not exceed gap 15`)
+  })
+
+  it('handles close nodes without stub artifacts (vertical, gap < padding)', () => {
+    // Two nodes 10px apart vertically
+    const input: RouteInput = {
+      source: { x: 200, y: 200 },
+      sourceDirection: 'bottom',
+      target: { x: 200, y: 210 },
+      targetDirection: 'top',
+      obstacles: [],
+      padding: 20,
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    // Step-out should be adapted (gap=10, so stepOut = max(5, 10/2) = 5)
+    const stepOutDist = Math.abs(result![1].x - result![0].x) + Math.abs(result![1].y - result![0].y)
+    assert.ok(stepOutDist <= 10, `Step-out distance ${stepOutDist} should not exceed gap 10`)
+  })
+
+  it('uses full padding for normal-distance edges (gap >= 2*padding)', () => {
+    const input: RouteInput = {
+      source: { x: 100, y: 100 },
+      sourceDirection: 'right',
+      target: { x: 200, y: 100 },
+      targetDirection: 'left',
+      obstacles: [],
+      padding: 20,
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    // Gap is 100 >= 2*20=40, so step-out should equal padding (20)
+    const stepOutDist = Math.abs(result![1].x - result![0].x) + Math.abs(result![1].y - result![0].y)
+    assert.equal(stepOutDist, 20, 'Normal-distance edges should use full padding as step-out')
+  })
 })

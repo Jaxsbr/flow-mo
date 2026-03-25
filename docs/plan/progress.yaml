@@ -7,17 +7,17 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 12
-  phase: editor-discoverability
+  task_number: 5
+  phase: short-edge-rendering
   phase_complete: true
   review_stage: review_posted
   review_complete: true
   retro_complete: true
-  pr_number: 4
+  pr_number: 5
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-D1
-    - US-D2
+    - US-S1
+    - US-S2
