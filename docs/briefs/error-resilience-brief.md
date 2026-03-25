@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: error-resilience
-status: draft
+status: specced
 ---
 
 # Intent Brief: Error Resilience
