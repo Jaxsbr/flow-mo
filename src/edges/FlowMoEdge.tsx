@@ -458,11 +458,14 @@ export function FlowMoEdge({
       ) : null}
       {(label || midpoint) ? (
         <EdgeLabelRenderer>
+          {(() => {
+            const verticalOffset = (label && midpoint) ? '-80%' : label ? '-70%' : '-50%'
+            return (
           <div
             className="nodrag nopan flow-mo-edge__overlay"
             style={{
               position: 'absolute',
-              transform: `translate(-50%, -70%) translate(${labelX}px,${labelY}px)`,
+              transform: `translate(-50%, ${verticalOffset}) translate(${labelX}px,${labelY}px)`,
               ...(selected ? { filter: 'drop-shadow(0 0 4px rgba(99, 102, 241, 0.4))' } : {}),
             }}
           >
@@ -477,14 +480,21 @@ export function FlowMoEdge({
               <span className="flow-mo-edge__text" style={{
                 ...labelStyle,
                 background: 'var(--flow-bg)',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                fontSize: '11px',
+                padding: '2px 8px',
+                borderRadius: '6px',
+                fontSize: '10px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase' as const,
+                fontWeight: 600,
+                border: '1px solid var(--flow-border)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
               }}>
                 {label}
               </span>
             ) : null}
           </div>
+            )
+          })()}
         </EdgeLabelRenderer>
       ) : null}
     </>
