@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: copy-paste-nodes
-status: draft
+status: specced
 ---
 
 # Intent Brief: Copy and Paste Shapes

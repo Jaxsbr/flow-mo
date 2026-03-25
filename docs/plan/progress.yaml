@@ -6,17 +6,15 @@ config:
 
 state:
   task_number: 1
-  phase: error-resilience
+  phase: copy-paste-nodes
   phase_complete: true
   review_stage: null
-  review_complete: true
-  retro_complete: true
-  pr_number: 8
+  review_complete: false
+  retro_complete: false
+  pr_number: null
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-ER1
-    - US-ER2
-    - US-ER3
+    - US-CP1

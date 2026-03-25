@@ -30,6 +30,7 @@ import '../App.css'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 import { FlowMoEdge } from '../edges/FlowMoEdge'
 import { FlowMoNode } from '../nodes/FlowMoNode'
+import { useCopyPaste } from '../hooks/useCopyPaste'
 import { getVsCodeApi } from './vscodeApi'
 
 const nodeTypes = { flowMo: FlowMoNode }
@@ -234,6 +235,8 @@ function WebviewEditor() {
       console.error('Failed to delete selected elements:', err)
     }
   }, [deleteElements, getNodes, getEdges])
+
+  useCopyPaste(getNodes, getEdges, setNodes, setEdges)
 
   const dismissWarning = useCallback(() => {
     setExternalChangeWarning(false)

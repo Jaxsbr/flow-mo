@@ -31,6 +31,7 @@ import './App.css'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { FlowMoEdge } from './edges/FlowMoEdge'
 import { FlowMoNode } from './nodes/FlowMoNode'
+import { useCopyPaste } from './hooks/useCopyPaste'
 
 const nodeTypes = { flowMo: FlowMoNode }
 const edgeTypes = { flowMoEdge: FlowMoEdge }
@@ -204,6 +205,8 @@ function FlowEditor() {
       console.error('Failed to delete selected elements:', err)
     }
   }, [deleteElements, getNodes, getEdges])
+
+  useCopyPaste(getNodes, getEdges, setNodes, setEdges)
 
   const multiEdgeValues = useMemo(() => {
     if (selectedFlowMoEdges.length < 2) return null
