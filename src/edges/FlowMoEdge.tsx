@@ -1,10 +1,11 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
   getSmoothStepPath,
   useEdges,
   useNodes,
+  useReactFlow,
   type EdgeProps,
   type Position,
 } from '@xyflow/react'
@@ -13,6 +14,22 @@ import { findOrthogonalRoute, type CardinalDirection, type Point, type Rect } fr
 
 /** Spacing in pixels between parallel edges. */
 const PARALLEL_EDGE_SPACING = 16
+
+/** Grid size for orthogonal waypoint snapping. */
+const WAYPOINT_GRID = 20
+
+/** Snap a coordinate to the nearest grid line. */
+function snapToGrid(v: number): number {
+  return Math.round(v / WAYPOINT_GRID) * WAYPOINT_GRID
+}
+
+/** Snap a point so it aligns to horizontal or vertical grid lines. */
+function snapPointOrtho(p: Point): Point {
+  return { x: snapToGrid(p.x), y: snapToGrid(p.y) }
+}
+
+/** Size of the rendered waypoint handle (diameter in px). */
+const WP_HANDLE_SIZE = 10
 
 function positionToDirection(pos: Position): CardinalDirection {
   return pos as CardinalDirection
@@ -214,6 +231,8 @@ export function FlowMoEdge({
   const srcRect = useMemo(() => nodeRect(nodes, source), [nodes, source])
   const tgtRect = useMemo(() => nodeRect(nodes, target), [nodes, target])
 
+  const userWaypoints = data?.waypoints as Point[] | undefined
+
   const { path, labelX, labelY } = useMemo(() => {
     const obstacles = nodesToObstacles(nodes, excludeIds)
 
@@ -223,6 +242,7 @@ export function FlowMoEdge({
       target: { x: targetX, y: targetY },
       targetDirection: positionToDirection(targetPosition as Position),
       obstacles,
+      waypoints: userWaypoints,
     })
 
     if (route) {
@@ -243,14 +263,118 @@ export function FlowMoEdge({
       targetPosition: targetPosition as Position,
     })
     return { path: fallbackPath, labelX: fallbackLabelX, labelY: fallbackLabelY }
-  }, [nodes, excludeIds, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, parallelOffset, srcRect, tgtRect])
+  }, [nodes, excludeIds, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, parallelOffset, srcRect, tgtRect, userWaypoints])
 
   const midpointRaw = data?.midpoint_color ?? 'none'
   const midpoint =
     midpointRaw === 'red' || midpointRaw === 'green' ? midpointRaw : null
 
+  const { setEdges } = useReactFlow()
+
+  /** Update waypoints on this edge via React Flow's setEdges. */
+  const updateWaypoints = useCallback(
+    (newWps: Point[] | undefined) => {
+      setEdges((eds) =>
+        eds.map((e) =>
+          e.id === id
+            ? { ...e, data: { ...e.data, waypoints: newWps && newWps.length > 0 ? newWps : undefined } }
+            : e,
+        ),
+      )
+    },
+    [id, setEdges],
+  )
+
+  /** Double-click a waypoint handle to remove it. */
+  const handleWaypointDblClick = useCallback(
+    (wpIndex: number) => {
+      const wps = [...(userWaypoints ?? [])]
+      wps.splice(wpIndex, 1)
+      updateWaypoints(wps.length > 0 ? wps : undefined)
+    },
+    [userWaypoints, updateWaypoints],
+  )
+
+  /** Drag a waypoint handle to reposition it (with ortho snap). */
+  const dragState = useRef<{ wpIndex: number; startPos: Point } | null>(null)
+  const { screenToFlowPosition } = useReactFlow()
+
+  const handleWaypointMouseDown = useCallback(
+    (wpIndex: number, e: React.MouseEvent) => {
+      e.stopPropagation()
+      e.preventDefault()
+      dragState.current = { wpIndex, startPos: userWaypoints![wpIndex] }
+
+      const onMouseMove = (ev: MouseEvent) => {
+        const flowPos = screenToFlowPosition({ x: ev.clientX, y: ev.clientY })
+        const snapped = snapPointOrtho(flowPos)
+        const wps = [...(userWaypoints ?? [])]
+        wps[dragState.current!.wpIndex] = snapped
+        updateWaypoints(wps)
+      }
+
+      const onMouseUp = () => {
+        dragState.current = null
+        document.removeEventListener('mousemove', onMouseMove)
+        document.removeEventListener('mouseup', onMouseUp)
+      }
+
+      document.addEventListener('mousemove', onMouseMove)
+      document.addEventListener('mouseup', onMouseUp)
+    },
+    [userWaypoints, updateWaypoints, screenToFlowPosition],
+  )
+
+  /**
+   * Mousedown on the edge path itself — create a new waypoint at the click position.
+   * Inserts the waypoint at the correct index based on proximity to existing waypoints.
+   */
+  const handleEdgeMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      // Only create waypoints on primary button
+      if (e.button !== 0) return
+      e.stopPropagation()
+
+      const flowPos = screenToFlowPosition({ x: e.clientX, y: e.clientY })
+      const snapped = snapPointOrtho(flowPos)
+      const wps = [...(userWaypoints ?? [])]
+
+      // Find the best insertion index: between which two existing waypoints
+      // (or source/target) does this new point best fit?
+      // We insert so the new point is between the two closest consecutive chain points.
+      const chain = [
+        { x: sourceX, y: sourceY },
+        ...wps,
+        { x: targetX, y: targetY },
+      ]
+      let bestIdx = wps.length // default: append before target
+      let bestDist = Infinity
+      for (let i = 0; i < chain.length - 1; i++) {
+        const d =
+          dist(chain[i], snapped) + dist(snapped, chain[i + 1]) - dist(chain[i], chain[i + 1])
+        if (d < bestDist) {
+          bestDist = d
+          bestIdx = i // insert after chain[i], which means wps index = i (0-based in wps = i-0 for source offset)
+        }
+      }
+      // chain[0] is source, so insertion in wps is at bestIdx (chain idx 0 → wps idx 0)
+      wps.splice(bestIdx, 0, snapped)
+      updateWaypoints(wps)
+    },
+    [userWaypoints, updateWaypoints, screenToFlowPosition, sourceX, sourceY, targetX, targetY],
+  )
+
   return (
     <>
+      {/* Invisible wider hit area for edge mousedown (waypoint creation) */}
+      <path
+        d={path}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={20}
+        style={{ cursor: 'crosshair' }}
+        onMouseDown={handleEdgeMouseDown}
+      />
       <BaseEdge
         path={path}
         markerEnd={markerEnd}
@@ -265,6 +389,33 @@ export function FlowMoEdge({
             : style
         }
       />
+      {/* Waypoint handles */}
+      {userWaypoints && userWaypoints.length > 0 ? (
+        <EdgeLabelRenderer>
+          {userWaypoints.map((wp, i) => (
+            <div
+              key={`wp-${i}`}
+              className="nodrag nopan flow-mo-edge__waypoint"
+              style={{
+                position: 'absolute',
+                width: WP_HANDLE_SIZE,
+                height: WP_HANDLE_SIZE,
+                borderRadius: '50%',
+                background: selected ? 'var(--flow-edge-selected, #3b82f6)' : 'var(--flow-edge-waypoint, #6b7280)',
+                border: '2px solid white',
+                cursor: 'grab',
+                transform: `translate(-50%, -50%) translate(${wp.x}px, ${wp.y}px)`,
+                zIndex: 10,
+              }}
+              onMouseDown={(e) => handleWaypointMouseDown(i, e)}
+              onDoubleClick={(e) => {
+                e.stopPropagation()
+                handleWaypointDblClick(i)
+              }}
+            />
+          ))}
+        </EdgeLabelRenderer>
+      ) : null}
       {(label || midpoint) ? (
         <EdgeLabelRenderer>
           <div
@@ -290,4 +441,9 @@ export function FlowMoEdge({
       ) : null}
     </>
   )
+}
+
+/** Manhattan distance between two points. */
+function dist(a: Point, b: Point): number {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
 }

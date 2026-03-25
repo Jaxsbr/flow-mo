@@ -95,6 +95,18 @@ function yamlEdgeToRf(e: FlowYamlEdge): Edge {
   const midpoint = normalizeMidpoint(e.midpoint)
   const { markerStart, markerEnd } = markersFromStyles(ms, me)
 
+  const data: FlowMoEdgeData = {
+    marker_start: ms,
+    marker_end: me,
+    midpoint_color: midpoint,
+  }
+  if (Array.isArray(e.waypoints) && e.waypoints.length > 0) {
+    data.waypoints = e.waypoints.map((wp: { x: number; y: number }) => ({
+      x: Number(wp.x),
+      y: Number(wp.y),
+    }))
+  }
+
   const edge: FlowMoRfEdge = {
     id: String(e.id),
     source: String(e.source),
@@ -102,11 +114,7 @@ function yamlEdgeToRf(e: FlowYamlEdge): Edge {
     type: EDGE_TYPE,
     markerStart,
     markerEnd,
-    data: {
-      marker_start: ms,
-      marker_end: me,
-      midpoint_color: midpoint,
-    },
+    data,
   }
   if (e.label != null && e.label !== '') {
     edge.label = String(e.label)
@@ -150,6 +158,10 @@ function rfEdgeToYaml(e: Edge): FlowYamlEdge {
   }
   if (midpoint === 'red' || midpoint === 'green') {
     out.midpoint = midpoint
+  }
+  const wps = d.waypoints
+  if (Array.isArray(wps) && wps.length > 0) {
+    out.waypoints = wps.map((wp) => ({ x: wp.x, y: wp.y }))
   }
   return out
 }

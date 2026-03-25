@@ -25,6 +25,8 @@ export interface RouteInput {
   targetDirection: CardinalDirection
   obstacles: Rect[]
   padding?: number
+  /** User-defined intermediate waypoints — route passes through each in order */
+  waypoints?: Point[]
 }
 
 const DIRECTION_VECTORS: Record<CardinalDirection, Point> = {
@@ -203,11 +205,88 @@ function isOrthogonal(waypoints: Point[]): boolean {
 }
 
 /**
- * Compute an orthogonal route from source to target, avoiding obstacles.
- * Returns an array of waypoints (all segments horizontal or vertical), or null if no valid path found.
+ * Infer the best cardinal direction to leave/enter a waypoint given the
+ * relative position of the next/previous point.
+ */
+function inferDirection(from: Point, to: Point): CardinalDirection {
+  const dx = to.x - from.x
+  const dy = to.y - from.y
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return dx >= 0 ? 'right' : 'left'
+  }
+  return dy >= 0 ? 'bottom' : 'top'
+}
+
+function oppositeDirection(d: CardinalDirection): CardinalDirection {
+  switch (d) {
+    case 'top': return 'bottom'
+    case 'bottom': return 'top'
+    case 'left': return 'right'
+    case 'right': return 'left'
+  }
+}
+
+/**
+ * Compute an orthogonal route from source to target (optionally through
+ * user-defined waypoints), avoiding obstacles.
+ * Returns an array of points (all segments horizontal or vertical), or null
+ * if no valid path found.
  */
 export function findOrthogonalRoute(input: RouteInput): Point[] | null {
-  const { obstacles, padding = 20 } = input
+  const { obstacles, padding = 20, waypoints: userWaypoints } = input
+
+  // When user waypoints are provided, route through each segment
+  if (userWaypoints && userWaypoints.length > 0) {
+    const allPoints: Point[] = [input.source]
+    const segments: { src: Point; srcDir: CardinalDirection; tgt: Point; tgtDir: CardinalDirection }[] = []
+
+    // Build segment list: source→wp[0], wp[0]→wp[1], ..., wp[N-1]→target
+    const chain = [input.source, ...userWaypoints, input.target]
+    const directions: CardinalDirection[] = []
+
+    // Source direction is given
+    directions.push(input.sourceDirection)
+    // Intermediate waypoint directions are inferred
+    for (let i = 1; i < chain.length - 1; i++) {
+      directions.push(inferDirection(chain[i], chain[i + 1]))
+    }
+    // Target direction is given
+    directions.push(input.targetDirection)
+
+    for (let i = 0; i < chain.length - 1; i++) {
+      const srcDir = i === 0
+        ? input.sourceDirection
+        : inferDirection(chain[i], chain[i + 1])
+      const tgtDir = i === chain.length - 2
+        ? input.targetDirection
+        : oppositeDirection(inferDirection(chain[i + 1], chain[i + 2] ?? chain[i + 1]))
+
+      segments.push({ src: chain[i], srcDir, tgt: chain[i + 1], tgtDir })
+    }
+
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i]
+      const subRoute = findOrthogonalRoute({
+        source: seg.src,
+        sourceDirection: seg.srcDir,
+        target: seg.tgt,
+        targetDirection: seg.tgtDir,
+        obstacles,
+        padding,
+        // No recursive waypoints
+      })
+      if (!subRoute) return null
+      // Skip the first point of subsequent segments (it's the last point of the previous)
+      const startIdx = i === 0 ? 0 : 1
+      for (let j = startIdx; j < subRoute.length; j++) {
+        allPoints.push(subRoute[j])
+      }
+    }
+
+    // Deduplicate the initial source point (added both at start and from first segment)
+    return allPoints.slice(1)
+  }
+
   const paddedObstacles = obstacles.map(r => padRect(r, padding))
 
   const candidates = buildCandidateRoutes(input, paddedObstacles)

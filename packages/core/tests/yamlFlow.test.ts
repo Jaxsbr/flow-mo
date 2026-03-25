@@ -60,6 +60,66 @@ describe('round-trip', () => {
   })
 })
 
+describe('waypoints round-trip', () => {
+  it('round-trips edges with waypoints', () => {
+    const doc: FlowYamlDoc = {
+      version: 1,
+      nodes: [
+        { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'A' } },
+        { id: 'n2', position: { x: 200, y: 200 }, data: { label: 'B' } },
+      ],
+      edges: [
+        {
+          id: 'e1',
+          source: 'n1',
+          target: 'n2',
+          waypoints: [
+            { x: 100, y: 0 },
+            { x: 100, y: 200 },
+          ],
+        },
+      ],
+    }
+    const yaml1 = stringifyFlowDoc(doc)
+    const parsed1 = parseFlowYaml(yaml1)
+    const { nodes, edges } = documentToFlow(parsed1)
+    const doc2 = flowToDocument(nodes, edges)
+    const yaml2 = stringifyFlowDoc(doc2)
+    const parsed2 = parseFlowYaml(yaml2)
+
+    assert.equal(parsed2.edges[0].waypoints?.length, 2)
+    assert.equal(parsed2.edges[0].waypoints![0].x, 100)
+    assert.equal(parsed2.edges[0].waypoints![0].y, 0)
+    assert.equal(parsed2.edges[0].waypoints![1].x, 100)
+    assert.equal(parsed2.edges[0].waypoints![1].y, 200)
+  })
+
+  it('round-trips edges without waypoints (backward compat)', () => {
+    const yaml1 = stringifyFlowDoc(VALID_MINIMAL)
+    const doc1 = parseFlowYaml(yaml1)
+    const { nodes, edges } = documentToFlow(doc1)
+    const doc2 = flowToDocument(nodes, edges)
+
+    // waypoints field should be absent, not an empty array
+    assert.equal(doc2.edges[0].waypoints, undefined)
+  })
+
+  it('omits waypoints when array is empty', () => {
+    const doc: FlowYamlDoc = {
+      version: 1,
+      nodes: [
+        { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'A' } },
+      ],
+      edges: [
+        { id: 'e1', source: 'n1', target: 'n1', waypoints: [] },
+      ],
+    }
+    const { nodes, edges } = documentToFlow(doc)
+    const doc2 = flowToDocument(nodes, edges)
+    assert.equal(doc2.edges[0].waypoints, undefined)
+  })
+})
+
 describe('documentToFlow normalisation', () => {
   it('normalizes node shape', () => {
     const doc: FlowYamlDoc = {
