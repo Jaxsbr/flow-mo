@@ -1,3 +1,17 @@
 phase: "edge-panel-ux"
 started: "2026-03-25T00:12:00Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-25T00:12:00Z"
+    story: "US-EP1"
+    description: "Implemented smooth edge panel transition — always render panel in DOM, toggle via CSS class with max-height/opacity transitions."
+    result: "pass"
+    notes: "✓ US-EP1 complete. Both surfaces updated. CSS transitions match YAML panel (0.2s ease). Verify passes."
+    tokens: ~
+  - task: 2
+    time: "2026-03-25T00:13:00Z"
+    story: "phase"
+    description: "Phase completion gate — all 7 done-when criteria verified. AGENTS.md consistent (no changes needed)."
+    result: "pass"
+    notes: "Phase complete."
+    tokens: ~
