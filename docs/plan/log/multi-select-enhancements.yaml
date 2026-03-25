@@ -1,0 +1,23 @@
+phase: multi-select-enhancements
+started: "2026-03-25T01:00:00Z"
+tasks:
+  - task: 1
+    action: implement
+    description: "Add selectionOnDrag and panOnDrag props to ReactFlow in both surfaces"
+    status: pass
+    verify: pass
+  - task: 2
+    action: implement
+    description: "Multi-edge panel with shared/mixed property display"
+    status: pass
+    verify: pass
+  - task: 3
+    action: implement
+    description: "Selection count indicator in header"
+    status: pass
+    verify: pass
+retro:
+  findings: []
+  findings_count: 0
+  must_fix_count: 0
+  verdict: "Clean phase — no failures, no twice-seen patterns. All three features implemented and verified."
