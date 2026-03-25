@@ -43,3 +43,10 @@ entries:
     result: "pass"
     notes: "PR URL: https://github.com/Jaxsbr/flow-mo/pull/5"
     tokens: ~
+  - task: 7
+    time: "2026-03-25T00:08:00Z"
+    story: "review"
+    description: "review-pr: posted 1 concern (Manhattan distance for diagonal cases) as COMMENT review"
+    result: "pass"
+    notes: "0 critical, 1 concern (non-blocking), 0 nits. Clean implementation."
+    tokens: ~
