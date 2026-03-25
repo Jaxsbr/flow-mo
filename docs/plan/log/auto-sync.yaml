@@ -1,3 +1,17 @@
 phase: "auto-sync"
 started: "2026-03-25T00:16:00Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-25T00:16:00Z"
+    story: "US-AS1"
+    description: "Implemented debounced auto-sync in both App.tsx and WebviewApp.tsx. 800ms delay constant, initial-load guard, echo loop prevention via lastSentRef."
+    result: "pass"
+    notes: "✓ US-AS1 complete. All 8 criteria met."
+    tokens: ~
+  - task: 2
+    time: "2026-03-25T00:17:00Z"
+    story: "phase"
+    description: "Phase completion gate — all done-when criteria verified."
+    result: "pass"
+    notes: "Phase complete."
+    tokens: ~
