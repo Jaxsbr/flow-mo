@@ -12,7 +12,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Smart edge routing](#phase-smart-edge-routing) | Orthogonal pathfinding around nodes, UI polish (panel default, header cleanup, brand font) | [Shipped] |
 | [Editor discoverability](#phase-editor-discoverability) | Bidirectional editor switch buttons, "New Flow" scaffold command | [Shipped] |
 | [Short edge rendering](phases/short-edge-rendering.md) | Fix short-edge stub artifacts with adaptive step-out | [Shipped] |
-| [Edge panel UX](phases/edge-panel-ux.md) | Smooth edge panel transitions | [Specced] |
+| [Edge panel UX](phases/edge-panel-ux.md) | Smooth edge panel transitions | [Shipped] |
 
 ---
 
