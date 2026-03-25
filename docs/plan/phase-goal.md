@@ -14,10 +14,10 @@ Fix the visual "stick-out" artifact on edges between closely-spaced nodes by mak
 - [x] All returned path segments are strictly orthogonal — no diagonals [US-S1]
 - [x] `getSmoothStepPath` fallback still triggers correctly when no valid route exists [US-S1]
 - [x] `npx tsc --noEmit && npm run lint` passes [US-S1]
-- [ ] `src/edges/pathfinding.test.ts` contains ≥ 2 new test cases with source and target handles closer than the default padding [US-S2]
-- [ ] New tests verify returned paths are orthogonal [US-S2]
-- [ ] New tests verify step-out segments do not exceed the handle gap distance [US-S2]
-- [ ] All existing pathfinding tests continue to pass [US-S2]
+- [x] `src/edges/pathfinding.test.ts` contains ≥ 2 new test cases with source and target handles closer than the default padding [US-S2]
+- [x] New tests verify returned paths are orthogonal [US-S2]
+- [x] New tests verify step-out segments do not exceed the handle gap distance [US-S2]
+- [x] All existing pathfinding tests continue to pass [US-S2]
 - [ ] `AGENTS.md` reflects any new conventions or API changes from this phase [phase]
 
 ### Golden principles (phase-relevant)

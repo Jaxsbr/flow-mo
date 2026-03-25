@@ -22,3 +22,10 @@ entries:
     result: "pass"
     notes: "Need ≥ 2 new test cases for close-node scenarios."
     tokens: ~
+  - task: 4
+    time: "2026-03-25T00:05:00Z"
+    story: "US-S2"
+    description: "Added 3 new test cases: horizontal close nodes, vertical close nodes, normal-distance regression. All verify orthogonality and step-out bounds."
+    result: "pass"
+    notes: "✓ US-S2 complete. 8/8 tests pass. All 4 criteria met."
+    tokens: ~

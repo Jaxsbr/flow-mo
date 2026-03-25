@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 2
+  task_number: 4
   phase: short-edge-rendering
   phase_complete: false
   review_stage: null
@@ -16,7 +16,8 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-S2] Add unit tests for close-node edge routing scenarios"
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-S1
+    - US-S2
