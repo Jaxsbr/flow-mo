@@ -39,6 +39,7 @@
 | `marker_start` | `"none"` \| `"arrow"` | No | `"none"` | Arrowhead at the source end. |
 | `marker_end` | `"none"` \| `"arrow"` | No | `"arrow"` | Arrowhead at the target end. |
 | `midpoint` | `"none"` \| `"red"` \| `"green"` | No | `"none"` | Colored dot at the edge midpoint. |
+| `waypoints` | array of `{ x: number, y: number }` | No | — | User-defined bend points. The edge routes through each waypoint in order. Absent or empty means fully auto-routed. |
 
 ## Validation rules
 

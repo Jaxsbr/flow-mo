@@ -26,6 +26,8 @@ export type FlowMoEdgeData = {
   marker_start?: MarkerEndStyle
   marker_end?: MarkerEndStyle
   midpoint_color?: MidpointColor
+  /** User-defined bend points for manual edge routing */
+  waypoints?: { x: number; y: number }[]
 } & Record<string, unknown>
 
 export type FlowMoRfEdge = Edge<FlowMoEdgeData, 'flowMoEdge'>
@@ -52,4 +54,6 @@ export type FlowYamlEdge = {
   marker_end?: MarkerEndStyle
   /** none | red | green — omit means none */
   midpoint?: MidpointColor
+  /** User-defined bend points — array of {x, y} positions the edge routes through */
+  waypoints?: { x: number; y: number }[]
 }

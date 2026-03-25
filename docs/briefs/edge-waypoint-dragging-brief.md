@@ -1,7 +1,7 @@
 ---
 date: 2026-03-25
 topic: edge-waypoint-dragging
-status: draft
+status: specced
 ---
 
 # Intent Brief: Edge Waypoint Dragging

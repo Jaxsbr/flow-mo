@@ -18,6 +18,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Multi-select enhancements](phases/multi-select-enhancements.md) | Box selection, multi-edge panel, selection count indicator | [Shipped] |
 | [Copy-paste nodes](phases/copy-paste-nodes.md) | Ctrl/Cmd+C/V for duplicating selected nodes + internal edges | [Shipped] |
 | [Edge spreading](phases/edge-spreading.md) | Visual spreading of parallel edges between same node pair | [Shipped] |
+| [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [In Progress] |
 
 ---
 
