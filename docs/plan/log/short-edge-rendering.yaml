@@ -1,3 +1,10 @@
 phase: "short-edge-rendering"
 started: "2026-03-25T00:01:00Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-03-25T00:02:00Z"
+    story: "phase"
+    description: "Investigation — read pathfinding.ts, pathfinding.test.ts, FlowMoEdge.tsx. Verify passes. 5 existing tests pass. Queued US-S1 implement task."
+    result: "pass"
+    notes: "Root cause: buildCandidateRoutes line 82 sets stepOut = padding (fixed 20px). Need adaptive scaling based on handle gap."
+    tokens: ~

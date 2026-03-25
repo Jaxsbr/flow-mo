@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: null
-  next_task: null
+  next_task: "[US-S1] Implement adaptive step-out in buildCandidateRoutes"
   consecutive_fails: 0
   completed_stories: []
