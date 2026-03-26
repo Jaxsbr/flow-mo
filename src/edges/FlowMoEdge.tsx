@@ -69,6 +69,56 @@ function waypointsToSvgPath(waypoints: Point[]): string {
   return d
 }
 
+/** Radius for rounded corners on orthogonal edge bends. */
+const CORNER_RADIUS = 8
+
+/**
+ * Build an SVG path with rounded corners at each bend.
+ * Uses quadratic Bézier curves (Q) so corners are smooth arcs
+ * instead of hard 90° turns.
+ */
+function waypointsToRoundedSvgPath(waypoints: Point[]): string {
+  if (waypoints.length === 0) return ''
+  if (waypoints.length <= 2) return waypointsToSvgPath(waypoints)
+
+  let d = `M ${waypoints[0].x} ${waypoints[0].y}`
+
+  for (let i = 1; i < waypoints.length - 1; i++) {
+    const prev = waypoints[i - 1]
+    const curr = waypoints[i]
+    const next = waypoints[i + 1]
+
+    // Distances to prev and next along axis-aligned segments
+    const d1 = Math.abs(curr.x - prev.x) + Math.abs(curr.y - prev.y)
+    const d2 = Math.abs(next.x - curr.x) + Math.abs(next.y - curr.y)
+    const r = Math.min(CORNER_RADIUS, d1 / 2, d2 / 2)
+
+    if (r < 1) {
+      d += ` L ${curr.x} ${curr.y}`
+      continue
+    }
+
+    // Unit vectors along incoming and outgoing segments
+    const ux1 = d1 === 0 ? 0 : (curr.x - prev.x) / d1
+    const uy1 = d1 === 0 ? 0 : (curr.y - prev.y) / d1
+    const ux2 = d2 === 0 ? 0 : (next.x - curr.x) / d2
+    const uy2 = d2 === 0 ? 0 : (next.y - curr.y) / d2
+
+    // Start of curve (radius before corner)
+    const bx = curr.x - ux1 * r
+    const by = curr.y - uy1 * r
+    // End of curve (radius after corner)
+    const ax = curr.x + ux2 * r
+    const ay = curr.y + uy2 * r
+
+    d += ` L ${bx} ${by} Q ${curr.x} ${curr.y} ${ax} ${ay}`
+  }
+
+  const last = waypoints[waypoints.length - 1]
+  d += ` L ${last.x} ${last.y}`
+  return d
+}
+
 function pathMidpoint(waypoints: Point[]): { x: number; y: number } {
   // Find geometric midpoint along the total path length
   let totalLen = 0
@@ -250,7 +300,7 @@ export function FlowMoEdge({
         ? offsetWaypoints(route, parallelOffset, srcRect, tgtRect)
         : route
       const mid = pathMidpoint(spread)
-      return { path: waypointsToSvgPath(spread), labelX: mid.x, labelY: mid.y }
+      return { path: waypointsToRoundedSvgPath(spread), labelX: mid.x, labelY: mid.y }
     }
 
     // Fallback to smooth step path

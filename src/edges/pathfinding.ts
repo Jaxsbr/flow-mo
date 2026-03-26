@@ -97,7 +97,7 @@ function computeAdaptiveStepOut(source: Point, target: Point): number {
 function simplifyOrthogonalPath(points: Point[]): Point[] {
   if (points.length <= 2) return points
 
-  let pts: Point[] = [points[0]]
+  const pts: Point[] = [points[0]]
   for (let i = 1; i < points.length; i++) {
     const prev = pts[pts.length - 1]
     if (Math.abs(points[i].x - prev.x) < 1 && Math.abs(points[i].y - prev.y) < 1) continue
