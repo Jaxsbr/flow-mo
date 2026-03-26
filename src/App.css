@@ -409,6 +409,11 @@
   z-index: 1;
 }
 
+/* Node entrance animation — opacity only, no transform to avoid React Flow position conflicts */
+.react-flow__node {
+  animation: node-enter 0.35s ease-out;
+}
+
 /* Node hover — subtle lift effect */
 .flow-mo-node:hover {
   box-shadow: var(--flow-node-shadow), 0 4px 12px rgba(0,0,0,0.08);
@@ -422,6 +427,7 @@
 /* Selected node label tints with accent color */
 .react-flow__node.selected .flow-mo-node__label {
   color: var(--flow-accent);
+  transition: color 0.2s ease;
 }
 
 .flow-mo-node__label {
@@ -595,10 +601,29 @@
   box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 0 6px rgba(22, 163, 74, 0.35);
 }
 
+@keyframes node-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes edge-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .react-flow__edge-path {
   stroke-width: 2.5px;
   stroke-linecap: round;
   stroke-linejoin: round;
+  animation: edge-appear 0.5s ease-out;
   transition: stroke-width 0.15s ease, filter 0.15s ease;
 }
 
@@ -609,7 +634,8 @@
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
-  filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.4));
+  filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.5));
+  stroke-width: 3px;
 }
 
 .react-flow__arrowhead polyline,

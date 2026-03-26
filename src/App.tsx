@@ -1,5 +1,6 @@
 import {
   Background,
+  BackgroundVariant,
   Controls,
   MiniMap,
   ReactFlow,
@@ -376,7 +377,7 @@ function FlowEditor() {
             }}
             proOptions={{ hideAttribution: true }}
           >
-            <Background gap={16} />
+            <Background variant={BackgroundVariant.Cross} gap={20} size={1} />
             <Controls />
             <MiniMap
               nodeColor={(node) => {
