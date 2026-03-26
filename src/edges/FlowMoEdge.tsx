@@ -427,30 +427,30 @@ export function FlowMoEdge({
       <defs>
         <marker
           id={`flow-mo-arrow-${id}`}
-          markerWidth="10"
-          markerHeight="8"
-          refX="9"
-          refY="4"
+          markerWidth="12"
+          markerHeight="10"
+          refX="11"
+          refY="5"
           orient="auto"
           markerUnits="userSpaceOnUse"
         >
           <path
-            d="M 0 0 L 10 4 L 0 8 L 2 4 Z"
+            d="M 1 1 L 11 5 L 1 9 L 3 5 Z"
             fill={arrowFill}
             className="flow-mo-arrow"
           />
         </marker>
         <marker
           id={`flow-mo-arrow-start-${id}`}
-          markerWidth="10"
-          markerHeight="8"
+          markerWidth="12"
+          markerHeight="10"
           refX="1"
-          refY="4"
+          refY="5"
           orient="auto-start-reverse"
           markerUnits="userSpaceOnUse"
         >
           <path
-            d="M 10 0 L 0 4 L 10 8 L 8 4 Z"
+            d="M 11 1 L 1 5 L 11 9 L 9 5 Z"
             fill={arrowFill}
             className="flow-mo-arrow"
           />
