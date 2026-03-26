@@ -403,11 +403,7 @@
   z-index: 0;
 }
 
-.flow-mo-node--rectangle .flow-mo-node__label,
-.flow-mo-node--rectangle .flow-mo-node__input {
-  position: relative;
-  z-index: 1;
-}
+/* z-index handled by .flow-mo-node__content wrapper */
 
 /* Node entrance animation — opacity only, no transform to avoid React Flow position conflicts */
 .react-flow__node {
@@ -428,6 +424,21 @@
 .react-flow__node.selected .flow-mo-node__label {
   color: var(--flow-accent);
   transition: color 0.2s ease;
+}
+
+/* Content wrapper — icon + label stacked vertically */
+.flow-mo-node__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.flow-mo-node__content--circle {
+  gap: 1px;
 }
 
 .flow-mo-node__label {
@@ -577,8 +588,9 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--flow-text);
-  border: 1px solid var(--flow-border);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  border: 1px solid color-mix(in srgb, var(--flow-accent) 15%, var(--flow-border));
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  background: color-mix(in srgb, var(--flow-accent) 3%, var(--flow-bg)) !important;
 }
 
 .flow-mo-edge__mid {

@@ -15,6 +15,40 @@ import {
 } from 'react'
 import type { FlowMoRfNode, NodeShape } from '@flow-mo/core'
 
+/** Small SVG icon indicating node type — appears above the label */
+function NodeTypeIcon({ shape }: { shape: NodeShape }) {
+  const size = shape === 'circle' ? 14 : 12
+  const color = 'var(--flow-muted)'
+
+  if (shape === 'circle') {
+    // Database / data store icon
+    return (
+      <svg width={size} height={size} viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+        <ellipse cx="7" cy="3.5" rx="5" ry="2" stroke={color} strokeWidth="1.2" />
+        <path d="M2 3.5v7c0 1.1 2.24 2 5 2s5-.9 5-2v-7" stroke={color} strokeWidth="1.2" fill="none" />
+        <path d="M2 7c0 1.1 2.24 2 5 2s5-.9 5-2" stroke={color} strokeWidth="1.2" fill="none" />
+      </svg>
+    )
+  }
+
+  if (shape === 'diamond') {
+    // Question / decision icon
+    return (
+      <svg width={size} height={size} viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
+        <path d="M4.5 4.5a1.5 1.5 0 1 1 2.12 1.38c-.38.16-.62.52-.62.93V7.5" stroke={color} strokeWidth="1.2" strokeLinecap="round" />
+        <circle cx="6" cy="9.5" r="0.6" fill={color} />
+      </svg>
+    )
+  }
+
+  // Rectangle — process / step icon (right arrow)
+  return (
+    <svg width={size} height={size} viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
+      <path d="M2.5 6h7M7 3.5L9.5 6 7 8.5" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
   const id = useNodeId()
   const { updateNodeData } = useReactFlow()
@@ -134,7 +168,10 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
         }}
       >
         {handles}
-        {labelOrInput}
+        <div className="flow-mo-node__content flow-mo-node__content--circle">
+          <NodeTypeIcon shape="circle" />
+          {labelOrInput}
+        </div>
       </div>
     )
   }
@@ -176,7 +213,10 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
       }}
     >
       {handles}
-      {labelOrInput}
+      <div className="flow-mo-node__content">
+        <NodeTypeIcon shape="rectangle" />
+        {labelOrInput}
+      </div>
     </div>
   )
 }
