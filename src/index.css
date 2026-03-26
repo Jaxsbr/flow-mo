@@ -19,6 +19,8 @@
   --flow-node-shadow: 0 1px 3px rgba(0,0,0,0.08);
   --flow-accent: #6366f1;
   --flow-accent-muted: #818cf8;
+  --flow-edge-red: #b91c1c;
+  --flow-edge-green: #15803d;
   --flow-circle-bg: #eef2ff;
   --flow-circle-border: #8b9dc7;
   --flow-diamond-bg: #fef7ed;
@@ -44,6 +46,8 @@
     --flow-danger: #fca5a5;
     --flow-node-shadow: 0 1px 3px rgba(0,0,0,0.3);
     --flow-minimap-mask: rgba(0, 0, 0, 0.55);
+    --flow-edge-red: #ef4444;
+    --flow-edge-green: #22c55e;
     --flow-accent: #818cf8;
     --flow-accent-muted: #6366f1;
     --flow-circle-bg: #1a1f2e;

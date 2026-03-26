@@ -8,11 +8,27 @@
 .flow-mo__header {
   flex-shrink: 0;
   padding: 10px 16px;
-  border-bottom: 2px solid var(--flow-accent);
+  border-bottom: none;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   background: color-mix(in srgb, var(--flow-header-bg) 92%, transparent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+/* Gradient accent border at bottom of header */
+.flow-mo__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--flow-accent) 0%,
+    color-mix(in srgb, var(--flow-accent) 40%, transparent) 100%
+  );
 }
 
 .flow-mo__title {
@@ -255,7 +271,7 @@
 }
 
 .flow-mo__yaml-toggle:hover {
-  background: var(--flow-button-hover);
+  background: color-mix(in srgb, var(--flow-accent) 6%, var(--flow-button-hover));
   color: var(--flow-accent);
 }
 

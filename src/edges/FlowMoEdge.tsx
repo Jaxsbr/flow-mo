@@ -414,8 +414,17 @@ export function FlowMoEdge({
     [userWaypoints, updateWaypoints, screenToFlowPosition, sourceX, sourceY, targetX, targetY],
   )
 
+  // Semantic edge coloring based on decision branch
+  const semanticColor = midpoint === 'red'
+    ? 'var(--flow-edge-red, #b91c1c)'
+    : midpoint === 'green'
+      ? 'var(--flow-edge-green, #15803d)'
+      : null
+
   // Custom arrow marker fill: use selected color when edge is selected
-  const arrowFill = selected ? 'var(--flow-edge-selected)' : 'var(--flow-edge)'
+  const arrowFill = selected
+    ? 'var(--flow-edge-selected)'
+    : semanticColor ?? 'var(--flow-edge)'
 
   // Override markerEnd/markerStart to use custom arrow markers
   const customMarkerEnd = markerEnd ? `url(#flow-mo-arrow-${id})` : undefined
@@ -476,7 +485,9 @@ export function FlowMoEdge({
                 stroke: 'var(--flow-edge-selected)',
                 strokeWidth: 3,
               }
-            : style
+            : semanticColor
+              ? { ...style, stroke: semanticColor }
+              : style
         }
       />
       {/* Waypoint handles */}
