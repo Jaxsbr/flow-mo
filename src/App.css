@@ -84,8 +84,9 @@
 }
 
 .flow-mo__actions button:focus-visible {
-  outline: 2px solid var(--flow-node-focus);
+  outline: 2px solid var(--flow-accent);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--flow-accent) 15%, transparent);
 }
 
 .flow-mo__actions-label {
@@ -436,9 +437,18 @@
   box-shadow: var(--flow-node-shadow), 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Node selected state (React Flow adds .selected class to the wrapper) */
+@keyframes selection-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px var(--flow-node-focus), 0 0 8px rgba(99, 102, 241, 0.15), 0 4px 12px rgba(0,0,0,0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 3px var(--flow-node-focus), 0 0 14px rgba(99, 102, 241, 0.25), 0 4px 12px rgba(0,0,0,0.12);
+  }
+}
+
+/* Node selected state — animated pulsing glow */
 .react-flow__node.selected .flow-mo-node {
-  box-shadow: 0 0 0 2px var(--flow-node-focus), 0 4px 12px rgba(0,0,0,0.12);
+  animation: selection-pulse 2s ease-in-out infinite;
 }
 
 /* Selected node label tints with accent color */
@@ -609,15 +619,24 @@
 }
 
 .react-flow__node.selected .flow-mo-node--diamond-inner {
-  box-shadow: 0 0 0 2px var(--flow-node-focus), var(--flow-node-shadow);
+  animation: selection-pulse 2s ease-in-out infinite;
 }
 
 .flow-mo-edge__overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   pointer-events: none;
+}
+
+/* Thin connector line from overlay to edge path */
+.flow-mo-edge__overlay::after {
+  content: '';
+  width: 1px;
+  height: 6px;
+  background: color-mix(in srgb, var(--flow-muted) 40%, transparent);
+  border-radius: 1px;
 }
 
 .flow-mo-edge__text {
@@ -705,7 +724,7 @@
 /* --- React Flow controls panel --- */
 .react-flow__controls {
   border-radius: 10px !important;
-  border: 1px solid var(--flow-border) !important;
+  border: 1px solid color-mix(in srgb, var(--flow-accent) 15%, var(--flow-border)) !important;
   box-shadow: var(--flow-node-shadow) !important;
   overflow: hidden !important;
   background: var(--flow-button-bg) !important;
@@ -771,8 +790,9 @@
   .flow-mo-node:hover {
     box-shadow: var(--flow-node-shadow), 0 4px 12px rgba(0,0,0,0.25);
   }
+  /* Dark mode inherits selection-pulse animation, with stronger glow */
   .react-flow__node.selected .flow-mo-node {
-    box-shadow: 0 0 0 2px var(--flow-node-focus), 0 4px 12px rgba(0,0,0,0.3);
+    animation-name: selection-pulse;
   }
 
   /* Higher contrast circle labels in dark mode */
