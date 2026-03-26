@@ -196,7 +196,9 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
             border: `${bw}px solid ${bc}`,
           }}
         >
-          {labelOrInput}
+          <div className="flow-mo-node__content flow-mo-node__content--diamond">
+            {labelOrInput}
+          </div>
         </div>
       </div>
     )

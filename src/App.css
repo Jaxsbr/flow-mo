@@ -387,6 +387,11 @@
   overflow: visible;
 }
 
+/* Rectangle card depth — subtle bottom border for grounding */
+.flow-mo-node--rectangle {
+  border-bottom-width: 3px !important;
+}
+
 /* Gradient overlay for depth — top-lit effect on rectangles */
 .flow-mo-node--rectangle::before {
   content: '';
@@ -441,6 +446,22 @@
   gap: 1px;
 }
 
+.flow-mo-node__content--diamond {
+  transform: rotate(-45deg);
+  max-width: 92%;
+  gap: 0;
+}
+
+/* Icons should whisper, not shout */
+.flow-mo-node__content svg {
+  opacity: 0.35;
+  transition: opacity 0.15s ease;
+}
+
+.flow-mo-node:hover .flow-mo-node__content svg {
+  opacity: 0.55;
+}
+
 .flow-mo-node__label {
   font-size: 13px;
   font-weight: 500;
@@ -483,6 +504,7 @@
   position: relative;
   background: var(--flow-circle-bg) !important;
   border-style: dashed !important;
+  border-width: 2.5px !important;
   border-color: var(--flow-circle-border) !important;
   box-shadow: var(--flow-node-shadow), inset 0 1px 2px rgba(0,0,0,0.04) !important;
 }
@@ -558,10 +580,10 @@
   pointer-events: none;
 }
 
+/* Diamond label/input rotation handled by .flow-mo-node__content--diamond wrapper */
 .flow-mo-node__label--diamond,
 .flow-mo-node__input--diamond {
-  transform: rotate(-45deg);
-  max-width: 92%;
+  max-width: 100%;
 }
 
 .flow-mo-node--diamond-inner .flow-mo-node__label--diamond {
