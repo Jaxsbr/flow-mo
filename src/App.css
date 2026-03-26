@@ -649,6 +649,19 @@
   opacity: 0.3;
 }
 
+/* --- Minimap --- */
+.react-flow__minimap {
+  border-radius: 10px !important;
+  border: 1px solid var(--flow-border) !important;
+  box-shadow: var(--flow-node-shadow) !important;
+  background: var(--flow-bg) !important;
+  overflow: hidden !important;
+}
+
+.react-flow__minimap svg {
+  border-radius: 10px;
+}
+
 /* --- Handle visibility: hidden by default, shown on hover --- */
 .flow-mo-node .react-flow__handle {
   width: 8px;

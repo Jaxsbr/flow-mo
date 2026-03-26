@@ -1,6 +1,7 @@
 import {
   Background,
   Controls,
+  MiniMap,
   ReactFlow,
   ReactFlowProvider,
   addEdge,
@@ -377,6 +378,24 @@ function FlowEditor() {
           >
             <Background gap={16} />
             <Controls />
+            <MiniMap
+              nodeColor={(node) => {
+                const shape = (node.data as { shape?: string })?.shape
+                if (shape === 'circle') return 'var(--flow-circle-bg)'
+                if (shape === 'diamond') return 'var(--flow-diamond-bg)'
+                return 'var(--flow-node-bg)'
+              }}
+              nodeStrokeColor={(node) => {
+                const shape = (node.data as { shape?: string })?.shape
+                if (shape === 'circle') return 'var(--flow-circle-border)'
+                if (shape === 'diamond') return 'var(--flow-diamond-border)'
+                return 'var(--flow-node-border)'
+              }}
+              nodeStrokeWidth={2}
+              maskColor="var(--flow-minimap-mask, rgba(0, 0, 0, 0.08))"
+              pannable
+              zoomable
+            />
           </ReactFlow>
           </ErrorBoundary>
         </div>

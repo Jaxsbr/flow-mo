@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap');
 
 :root {
   --flow-bg: #f8fafc;
@@ -43,6 +43,7 @@
     --flow-edge-selected: #60a5fa;
     --flow-danger: #fca5a5;
     --flow-node-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --flow-minimap-mask: rgba(0, 0, 0, 0.55);
     --flow-accent: #818cf8;
     --flow-accent-muted: #6366f1;
     --flow-circle-bg: #1a1f2e;
@@ -67,6 +68,7 @@ body,
 
 body {
   font-family:
+    'Inter',
     system-ui,
     -apple-system,
     'Segoe UI',
