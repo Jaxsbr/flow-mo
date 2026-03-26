@@ -67,7 +67,7 @@
   },
   "scripts": {
     "compile": "tsc -p ./",
-    "package": "npx @vscode/vsce package --no-dependencies"
+    "package": "npx @vscode/vsce package --no-dependencies --skip-license"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",
