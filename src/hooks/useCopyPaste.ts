@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Node, Edge } from '@xyflow/react'
 
-interface ClipboardData {
-  nodes: Node[]
-  edges: Edge[]
+interface ClipboardData<N extends Node, E extends Edge> {
+  nodes: N[]
+  edges: E[]
 }
 
 /**
@@ -13,13 +13,13 @@ interface ClipboardData {
  * - Ctrl/Cmd+V pastes with new UUID-based IDs, offset +40px per paste.
  * - External edges (one endpoint outside selection) are excluded.
  */
-export function useCopyPaste(
-  getNodes: () => Node[],
-  getEdges: () => Edge[],
-  setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
-  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>,
+export function useCopyPaste<N extends Node = Node, E extends Edge = Edge>(
+  getNodes: () => N[],
+  getEdges: () => E[],
+  setNodes: React.Dispatch<React.SetStateAction<N[]>>,
+  setEdges: React.Dispatch<React.SetStateAction<E[]>>,
 ) {
-  const [clipboard, setClipboard] = useState<ClipboardData | null>(null)
+  const [clipboard, setClipboard] = useState<ClipboardData<N, E> | null>(null)
   const pasteCountRef = useRef(0)
 
   const handleCopy = useCallback(() => {
@@ -50,7 +50,7 @@ export function useCopyPaste(
       idMap.set(node.id, crypto.randomUUID())
     }
 
-    const newNodes: Node[] = clipboard.nodes.map((node) => ({
+    const newNodes = clipboard.nodes.map((node) => ({
       ...node,
       id: idMap.get(node.id)!,
       position: {
@@ -59,15 +59,15 @@ export function useCopyPaste(
       },
       selected: false,
       data: { ...node.data },
-    }))
+    })) as N[]
 
-    const newEdges: Edge[] = clipboard.edges.map((edge) => ({
+    const newEdges = clipboard.edges.map((edge) => ({
       ...edge,
       id: crypto.randomUUID(),
       source: idMap.get(edge.source) ?? edge.source,
       target: idMap.get(edge.target) ?? edge.target,
       selected: false,
-    }))
+    })) as E[]
 
     setNodes((nds) => [...nds, ...newNodes])
     setEdges((eds) => [...eds, ...newEdges])

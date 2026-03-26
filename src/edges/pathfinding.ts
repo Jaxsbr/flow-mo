@@ -76,19 +76,54 @@ function pathIntersectsAnyObstacle(waypoints: Point[], obstacles: Rect[]): boole
 }
 
 /**
- * Build candidate orthogonal routes from source to target.
- * Each route starts by stepping out in sourceDirection and arrives from OPPOSITE(targetDirection).
+ * Keep the step-out small so the final segment into a shape hides behind the
+ * arrowhead (≈9 px deep).  A large step-out produced a visible stub/jog
+ * before the arrow entered the target node.
  */
-function computeAdaptiveStepOut(source: Point, target: Point, padding: number): number {
+const PREFERRED_STEP_OUT = 8
+const MIN_STEP_OUT = 2
+
+function computeAdaptiveStepOut(source: Point, target: Point): number {
   const gap = Math.abs(target.x - source.x) + Math.abs(target.y - source.y)
-  const MIN_STEP_OUT = 5
-  if (gap >= 2 * padding) return padding
+  if (gap >= 2 * PREFERRED_STEP_OUT) return PREFERRED_STEP_OUT
   return Math.max(MIN_STEP_OUT, gap / 2)
 }
 
+/**
+ * Clean up an orthogonal route by removing:
+ *  1. Near-duplicate consecutive points (< 1 px apart).
+ *  2. Colinear intermediate points (three points on the same axis).
+ */
+function simplifyOrthogonalPath(points: Point[]): Point[] {
+  if (points.length <= 2) return points
+
+  let pts: Point[] = [points[0]]
+  for (let i = 1; i < points.length; i++) {
+    const prev = pts[pts.length - 1]
+    if (Math.abs(points[i].x - prev.x) < 1 && Math.abs(points[i].y - prev.y) < 1) continue
+    pts.push(points[i])
+  }
+  if (pts.length <= 2) return pts
+
+  const result: Point[] = [pts[0]]
+  for (let i = 1; i < pts.length - 1; i++) {
+    const prev = result[result.length - 1]
+    const curr = pts[i]
+    const next = pts[i + 1]
+    if ((prev.x === curr.x && curr.x === next.x) ||
+        (prev.y === curr.y && curr.y === next.y)) {
+      continue
+    }
+    result.push(curr)
+  }
+  result.push(pts[pts.length - 1])
+
+  return result
+}
+
 function buildCandidateRoutes(input: RouteInput, paddedObstacles: Rect[]): Point[][] {
-  const { source, sourceDirection, target, targetDirection, padding = 20 } = input
-  const stepOut = computeAdaptiveStepOut(source, target, padding)
+  const { source, sourceDirection, target, targetDirection } = input
+  const stepOut = computeAdaptiveStepOut(source, target)
   const srcVec = DIRECTION_VECTORS[sourceDirection]
   const tgtVec = DIRECTION_VECTORS[targetDirection]
 
@@ -283,8 +318,7 @@ export function findOrthogonalRoute(input: RouteInput): Point[] | null {
       }
     }
 
-    // Deduplicate the initial source point (added both at start and from first segment)
-    return allPoints.slice(1)
+    return simplifyOrthogonalPath(allPoints.slice(1))
   }
 
   const paddedObstacles = obstacles.map(r => padRect(r, padding))
@@ -301,7 +335,6 @@ export function findOrthogonalRoute(input: RouteInput): Point[] | null {
 
   if (valid.length === 0) return null
 
-  // Pick shortest valid route
   valid.sort((a, b) => pathLength(a) - pathLength(b))
-  return valid[0]
+  return simplifyOrthogonalPath(valid[0])
 }

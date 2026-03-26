@@ -50,10 +50,10 @@ const defaultNewEdge = {
 
 function WebviewEditor() {
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowMoRfNode>([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [parseError, setParseError] = useState<string | null>(null)
   const [externalChangeWarning, setExternalChangeWarning] = useState(false)
-  const { fitView, deleteElements, getNodes, getEdges } = useReactFlow()
+  const { fitView, getNodes, getEdges } = useReactFlow<FlowMoRfNode>()
   const [yamlPanelOpen, setYamlPanelOpen] = useState(false)
   const [yamlText, setYamlText] = useState('')
   const lastSentRef = useRef<string>('')
@@ -225,17 +225,6 @@ function WebviewEditor() {
     [setNodes],
   )
 
-  const deleteSelected = useCallback(async () => {
-    try {
-      const selectedNodes = getNodes().filter((n) => n.selected)
-      const selectedEdges = getEdges().filter((e) => e.selected)
-      if (selectedNodes.length === 0 && selectedEdges.length === 0) return
-      await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
-    } catch (err) {
-      console.error('Failed to delete selected elements:', err)
-    }
-  }, [deleteElements, getNodes, getEdges])
-
   useCopyPaste(getNodes, getEdges, setNodes, setEdges)
 
   const dismissWarning = useCallback(() => {
@@ -279,9 +268,6 @@ function WebviewEditor() {
           </button>
           <button type="button" onClick={() => addNode('diamond')}>
             Diamond
-          </button>
-          <button type="button" onClick={deleteSelected}>
-            Delete selected
           </button>
         </div>
         {totalSelected >= 2 ? (

@@ -57,7 +57,7 @@ function FlowEditor() {
   const [applyError, setApplyError] = useState<string | null>(null)
   const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges)
-  const { fitView, deleteElements, getNodes, getEdges } = useReactFlow()
+  const { fitView, getNodes, getEdges } = useReactFlow<FlowMoRfNode>()
   const initialLoadDoneRef = useRef(false)
 
   // Auto-sync: debounce canvas changes to yamlText
@@ -195,17 +195,6 @@ function FlowEditor() {
     [setNodes],
   )
 
-  const deleteSelected = useCallback(async () => {
-    try {
-      const selectedNodes = getNodes().filter((n) => n.selected)
-      const selectedEdges = getEdges().filter((e) => e.selected)
-      if (selectedNodes.length === 0 && selectedEdges.length === 0) return
-      await deleteElements({ nodes: selectedNodes, edges: selectedEdges })
-    } catch (err) {
-      console.error('Failed to delete selected elements:', err)
-    }
-  }, [deleteElements, getNodes, getEdges])
-
   useCopyPaste(getNodes, getEdges, setNodes, setEdges)
 
   const multiEdgeValues = useMemo(() => {
@@ -245,9 +234,6 @@ function FlowEditor() {
           </button>
           <button type="button" onClick={() => addNode('diamond')}>
             Diamond
-          </button>
-          <button type="button" onClick={deleteSelected}>
-            Delete selected
           </button>
           <button type="button" onClick={copyYaml}>
             Copy YAML

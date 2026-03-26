@@ -132,10 +132,14 @@ function normalizeMidpoint(v: unknown): MidpointColor {
   return 'none'
 }
 
+function round2(v: number): number {
+  return Math.round(v * 100) / 100
+}
+
 function rfNodeToYaml(n: FlowMoRfNode): FlowYamlNode {
   return {
     id: n.id,
-    position: { x: n.position.x, y: n.position.y },
+    position: { x: round2(n.position.x), y: round2(n.position.y) },
     data: stripUndefined(n.data),
   }
 }
@@ -161,7 +165,7 @@ function rfEdgeToYaml(e: Edge): FlowYamlEdge {
   }
   const wps = d.waypoints
   if (Array.isArray(wps) && wps.length > 0) {
-    out.waypoints = wps.map((wp) => ({ x: wp.x, y: wp.y }))
+    out.waypoints = wps.map((wp) => ({ x: round2(wp.x), y: round2(wp.y) }))
   }
   return out
 }
