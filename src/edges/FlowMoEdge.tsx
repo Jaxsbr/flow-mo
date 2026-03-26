@@ -50,15 +50,6 @@ function nodesToObstacles(
   return rects
 }
 
-/** Build a Rect for a node by ID, used for bounding-box overlap checks. */
-function nodeRect(nodes: FlowMoRfNode[], id: string): Rect | null {
-  const node = nodes.find(n => n.id === id)
-  if (!node) return null
-  const w = node.measured?.width ?? node.width ?? 0
-  const h = node.measured?.height ?? node.height ?? 0
-  if (w === 0 || h === 0) return null
-  return { x: node.position.x, y: node.position.y, width: w, height: h }
-}
 
 function waypointsToSvgPath(waypoints: Point[]): string {
   if (waypoints.length === 0) return ''
@@ -151,83 +142,12 @@ function pairKey(a: string, b: string): string {
 }
 
 /**
- * Check whether a point lies inside a rect (with optional padding).
+ * For parallel edges: shift the handle position perpendicular to its direction.
+ * Top/bottom handles shift on X; left/right handles shift on Y.
  */
-function pointInRect(p: Point, r: Rect, padding = 0): boolean {
-  return (
-    p.x >= r.x - padding &&
-    p.x <= r.x + r.width + padding &&
-    p.y >= r.y - padding &&
-    p.y <= r.y + r.height + padding
-  )
-}
-
-/**
- * Apply a perpendicular offset to orthogonal waypoints.
- * For each segment, the perpendicular direction is computed from the segment direction.
- * Interior waypoints are shifted based on the average perpendicular of adjacent segments.
- * First and last waypoints (on the node handles) are NOT shifted to keep connections attached.
- */
-function offsetWaypoints(
-  waypoints: Point[],
-  offset: number,
-  sourceNodeRect: Rect | null,
-  targetNodeRect: Rect | null,
-): Point[] {
-  if (waypoints.length < 2 || offset === 0) return waypoints
-
-  const result: Point[] = waypoints.map((p, i) => {
-    // Don't shift the first or last point (handle connection points)
-    if (i === 0 || i === waypoints.length - 1) return { ...p }
-
-    // Compute perpendicular based on adjacent segments
-    const prev = waypoints[i - 1]
-    const next = waypoints[i + 1]
-
-    // Direction from prev to current
-    const dx1 = p.x - prev.x
-    const dy1 = p.y - prev.y
-    // Direction from current to next
-    const dx2 = next.x - p.x
-    const dy2 = next.y - p.y
-
-    // For orthogonal paths, perpendicular of a horizontal segment is vertical and vice versa.
-    // Use the incoming segment's perpendicular for the shift direction at this corner.
-    let px: number, py: number
-    if (dx1 !== 0) {
-      // Incoming segment is horizontal -> perpendicular is vertical
-      px = 0
-      py = offset * (dx1 > 0 ? 1 : -1)
-    } else if (dy1 !== 0) {
-      // Incoming segment is vertical -> perpendicular is horizontal
-      px = offset * (dy1 > 0 ? -1 : 1)
-      py = 0
-    } else if (dx2 !== 0) {
-      px = 0
-      py = offset * (dx2 > 0 ? 1 : -1)
-    } else if (dy2 !== 0) {
-      px = offset * (dy2 > 0 ? -1 : 1)
-      py = 0
-    } else {
-      px = 0
-      py = 0
-    }
-
-    return { x: p.x + px, y: p.y + py }
-  })
-
-  // Check that offset waypoints don't push into source/target node bounding boxes.
-  // If any interior point lands inside a node rect, revert it.
-  for (let i = 1; i < result.length - 1; i++) {
-    if (sourceNodeRect && pointInRect(result[i], sourceNodeRect)) {
-      result[i] = { ...waypoints[i] }
-    }
-    if (targetNodeRect && pointInRect(result[i], targetNodeRect)) {
-      result[i] = { ...waypoints[i] }
-    }
-  }
-
-  return result
+function handlePerpendicularShift(pos: Position, offset: number): Point {
+  if (pos === 'top' || pos === 'bottom') return { x: offset, y: 0 }
+  return { x: 0, y: offset }
 }
 
 export function FlowMoEdge({
@@ -278,46 +198,71 @@ export function FlowMoEdge({
     ? (offsetIndex - (groupSize - 1) / 2) * PARALLEL_EDGE_SPACING
     : 0
 
-  const srcRect = useMemo(() => nodeRect(nodes, source), [nodes, source])
-  const tgtRect = useMemo(() => nodeRect(nodes, target), [nodes, target])
-
   const userWaypoints = data?.waypoints as Point[] | undefined
 
-  const { path, labelX, labelY } = useMemo(() => {
+  const { path, labelX, labelY, routeWaypoints } = useMemo(() => {
     const obstacles = nodesToObstacles(nodes, excludeIds)
 
+    // For parallel edges, shift the handle positions perpendicular to the
+    // handle direction and compute an independent clean orthogonal route.
+    let sX = sourceX, sY = sourceY, tX = targetX, tY = targetY
+    if (parallelOffset !== 0) {
+      const ss = handlePerpendicularShift(sourcePosition as Position, parallelOffset)
+      const ts = handlePerpendicularShift(targetPosition as Position, parallelOffset)
+      sX += ss.x; sY += ss.y
+      tX += ts.x; tY += ts.y
+    }
+
     const route = findOrthogonalRoute({
-      source: { x: sourceX, y: sourceY },
+      source: { x: sX, y: sY },
       sourceDirection: positionToDirection(sourcePosition as Position),
-      target: { x: targetX, y: targetY },
+      target: { x: tX, y: tY },
       targetDirection: positionToDirection(targetPosition as Position),
       obstacles,
       waypoints: userWaypoints,
     })
 
     if (route) {
-      const spread = parallelOffset !== 0
-        ? offsetWaypoints(route, parallelOffset, srcRect, tgtRect)
-        : route
-      const mid = pathMidpoint(spread)
-      return { path: waypointsToRoundedSvgPath(spread), labelX: mid.x, labelY: mid.y }
+      const mid = pathMidpoint(route)
+      return { path: waypointsToRoundedSvgPath(route), labelX: mid.x, labelY: mid.y, routeWaypoints: route }
     }
 
-    // Fallback to smooth step path
     const [fallbackPath, fallbackLabelX, fallbackLabelY] = getSmoothStepPath({
-      sourceX,
-      sourceY,
+      sourceX: sX,
+      sourceY: sY,
       sourcePosition: sourcePosition as Position,
-      targetX,
-      targetY,
+      targetX: tX,
+      targetY: tY,
       targetPosition: targetPosition as Position,
     })
-    return { path: fallbackPath, labelX: fallbackLabelX, labelY: fallbackLabelY }
-  }, [nodes, excludeIds, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, parallelOffset, srcRect, tgtRect, userWaypoints])
+    return { path: fallbackPath, labelX: fallbackLabelX, labelY: fallbackLabelY, routeWaypoints: null as Point[] | null }
+  }, [nodes, excludeIds, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, parallelOffset, userWaypoints])
 
   const midpointRaw = data?.midpoint_color ?? 'none'
   const midpoint =
     midpointRaw === 'red' || midpointRaw === 'green' ? midpointRaw : null
+
+  const endArrowInfo = useMemo(() => {
+    if (!markerEnd) return null
+    if (routeWaypoints && routeWaypoints.length >= 2) {
+      const tip = routeWaypoints[routeWaypoints.length - 1]
+      const prev = routeWaypoints[routeWaypoints.length - 2]
+      return { x: tip.x, y: tip.y, angle: Math.atan2(tip.y - prev.y, tip.x - prev.x) * (180 / Math.PI) }
+    }
+    const angles: Record<string, number> = { top: 90, bottom: -90, left: 0, right: 180 }
+    return { x: targetX, y: targetY, angle: angles[targetPosition as string] ?? 0 }
+  }, [markerEnd, routeWaypoints, targetX, targetY, targetPosition])
+
+  const startArrowInfo = useMemo(() => {
+    if (!markerStart) return null
+    if (routeWaypoints && routeWaypoints.length >= 2) {
+      const tip = routeWaypoints[0]
+      const next = routeWaypoints[1]
+      return { x: tip.x, y: tip.y, angle: Math.atan2(tip.y - next.y, tip.x - next.x) * (180 / Math.PI) }
+    }
+    const angles: Record<string, number> = { top: -90, bottom: 90, left: 180, right: 0 }
+    return { x: sourceX, y: sourceY, angle: angles[sourcePosition as string] ?? 0 }
+  }, [markerStart, routeWaypoints, sourceX, sourceY, sourcePosition])
 
   const { setEdges } = useReactFlow()
 
@@ -426,45 +371,8 @@ export function FlowMoEdge({
     ? 'var(--flow-edge-selected)'
     : semanticColor ?? 'var(--flow-edge)'
 
-  // Override markerEnd/markerStart to use custom arrow markers
-  const customMarkerEnd = markerEnd ? `url(#flow-mo-arrow-${id})` : undefined
-  const customMarkerStart = markerStart ? `url(#flow-mo-arrow-start-${id})` : undefined
-
   return (
     <>
-      {/* Custom arrow marker definitions */}
-      <defs>
-        <marker
-          id={`flow-mo-arrow-${id}`}
-          markerWidth="12"
-          markerHeight="10"
-          refX="11"
-          refY="5"
-          orient="auto"
-          markerUnits="userSpaceOnUse"
-        >
-          <path
-            d="M 1 1 L 11 5 L 1 9 L 3 5 Z"
-            fill={arrowFill}
-            className="flow-mo-arrow"
-          />
-        </marker>
-        <marker
-          id={`flow-mo-arrow-start-${id}`}
-          markerWidth="12"
-          markerHeight="10"
-          refX="1"
-          refY="5"
-          orient="auto-start-reverse"
-          markerUnits="userSpaceOnUse"
-        >
-          <path
-            d="M 11 1 L 1 5 L 11 9 L 9 5 Z"
-            fill={arrowFill}
-            className="flow-mo-arrow"
-          />
-        </marker>
-      </defs>
       {/* Invisible wider hit area for edge mousedown (waypoint creation) */}
       <path
         d={path}
@@ -476,8 +384,6 @@ export function FlowMoEdge({
       />
       <BaseEdge
         path={path}
-        markerEnd={customMarkerEnd}
-        markerStart={customMarkerStart}
         style={
           selected
             ? {
@@ -490,6 +396,47 @@ export function FlowMoEdge({
               : style
         }
       />
+      {/* HTML arrowheads — rendered in overlay space so they're always on top of all SVG edges */}
+      {(endArrowInfo || startArrowInfo) ? (
+        <EdgeLabelRenderer>
+          {endArrowInfo && (
+            <svg
+              width="14"
+              height="12"
+              viewBox="0 0 14 12"
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                transformOrigin: '0 0',
+                transform: `translate(${endArrowInfo.x}px, ${endArrowInfo.y}px) rotate(${endArrowInfo.angle}deg) translate(-13px, -6px)`,
+                pointerEvents: 'none',
+              }}
+            >
+              <path d="M 0 0 L 14 6 L 0 12 Z" fill="var(--flow-bg)" />
+              <path d="M 1.5 1.5 L 13 6 L 1.5 10.5 Z" fill="var(--flow-bg)" stroke={arrowFill} strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+          )}
+          {startArrowInfo && (
+            <svg
+              width="14"
+              height="12"
+              viewBox="0 0 14 12"
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                transformOrigin: '0 0',
+                transform: `translate(${startArrowInfo.x}px, ${startArrowInfo.y}px) rotate(${startArrowInfo.angle}deg) translate(-13px, -6px)`,
+                pointerEvents: 'none',
+              }}
+            >
+              <path d="M 0 0 L 14 6 L 0 12 Z" fill="var(--flow-bg)" />
+              <path d="M 1.5 1.5 L 13 6 L 1.5 10.5 Z" fill="var(--flow-bg)" stroke={arrowFill} strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+          )}
+        </EdgeLabelRenderer>
+      ) : null}
       {/* Waypoint handles */}
       {userWaypoints && userWaypoints.length > 0 ? (
         <EdgeLabelRenderer>

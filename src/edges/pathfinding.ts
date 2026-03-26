@@ -93,11 +93,13 @@ function computeAdaptiveStepOut(source: Point, target: Point): number {
  * Clean up an orthogonal route by removing:
  *  1. Near-duplicate consecutive points (< 1 px apart).
  *  2. Colinear intermediate points (three points on the same axis).
+ *  3. U-turn segments (three points on the same axis with direction reversal).
+ * Iterates until stable because removing a U-turn can expose new colinear runs.
  */
 function simplifyOrthogonalPath(points: Point[]): Point[] {
   if (points.length <= 2) return points
 
-  const pts: Point[] = [points[0]]
+  let pts: Point[] = [points[0]]
   for (let i = 1; i < points.length; i++) {
     const prev = pts[pts.length - 1]
     if (Math.abs(points[i].x - prev.x) < 1 && Math.abs(points[i].y - prev.y) < 1) continue
@@ -105,20 +107,50 @@ function simplifyOrthogonalPath(points: Point[]): Point[] {
   }
   if (pts.length <= 2) return pts
 
-  const result: Point[] = [pts[0]]
-  for (let i = 1; i < pts.length - 1; i++) {
-    const prev = result[result.length - 1]
-    const curr = pts[i]
-    const next = pts[i + 1]
-    if ((prev.x === curr.x && curr.x === next.x) ||
-        (prev.y === curr.y && curr.y === next.y)) {
-      continue
-    }
-    result.push(curr)
-  }
-  result.push(pts[pts.length - 1])
+  let changed = true
+  while (changed) {
+    changed = false
 
-  return result
+    // Colinear pass
+    let result: Point[] = [pts[0]]
+    for (let i = 1; i < pts.length - 1; i++) {
+      const prev = result[result.length - 1]
+      const curr = pts[i]
+      const next = pts[i + 1]
+      if ((prev.x === curr.x && curr.x === next.x) ||
+          (prev.y === curr.y && curr.y === next.y)) {
+        changed = true
+        continue
+      }
+      result.push(curr)
+    }
+    result.push(pts[pts.length - 1])
+    pts = result
+    if (pts.length <= 2) return pts
+
+    // U-turn pass: A→B→C on same axis with B extending past both A and C
+    result = [pts[0]]
+    for (let i = 1; i < pts.length - 1; i++) {
+      const prev = result[result.length - 1]
+      const curr = pts[i]
+      const next = pts[i + 1]
+      if (prev.x === curr.x && curr.x === next.x) {
+        const d1 = Math.sign(curr.y - prev.y)
+        const d2 = Math.sign(next.y - curr.y)
+        if (d1 !== 0 && d2 !== 0 && d1 !== d2) { changed = true; continue }
+      }
+      if (prev.y === curr.y && curr.y === next.y) {
+        const d1 = Math.sign(curr.x - prev.x)
+        const d2 = Math.sign(next.x - curr.x)
+        if (d1 !== 0 && d2 !== 0 && d1 !== d2) { changed = true; continue }
+      }
+      result.push(curr)
+    }
+    result.push(pts[pts.length - 1])
+    pts = result
+  }
+
+  return pts
 }
 
 function buildCandidateRoutes(input: RouteInput, paddedObstacles: Rect[]): Point[][] {

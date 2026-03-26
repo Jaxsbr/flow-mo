@@ -41,10 +41,10 @@ function NodeTypeIcon({ shape }: { shape: NodeShape }) {
     )
   }
 
-  // Rectangle — process / step icon (right arrow)
+  // Rectangle — process / step icon (bidirectional, no implied flow direction)
   return (
     <svg width={size} height={size} viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M2.5 6h7M7 3.5L9.5 6 7 8.5" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2.5 6h7M5 4L2.5 6 5 8M7 4l2.5 2L7 8" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
