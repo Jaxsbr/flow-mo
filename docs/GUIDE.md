@@ -2,19 +2,20 @@
 
 ## Install the extension
 
-1. Build the webview bundle from the repo root:
-   ```bash
-   npm run build:webview
-   ```
-2. Compile and package the extension:
-   ```bash
-   cd packages/vscode-extension
-   npx tsc -p ./
-   npx @vscode/vsce package --no-dependencies
-   ```
-3. In VS Code or Cursor, open **Extensions** (Ctrl+Shift+X / Cmd+Shift+X).
-4. Click the `...` menu → **Install from VSIX…** and select the generated `.vsix` file from `packages/vscode-extension/`.
-5. Reload the editor when prompted.
+**One-step (recommended):**
+
+```bash
+npm run deploy:cursor
+```
+
+This rebuilds the core package, bundles the webview, compiles and packages the extension, and installs the `.vsix` into Cursor. Reload the editor when prompted.
+
+**Manual steps** (if you need finer control):
+
+```bash
+npm run package:ext                    # build webview + compile + package VSIX
+cursor --install-extension packages/vscode-extension/flow-mo-vscode-0.1.0.vsix --force
+```
 
 ## Switching between diagram and text views
 
@@ -74,10 +75,26 @@ Edges automatically route around nodes using orthogonal (right-angle) paths. Whe
 
 - Routed paths use only horizontal and vertical segments — no diagonals.
 - Each edge avoids all nodes except its own source and target.
-- If the layout is too cramped for the pathfinder to find a valid route, the edge falls back to the default smooth-step style (the same curved path used before smart routing was added).
+- **Handle auto-assignment**: When loading from YAML, edges are assigned logical source/target handles based on the relative positions of connected nodes. The source exits toward the target, and the target enters from the source side (e.g. source exits right, target enters left for a left-to-right flow). This prevents confusing connector reuse where the same side handles both entry and exit.
+- **Snap-to-straight**: When opposing handles are nearly aligned (within 25px on the perpendicular axis), the router snaps them to a straight line instead of introducing a small unnecessary jog. This forgives imperfect node positioning.
+- If the layout is too cramped for the pathfinder to find a valid route, the edge falls back to the default smooth-step style.
 - Path recalculation is memoized — edges only recompute when node positions or edge endpoints change.
 
 No configuration is needed. Smart routing is the default behavior.
+
+## Edge waypoints
+
+You can manually adjust edge paths by adding waypoints:
+
+- **Add a waypoint**: Click on an edge path to insert a draggable waypoint at that position.
+- **Move a waypoint**: Drag a waypoint handle to reposition it. Waypoints snap to a 20px grid.
+- **Remove a waypoint**: Double-click a waypoint handle to delete it.
+
+Waypoints are persisted in the YAML as a `waypoints` array on the edge. The auto-router routes through each waypoint in order.
+
+## Auto-sync
+
+Changes made on the canvas (dragging nodes, editing labels, adding/removing edges) are automatically synced to the backing YAML document after an 800ms debounce. You don't need to manually click "Sync canvas → YAML" after every edit — it happens in the background.
 
 ## External changes
 
