@@ -56,4 +56,8 @@ export type FlowYamlEdge = {
   midpoint?: MidpointColor
   /** User-defined bend points — array of {x, y} positions the edge routes through */
   waypoints?: { x: number; y: number }[]
+  /** Explicit source-side handle ID (e.g. "right-source"). Auto-computed from node positions when omitted. */
+  source_handle?: string
+  /** Explicit target-side handle ID (e.g. "left-target"). Auto-computed from node positions when omitted. */
+  target_handle?: string
 }

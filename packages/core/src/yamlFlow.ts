@@ -41,7 +41,69 @@ export function documentToFlow(doc: FlowYamlDoc): {
 } {
   const nodes: FlowMoRfNode[] = doc.nodes.map((n) => yamlNodeToRf(n))
   const edges: Edge[] = doc.edges.map((e) => yamlEdgeToRf(e))
+  assignEdgeHandles(nodes, edges)
   return { nodes, edges }
+}
+
+/**
+ * Compute the visual center of a node, accounting for shape-specific sizing.
+ */
+function nodeCenter(node: FlowMoRfNode): { x: number; y: number } {
+  const shape = node.data.shape ?? 'rectangle'
+  let w: number, h: number
+  if (shape === 'circle') {
+    const size = Math.max(80, node.data.width ?? node.data.height ?? 120)
+    w = h = size
+  } else if (shape === 'diamond') {
+    const size = Math.max(100, node.data.width ?? node.data.height ?? 120)
+    w = h = size
+  } else {
+    w = node.data.width ?? 160
+    h = node.data.height ?? 56
+  }
+  return {
+    x: node.position.x + w / 2,
+    y: node.position.y + h / 2,
+  }
+}
+
+/**
+ * Auto-assign sourceHandle / targetHandle on edges that don't already have them.
+ *
+ * Uses the relative position of connected nodes to pick the logical exit/entry
+ * direction: the source exits toward the target, the target enters from the
+ * source side. This prevents the confusing default where React Flow reuses the
+ * same connector for both entry and exit.
+ */
+function assignEdgeHandles(nodes: FlowMoRfNode[], edges: Edge[]): void {
+  const nodeMap = new Map(nodes.map(n => [n.id, n]))
+
+  for (const edge of edges) {
+    if (edge.sourceHandle && edge.targetHandle) continue
+
+    const sourceNode = nodeMap.get(edge.source)
+    const targetNode = nodeMap.get(edge.target)
+    if (!sourceNode || !targetNode) continue
+
+    const sc = nodeCenter(sourceNode)
+    const tc = nodeCenter(targetNode)
+    const dx = tc.x - sc.x
+    const dy = tc.y - sc.y
+
+    let sourceDir: string
+    let targetDir: string
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      sourceDir = dx >= 0 ? 'right' : 'left'
+      targetDir = dx >= 0 ? 'left' : 'right'
+    } else {
+      sourceDir = dy >= 0 ? 'bottom' : 'top'
+      targetDir = dy >= 0 ? 'top' : 'bottom'
+    }
+
+    if (!edge.sourceHandle) edge.sourceHandle = `${sourceDir}-source`
+    if (!edge.targetHandle) edge.targetHandle = `${targetDir}-target`
+  }
 }
 
 export function flowToDocument(nodes: FlowMoRfNode[], edges: Edge[]): FlowYamlDoc {
@@ -119,6 +181,8 @@ function yamlEdgeToRf(e: FlowYamlEdge): Edge {
   if (e.label != null && e.label !== '') {
     edge.label = String(e.label)
   }
+  if (e.source_handle) edge.sourceHandle = String(e.source_handle)
+  if (e.target_handle) edge.targetHandle = String(e.target_handle)
   return edge
 }
 
@@ -167,6 +231,8 @@ function rfEdgeToYaml(e: Edge): FlowYamlEdge {
   if (Array.isArray(wps) && wps.length > 0) {
     out.waypoints = wps.map((wp) => ({ x: round2(wp.x), y: round2(wp.y) }))
   }
+  if (e.sourceHandle) out.source_handle = e.sourceHandle
+  if (e.targetHandle) out.target_handle = e.targetHandle
   return out
 }
 
