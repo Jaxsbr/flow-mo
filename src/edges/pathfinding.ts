@@ -294,6 +294,13 @@ function oppositeDirection(d: CardinalDirection): CardinalDirection {
 }
 
 /**
+ * When opposing handles are within this threshold on the perpendicular axis,
+ * snap them to the midpoint so the route is a clean straight line instead of
+ * introducing a small unnecessary jog.
+ */
+const STRAIGHT_SNAP_THRESHOLD = 25
+
+/**
  * Compute an orthogonal route from source to target (optionally through
  * user-defined waypoints), avoiding obstacles.
  * Returns an array of points (all segments horizontal or vertical), or null
@@ -302,30 +309,60 @@ function oppositeDirection(d: CardinalDirection): CardinalDirection {
 export function findOrthogonalRoute(input: RouteInput): Point[] | null {
   const { obstacles, padding = 20, waypoints: userWaypoints } = input
 
+  // Snap nearly-aligned opposing handles to produce straight paths.
+  // E.g. bottom→top with a 20px x-offset becomes a clean vertical line.
+  const { source, sourceDirection, target, targetDirection } = input
+  let snappedSource = source
+  let snappedTarget = target
+
+  if (sourceDirection === 'bottom' && targetDirection === 'top' ||
+      sourceDirection === 'top' && targetDirection === 'bottom') {
+    const dx = Math.abs(source.x - target.x)
+    if (dx > 0 && dx <= STRAIGHT_SNAP_THRESHOLD) {
+      const midX = (source.x + target.x) / 2
+      snappedSource = { x: midX, y: source.y }
+      snappedTarget = { x: midX, y: target.y }
+    }
+  } else if (sourceDirection === 'right' && targetDirection === 'left' ||
+             sourceDirection === 'left' && targetDirection === 'right') {
+    const dy = Math.abs(source.y - target.y)
+    if (dy > 0 && dy <= STRAIGHT_SNAP_THRESHOLD) {
+      const midY = (source.y + target.y) / 2
+      snappedSource = { x: source.x, y: midY }
+      snappedTarget = { x: target.x, y: midY }
+    }
+  }
+
+  const snappedInput: RouteInput = {
+    ...input,
+    source: snappedSource,
+    target: snappedTarget,
+  }
+
   // When user waypoints are provided, route through each segment
   if (userWaypoints && userWaypoints.length > 0) {
-    const allPoints: Point[] = [input.source]
+    const allPoints: Point[] = [snappedSource]
     const segments: { src: Point; srcDir: CardinalDirection; tgt: Point; tgtDir: CardinalDirection }[] = []
 
     // Build segment list: source→wp[0], wp[0]→wp[1], ..., wp[N-1]→target
-    const chain = [input.source, ...userWaypoints, input.target]
+    const chain = [snappedSource, ...userWaypoints, snappedTarget]
     const directions: CardinalDirection[] = []
 
     // Source direction is given
-    directions.push(input.sourceDirection)
+    directions.push(sourceDirection)
     // Intermediate waypoint directions are inferred
     for (let i = 1; i < chain.length - 1; i++) {
       directions.push(inferDirection(chain[i], chain[i + 1]))
     }
     // Target direction is given
-    directions.push(input.targetDirection)
+    directions.push(targetDirection)
 
     for (let i = 0; i < chain.length - 1; i++) {
       const srcDir = i === 0
-        ? input.sourceDirection
+        ? sourceDirection
         : inferDirection(chain[i], chain[i + 1])
       const tgtDir = i === chain.length - 2
-        ? input.targetDirection
+        ? targetDirection
         : oppositeDirection(inferDirection(chain[i + 1], chain[i + 2] ?? chain[i + 1]))
 
       segments.push({ src: chain[i], srcDir, tgt: chain[i + 1], tgtDir })
@@ -355,7 +392,7 @@ export function findOrthogonalRoute(input: RouteInput): Point[] | null {
 
   const paddedObstacles = obstacles.map(r => padRect(r, padding))
 
-  const candidates = buildCandidateRoutes(input, paddedObstacles)
+  const candidates = buildCandidateRoutes(snappedInput, paddedObstacles)
 
   // Filter to valid candidates: orthogonal + no obstacle intersection (check against padded obstacles without extra padding)
   const valid = candidates.filter(route => {

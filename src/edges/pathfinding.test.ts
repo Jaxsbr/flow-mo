@@ -166,7 +166,55 @@ describe('findOrthogonalRoute', () => {
     assert.ok(stepOutDist <= 10, `Step-out distance ${stepOutDist} should not exceed gap 10`)
   })
 
-  it('uses full padding for normal-distance edges (gap >= 2*padding)', () => {
+  it('snaps nearly-aligned vertical handles to a straight path', () => {
+    // Nodes at slightly different x (simulates different-width nodes at same left edge)
+    const input: RouteInput = {
+      source: { x: 410, y: 176 },
+      sourceDirection: 'bottom',
+      target: { x: 390, y: 296 },
+      targetDirection: 'top',
+      obstacles: [],
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    // With 20px offset (within threshold), all waypoints should share the same x
+    const xs = new Set(result!.map(p => p.x))
+    assert.equal(xs.size, 1, `Expected straight vertical line (1 unique x), got ${xs.size}: [${[...xs]}]`)
+  })
+
+  it('snaps nearly-aligned horizontal handles to a straight path', () => {
+    const input: RouteInput = {
+      source: { x: 200, y: 115 },
+      sourceDirection: 'right',
+      target: { x: 400, y: 100 },
+      targetDirection: 'left',
+      obstacles: [],
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    const ys = new Set(result!.map(p => p.y))
+    assert.equal(ys.size, 1, `Expected straight horizontal line (1 unique y), got ${ys.size}: [${[...ys]}]`)
+  })
+
+  it('does NOT snap when offset exceeds threshold', () => {
+    const input: RouteInput = {
+      source: { x: 450, y: 176 },
+      sourceDirection: 'bottom',
+      target: { x: 380, y: 296 },
+      targetDirection: 'top',
+      obstacles: [],
+    }
+    const result = findOrthogonalRoute(input)
+    assert.notEqual(result, null)
+    assert.ok(allSegmentsOrthogonal(result!))
+    // 70px offset — well beyond threshold, should NOT be a straight line
+    const xs = new Set(result!.map(p => p.x))
+    assert.ok(xs.size > 1, 'Should NOT snap to straight with 70px offset')
+  })
+
+  it('produces a straight path for colinear normal-distance edges', () => {
     const input: RouteInput = {
       source: { x: 100, y: 100 },
       sourceDirection: 'right',
@@ -178,8 +226,8 @@ describe('findOrthogonalRoute', () => {
     const result = findOrthogonalRoute(input)
     assert.notEqual(result, null)
     assert.ok(allSegmentsOrthogonal(result!))
-    // Gap is 100 >= 2*20=40, so step-out should equal padding (20)
-    const stepOutDist = Math.abs(result![1].x - result![0].x) + Math.abs(result![1].y - result![0].y)
-    assert.equal(stepOutDist, 20, 'Normal-distance edges should use full padding as step-out')
+    // Colinear endpoints simplify to a straight line
+    const ys = new Set(result!.map(p => p.y))
+    assert.equal(ys.size, 1, 'Colinear horizontal path should be a straight line')
   })
 })
