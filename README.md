@@ -34,3 +34,7 @@ npm run lint             # Lint all packages
 - **PRD & Phase P1 stories:** [`docs/product/PRD.md`](docs/product/PRD.md)
 - Intent brief (IDE extension, agent-first layout, MCP path): [`docs/briefs/flow-mo-ide-extension-brief.md`](docs/briefs/flow-mo-ide-extension-brief.md)
 - Phase 2 concept (MCP tools): [`docs/concepts/flow-mo-mcp-tools-phase-2.md`](docs/concepts/flow-mo-mcp-tools-phase-2.md)
+
+<!-- build-loop -->
+---
+*Built with [build-loop](docs/plan/) — init v8 | builds v8, v9*
