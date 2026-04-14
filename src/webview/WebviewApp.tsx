@@ -12,6 +12,7 @@ import {
 } from '@xyflow/react'
 import type {
   FlowMoEdgeData,
+  FlowMoNodeData,
   FlowMoRfNode,
   MarkerEndStyle,
   MidpointColor,
@@ -31,6 +32,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary'
 import { FlowMoEdge } from '../edges/FlowMoEdge'
 import { FlowMoNode } from '../nodes/FlowMoNode'
 import { useCopyPaste } from '../hooks/useCopyPaste'
+import { NodeStylePanel, type NodeStylePatch } from '../panels/NodeStylePanel'
 import { getVsCodeApi } from './vscodeApi'
 
 const nodeTypes = { flowMo: FlowMoNode }
@@ -66,10 +68,11 @@ function WebviewEditor() {
 
   const selectedEdge = selectedFlowMoEdges.length === 1 ? selectedFlowMoEdges[0] : undefined
 
-  const selectedNodeCount = useMemo(
-    () => nodes.filter((n) => n.selected).length,
+  const selectedNodes = useMemo(
+    () => (nodes as FlowMoRfNode[]).filter((n) => n.selected),
     [nodes],
   )
+  const selectedNodeCount = selectedNodes.length
   const selectedEdgeCount = selectedFlowMoEdges.length
   const totalSelected = selectedNodeCount + selectedEdgeCount
 
@@ -136,6 +139,28 @@ function WebviewEditor() {
     }, AUTO_SYNC_DELAY_MS)
     return () => clearTimeout(timer)
   }, [nodes, edges, sendEdit])
+
+  const updateSelectedNodes = useCallback(
+    (patch: NodeStylePatch) => {
+      setNodes((nds) =>
+        nds.map((n) => {
+          if (!n.selected) return n
+          const current = n.data as FlowMoNodeData
+          const next: FlowMoNodeData = { ...current }
+          for (const key of Object.keys(patch) as (keyof NodeStylePatch)[]) {
+            const value = patch[key]
+            if (value === undefined) {
+              delete (next as Record<string, unknown>)[key]
+            } else {
+              ;(next as Record<string, unknown>)[key] = value
+            }
+          }
+          return { ...n, data: next }
+        }),
+      )
+    },
+    [setNodes],
+  )
 
   const updateSelectedEdge = useCallback(
     (patch: Partial<FlowMoEdgeData>) => {
@@ -332,6 +357,11 @@ function WebviewEditor() {
             </select>
           </label>
         </div>
+        <NodeStylePanel
+          selectedNodes={selectedNodes}
+          selectedEdgeCount={selectedEdgeCount}
+          onPatch={updateSelectedNodes}
+        />
         {externalChangeWarning ? (
           <p className="flow-mo__warning" role="alert">
             File changed on disk. The editor has been updated with the new content.

@@ -278,4 +278,4 @@ As a **user**, I want **a command palette command that creates a new `.flow.yaml
 - Optional JSON Schema export from core — backlog if not in P1.
 - ~~Edge waypoint dragging~~ — shipped in PR #12.
 - Edge-to-edge spreading (fanning out overlapping edges) — out of scope for smart-edge-routing; only node avoidance shipped.
-- Node label/text styling — deferred; requires a `@flow-mo/core` schema change (label font, text color, text size).
+- Label / text styling on nodes — deferred from node-style-panel; requires a `@flow-mo/core` schema extension for `label_color` / `label_size` (or a `text:` sub-object).

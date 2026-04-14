@@ -8,9 +8,9 @@ config:
     builds: [8, 9, 13]
 
 state:
-  task_number: 1
+  task_number: 2
   phase: node-style-panel
-  phase_complete: false
+  phase_complete: true
   review_stage: null
   review_complete: false
   retro_complete: false
@@ -19,4 +19,9 @@ state:
   last_result: pass
   next_task: null
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories:
+    - US-NS1
+    - US-NS2
+    - US-NS3
+    - US-NS4
+    - US-NS5

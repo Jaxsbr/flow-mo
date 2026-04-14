@@ -15,7 +15,8 @@
     "deploy:vscode": "npm run build --workspace=packages/core && npm run build && npm run package:ext && code --install-extension packages/vscode-extension/flow-mo-vscode-0.1.0.vsix --force",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "npm test --workspaces --if-present"
+    "test:unit": "node --import tsx --test src/panels/nodeStylePalette.test.ts src/panels/contrast.test.ts src/panels/nodeStyleValidation.test.ts src/panels/multiNodeValues.test.ts src/edges/pathfinding.test.ts",
+    "test": "npm run test:unit && npm test --workspaces --if-present"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.1",
