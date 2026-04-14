@@ -117,6 +117,7 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
   const bg = data.background ?? 'var(--flow-node-bg)'
   const bc = data.border_color ?? 'var(--flow-node-border)'
   const bw = data.border_width ?? 1
+  const labelColorStyle = data.label_color ? { color: data.label_color } : undefined
   const labelOrInput = editing ? (
     <input
       ref={inputRef}
@@ -127,12 +128,14 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
       onBlur={handleBlur}
       onKeyDown={onInputKeyDown}
       aria-label="Node label"
+      style={labelColorStyle}
     />
   ) : (
     <div
       className={`flow-mo-node__label flow-mo-node__label--${shape}`}
       onDoubleClick={startEdit}
       title="Double-click to edit"
+      style={labelColorStyle}
     >
       {data.label}
     </div>

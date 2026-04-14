@@ -4,6 +4,7 @@ import {
   BACKGROUND_SWATCHES,
   BORDER_SWATCHES,
   BORDER_WIDTHS,
+  TEXT_SWATCHES,
   type SwatchEntry,
 } from './nodeStylePalette'
 import { wcagContrastRatio } from './contrast'
@@ -23,6 +24,7 @@ export type NodeStylePatch = {
   background?: string | undefined
   border_color?: string | undefined
   border_width?: number | undefined
+  label_color?: string | undefined
 }
 
 export type NodeStylePanelProps = {
@@ -62,7 +64,7 @@ function useRadiogroupNavigation(length: number) {
   )
 }
 
-type SwatchKind = 'background' | 'border_color'
+type SwatchKind = 'background' | 'border_color' | 'label_color'
 
 function swatchValueEq(entry: SwatchEntry, value: string | undefined | Mixed): boolean {
   if (value === MIXED) return false
@@ -83,6 +85,7 @@ export function NodeStylePanel({
   // Transient custom swatches captured for the current React session.
   const [customBg, setCustomBg] = useState<string[]>([])
   const [customBorder, setCustomBorder] = useState<string[]>([])
+  const [customText, setCustomText] = useState<string[]>([])
 
   const handleShape = useCallback(
     (shape: NodeShape) => {
@@ -97,12 +100,14 @@ export function NodeStylePanel({
       if (entry.hex === null) {
         // Default / clear — omit the key entirely.
         if (kind === 'background') onPatch({ background: undefined })
-        else onPatch({ border_color: undefined })
+        else if (kind === 'border_color') onPatch({ border_color: undefined })
+        else onPatch({ label_color: undefined })
         return
       }
       if (!isValidHex(entry.hex)) return
       if (kind === 'background') onPatch({ background: entry.hex })
-      else onPatch({ border_color: entry.hex })
+      else if (kind === 'border_color') onPatch({ border_color: entry.hex })
+      else onPatch({ label_color: entry.hex })
     },
     [onPatch],
   )
@@ -113,9 +118,12 @@ export function NodeStylePanel({
       if (kind === 'background') {
         setCustomBg((prev) => (prev.includes(hex) ? prev : [...prev, hex]))
         onPatch({ background: hex })
-      } else {
+      } else if (kind === 'border_color') {
         setCustomBorder((prev) => (prev.includes(hex) ? prev : [...prev, hex]))
         onPatch({ border_color: hex })
+      } else {
+        setCustomText((prev) => (prev.includes(hex) ? prev : [...prev, hex]))
+        onPatch({ label_color: hex })
       }
     },
     [onPatch],
@@ -148,15 +156,26 @@ export function NodeStylePanel({
     ],
     [customBorder],
   )
+  const textRow = useMemo<SwatchEntry[]>(
+    () => [
+      ...TEXT_SWATCHES,
+      ...customText.map((hex) => ({ label: `Custom ${hex}`, hex, role: 'custom' })),
+    ],
+    [customText],
+  )
 
-  // Resolved background used for contrast math: the selection's shared background,
-  // or white as the effective default.
+  // Resolved colors used for contrast math: the selection's shared background and
+  // label color (falling back to white / the panel prop default when unset).
   const effectiveBg =
     multi.background && multi.background !== MIXED
       ? multi.background
       : DEFAULT_BG_FOR_CONTRAST
-  const contrastRatio =
-    multi.background === MIXED ? LOW_CONTRAST_THRESHOLD : wcagContrastRatio(effectiveBg, labelColor)
+  const effectiveLabel =
+    multi.label_color && multi.label_color !== MIXED ? multi.label_color : labelColor
+  const mixedColors = multi.background === MIXED || multi.label_color === MIXED
+  const contrastRatio = mixedColors
+    ? LOW_CONTRAST_THRESHOLD
+    : wcagContrastRatio(effectiveBg, effectiveLabel)
   const showContrastWarning = contrastRatio < LOW_CONTRAST_THRESHOLD
 
   const title =
@@ -171,6 +190,7 @@ export function NodeStylePanel({
     if (multi.shape === MIXED) parts.push('Shape mixed.')
     else if (multi.shape) parts.push(`Shape ${multi.shape}.`)
     if (multi.background === MIXED) parts.push('Background color mixed.')
+    if (multi.label_color === MIXED) parts.push('Text color mixed.')
     if (multi.border_color === MIXED) parts.push('Border color mixed.')
     if (multi.border_width === MIXED) parts.push('Border width mixed.')
     return parts.join(' ')
@@ -178,6 +198,7 @@ export function NodeStylePanel({
 
   const shapeNav = useRadiogroupNavigation(SHAPE_OPTIONS.length)
   const bgNav = useRadiogroupNavigation(bgRow.length + 1) // +1 custom slot
+  const textNav = useRadiogroupNavigation(textRow.length + 1)
   const borderNav = useRadiogroupNavigation(borderRow.length + 1)
   const widthNav = useRadiogroupNavigation(BORDER_WIDTHS.length + 1) // +1 default slot
 
@@ -248,6 +269,18 @@ export function NodeStylePanel({
         onPick={(entry) => handleSwatch('background', entry)}
         onCustomCommit={(hex) => handleCustomCommit('background', hex)}
         nav={bgNav}
+        mixedLabel="Mixed"
+      />
+
+      <SwatchRow
+        kind="label_color"
+        title="Text"
+        labelledById="nsp-text-label"
+        entries={textRow}
+        currentValue={multi.label_color}
+        onPick={(entry) => handleSwatch('label_color', entry)}
+        onCustomCommit={(hex) => handleCustomCommit('label_color', hex)}
+        nav={textNav}
         mixedLabel="Mixed"
       />
 
@@ -440,13 +473,13 @@ function SwatchRow({
             })
           }}
           title="Custom color"
-          aria-label={`Custom ${kind === 'background' ? 'background' : 'border'} color`}
+          aria-label={`Custom ${kind === 'background' ? 'background' : kind === 'border_color' ? 'border' : 'text'} color`}
         >
           <input
             ref={customInputRef}
             type="color"
             className="flow-mo__swatch-color-input"
-            aria-label={`Custom ${kind === 'background' ? 'background' : 'border'} color`}
+            aria-label={`Custom ${kind === 'background' ? 'background' : kind === 'border_color' ? 'border' : 'text'} color`}
             onChange={(e) => onCustomCommit(e.target.value)}
             tabIndex={-1}
           />

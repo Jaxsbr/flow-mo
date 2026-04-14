@@ -4,6 +4,7 @@ import {
   BACKGROUND_SWATCHES,
   BORDER_SWATCHES,
   BORDER_WIDTHS,
+  TEXT_SWATCHES,
 } from './nodeStylePalette.ts'
 
 describe('nodeStylePalette', () => {
@@ -57,9 +58,14 @@ describe('nodeStylePalette', () => {
     assert.deepEqual([...BORDER_WIDTHS], [1, 2, 3, 4])
   })
 
+  it('TEXT_SWATCHES has 9 entries with Default (hex:null) first', () => {
+    assert.equal(TEXT_SWATCHES.length, 9)
+    assert.equal(TEXT_SWATCHES[0].hex, null)
+  })
+
   it('every non-default swatch has a valid 6-digit hex', () => {
     const re = /^#[0-9a-fA-F]{6}$/
-    for (const s of [...BACKGROUND_SWATCHES, ...BORDER_SWATCHES]) {
+    for (const s of [...BACKGROUND_SWATCHES, ...BORDER_SWATCHES, ...TEXT_SWATCHES]) {
       if (s.hex === null) continue
       assert.match(s.hex, re, `invalid hex: ${s.label} -> ${s.hex}`)
     }

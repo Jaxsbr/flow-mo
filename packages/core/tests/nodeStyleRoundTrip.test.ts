@@ -26,6 +26,7 @@ nodes:
       background: "#fef3c7"
       border_color: "#b45309"
       border_width: 3
+      label_color: "#0f172a"
 edges: []
 `
 
@@ -37,6 +38,7 @@ edges: []
     assert.equal(styled.data.background, '#fef3c7')
     assert.equal(styled.data.border_color, '#b45309')
     assert.equal(styled.data.border_width, 3)
+    assert.equal(styled.data.label_color, '#0f172a')
 
     // Simulate the panel clearing each field via the Default swatch:
     // the patch applies { key: undefined } which the renderer collapses to key deletion.
@@ -60,6 +62,10 @@ edges: []
       !text.includes('border_width'),
       `border_width key should be omitted, got:\n${text}`,
     )
+    assert.ok(
+      !text.includes('label_color'),
+      `label_color key should be omitted, got:\n${text}`,
+    )
 
     // Re-parse to confirm the cleared YAML is still valid and the node survives.
     const reparsed = parseFlowYaml(text)
@@ -68,6 +74,7 @@ edges: []
     assert.equal(reparsedNodes[0].data.background, undefined)
     assert.equal(reparsedNodes[0].data.border_color, undefined)
     assert.equal(reparsedNodes[0].data.border_width, undefined)
+    assert.equal(reparsedNodes[0].data.label_color, undefined)
   })
 
   it('preserves background when it is set (sanity check)', () => {

@@ -28,4 +28,16 @@ export const BORDER_SWATCHES: SwatchEntry[] = [
   { label: 'Rose 700', hex: '#be123c', role: 'warm' },
 ]
 
+export const TEXT_SWATCHES: SwatchEntry[] = [
+  { label: 'Default (none), clears text color', hex: null, role: 'default' },
+  { label: 'Slate 900', hex: '#0f172a', role: 'neutral' },
+  { label: 'Stone 700', hex: '#44403c', role: 'neutral' },
+  { label: 'White', hex: '#ffffff', role: 'neutral' },
+  { label: 'Amber 700', hex: '#b45309', role: 'warm' },
+  { label: 'Emerald 700', hex: '#047857', role: 'cool' },
+  { label: 'Sky 700', hex: '#0369a1', role: 'cool' },
+  { label: 'Violet 700', hex: '#6d28d9', role: 'cool' },
+  { label: 'Rose 700', hex: '#be123c', role: 'warm' },
+]
+
 export const BORDER_WIDTHS: ReadonlyArray<1 | 2 | 3 | 4> = [1, 2, 3, 4]

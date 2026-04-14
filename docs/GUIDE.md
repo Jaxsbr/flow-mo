@@ -63,6 +63,7 @@ Select one or more nodes on the canvas and a contextual **Node style** panel sli
 
 - **Shape** — Rectangle, Circle, or Diamond.
 - **Background** — one of 8 curated soft-pastel colors, a **Default** option that clears the color, or a **Custom…** slot that opens your OS color picker.
+- **Text** — label color: 8 curated dark/accent tones, Default, and Custom…
 - **Border color** — same layout as Background, tuned for border use (darker accents).
 - **Border width** — Default, 1, 2, 3, or 4 pixels.
 
@@ -72,9 +73,11 @@ The node style panel and the edge options panel are **mutually exclusive**: at m
 
 ### Choosing a color
 
-Each color row starts with a **Default** swatch (diagonal-stripe pattern) that clears the color entirely — the background, border color, or border width key is removed from the YAML, and the node falls back to the theme defaults. This keeps diffs clean when you set and then unset a color.
+Each color row (Background, Text, Border color) starts with a **Default** swatch (diagonal-stripe pattern) that clears the color entirely — the `background`, `label_color`, or `border_color` key is removed from the YAML, and the node falls back to the theme defaults. This keeps diffs clean when you set and then unset a color.
 
 After the 8 curated swatches, a **Custom…** slot with a rainbow fill opens your OS color picker. Pick any hex; the new color is committed once when you close the picker (not on every hue-drag) and appears as an additional transient swatch for the rest of your editor session. Reloading the editor clears custom swatches.
+
+The **Text** row controls the node label color. Use it together with Background to keep labels legible — the contrast check below watches both.
 
 ### Styling multiple nodes at once
 
@@ -82,9 +85,7 @@ Box-select or Shift+click several nodes to edit them together. The panel title r
 
 ### Contrast warnings
 
-When the picked background + the label color produce a WCAG contrast ratio below **3:1**, a small **Low contrast** warning chip appears next to the panel. This is advisory only — flow-mo never blocks your edit — and is a friendly floor, not strict WCAG AA. Pick a darker background or hand-edit the label color (future schema extension) to clear the warning.
-
-Label/text styling is not yet supported in the panel (deferred to a later schema extension).
+When the picked background + label color produce a WCAG contrast ratio below **3:1**, a small **Low contrast** warning chip appears next to the panel. This is advisory only — flow-mo never blocks your edit — and is a friendly floor, not strict WCAG AA. Pick a different Background or Text color to clear the warning.
 
 ## Saving
 

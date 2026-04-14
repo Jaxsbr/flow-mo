@@ -143,6 +143,7 @@ function normalizeNodeData(data: FlowMoNodeData): FlowMoNodeData {
   if (data.background != null) out.background = String(data.background)
   if (data.border_color != null) out.border_color = String(data.border_color)
   if (data.border_width != null) out.border_width = Number(data.border_width)
+  if (data.label_color != null) out.label_color = String(data.label_color)
   return out
 }
 
