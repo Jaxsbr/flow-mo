@@ -20,6 +20,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Edge spreading](phases/edge-spreading.md) | Visual spreading of parallel edges between same node pair | [Shipped] |
 | [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [Shipped] |
 | [MCP tools](phases/mcp-tools.md) | stdio MCP server — validate, read, write tools for FlowMo YAML | [Shipped] |
+| [Node style panel](phases/node-style-panel.md) | Visual style picker panel for node background, border, and shape with multi-select bulk edit |  |
 
 ---
 
@@ -277,3 +278,4 @@ As a **user**, I want **a command palette command that creates a new `.flow.yaml
 - Optional JSON Schema export from core — backlog if not in P1.
 - ~~Edge waypoint dragging~~ — shipped in PR #12.
 - Edge-to-edge spreading (fanning out overlapping edges) — out of scope for smart-edge-routing; only node avoidance shipped.
+- Node label/text styling — deferred; requires a `@flow-mo/core` schema change (label font, text color, text size).

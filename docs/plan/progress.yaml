@@ -5,19 +5,18 @@ config:
   quality_check_suppressions: []
   build_loop_version:
     init_version: 8
-    builds: [8, 9]
+    builds: [8, 9, 13]
 
 state:
   task_number: 1
-  phase: edge-spreading
-  phase_complete: true
+  phase: node-style-panel
+  phase_complete: false
   review_stage: null
-  review_complete: true
-  retro_complete: true
-  pr_number: 11
+  review_complete: false
+  retro_complete: false
+  pr_number: null
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
-  completed_stories:
-    - US-ES1
+  completed_stories: []
