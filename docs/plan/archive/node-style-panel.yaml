@@ -1,0 +1,27 @@
+# Build Loop — Phase Log: node-style-panel
+phase: node-style-panel
+started_at: 2026-04-14T20:19:00Z
+entries:
+  - task: 1
+    at: 2026-04-14T20:45:00Z
+    story: US-NS1..US-NS5
+    description: |
+      Batched implementation under time-pressure authorization from Jaco
+      for a knowledge-share deadline. Built NodeStylePanel as a shared
+      component under src/panels/, integrated into both src/App.tsx and
+      src/webview/WebviewApp.tsx, added palette / contrast / validation /
+      multiNodeValues modules, unit tests, core round-trip test, CSS with
+      0.2s ease transition mirroring the edge panel, GUIDE.md "Styling
+      nodes" section, PRD backlog bullet for label styling, and
+      verification-node-style-panel.md manual walkthrough doc.
+    result: pass
+    notes: |
+      DOM-level tests (keyboard walkthrough, 50-input debounce assertion,
+      live-region text changes, integration visibility checks) are
+      deferred to manual verification because the root Vite project does
+      not ship jsdom + RTL. This is called out at the top of
+      phase-goal.md. All pure-logic tests pass: 35 unit tests in
+      src/panels + 20 core tests including the Default-omits-key
+      round-trip invariant. Lint clean, tsc clean, webview bundle
+      rebuilt via `npm run build:webview`.
+    tokens: ~

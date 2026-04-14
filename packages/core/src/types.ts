@@ -11,6 +11,7 @@ export type FlowMoNodeData = {
   background?: string
   border_color?: string
   border_width?: number
+  label_color?: string
 } & Record<string, unknown>
 
 /** React Flow node type for custom `flowMo` nodes. */

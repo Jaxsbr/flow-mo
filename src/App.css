@@ -159,7 +159,8 @@
   font-size: 0.8rem;
 }
 
-.flow-mo__edge-field select {
+.flow-mo__edge-field select,
+.flow-mo__edge-field input[type="text"] {
   font: inherit;
   font-size: 0.875rem;
   padding: 4px 8px;
@@ -167,6 +168,10 @@
   border: 1px solid var(--flow-border);
   background: var(--flow-button-bg);
   color: var(--flow-text);
+}
+
+.flow-mo__edge-label-input {
+  min-width: 140px;
 }
 
 .flow-mo__selection-count {
@@ -406,7 +411,9 @@
 
 /* Rectangle card depth — subtle bottom border for grounding */
 .flow-mo-node--rectangle {
-  border-bottom-width: 3px !important;
+  background: var(--flow-node-bg);
+  border: 2px solid var(--flow-node-border);
+  border-bottom-width: 3px;
 }
 
 /* Gradient overlay for depth — top-lit effect on rectangles */
@@ -528,11 +535,11 @@
   padding: 10px 14px;
   overflow: visible;
   position: relative;
-  background: var(--flow-circle-bg) !important;
-  border-style: dashed !important;
-  border-width: 2.5px !important;
-  border-color: var(--flow-circle-border) !important;
-  box-shadow: var(--flow-node-shadow), inset 0 1px 2px rgba(0,0,0,0.04) !important;
+  background: var(--flow-circle-bg);
+  border-style: dashed;
+  border-width: 2.5px;
+  border-color: var(--flow-circle-border);
+  box-shadow: var(--flow-node-shadow), inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .flow-mo-node--circle .flow-mo-node__label {
@@ -586,8 +593,8 @@
   border-radius: 2px;
   overflow: visible;
   position: relative;
-  background: var(--flow-diamond-bg) !important;
-  border-color: var(--flow-diamond-border) !important;
+  background: var(--flow-diamond-bg);
+  border: 2px solid var(--flow-diamond-border);
   box-shadow: var(--flow-node-shadow);
 }
 
@@ -877,3 +884,199 @@
     min-height: 200px;
   }
 }
+
+/* ---------- Node style panel ---------- */
+
+.flow-mo__node-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 0;
+  padding: 0 12px;
+  background: var(--flow-pane-header);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease, opacity 0.2s ease, margin-top 0.2s ease,
+    padding 0.2s ease, border-color 0.2s ease;
+}
+
+.flow-mo__node-panel--visible {
+  max-height: 180px;
+  opacity: 1;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-color: var(--flow-border);
+  overflow: visible;
+}
+
+.flow-mo__node-panel-title {
+  font-weight: 600;
+  color: var(--flow-text);
+  font-size: 0.8rem;
+}
+
+.flow-mo__node-panel-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.flow-mo__node-panel-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.flow-mo__node-panel-label {
+  color: var(--flow-muted);
+  font-size: 0.75rem;
+  min-width: 82px;
+  letter-spacing: 0.02em;
+}
+
+.flow-mo__node-panel-radiogroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-mo__node-panel-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid var(--flow-border);
+  background: var(--flow-button-bg);
+  color: var(--flow-text);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.flow-mo__node-panel-chip:hover {
+  border-color: color-mix(in srgb, var(--flow-accent) 40%, var(--flow-border));
+}
+
+.flow-mo__node-panel-chip--active {
+  border-color: var(--flow-accent);
+  background: color-mix(in srgb, var(--flow-accent) 10%, var(--flow-button-bg));
+  color: var(--flow-accent);
+}
+
+.flow-mo__node-panel-chip:focus-visible {
+  outline: 2px solid var(--flow-accent);
+  outline-offset: 2px;
+}
+
+.flow-mo__swatch {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--flow-border);
+  background: var(--flow-button-bg);
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.flow-mo__swatch:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--flow-accent) 40%, var(--flow-border));
+}
+
+.flow-mo__swatch--active {
+  border-color: var(--flow-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--flow-accent) 30%, transparent);
+}
+
+.flow-mo__swatch:focus-visible {
+  outline: 2px solid var(--flow-accent);
+  outline-offset: 2px;
+}
+
+.flow-mo__swatch--default {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--flow-button-bg),
+    var(--flow-button-bg) 3px,
+    var(--flow-border) 3px,
+    var(--flow-border) 4px
+  );
+}
+
+.flow-mo__swatch--custom {
+  background: conic-gradient(
+    from 0deg,
+    #ef4444,
+    #f59e0b,
+    #eab308,
+    #22c55e,
+    #06b6d4,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #ef4444
+  );
+}
+
+.flow-mo__swatch-color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.flow-mo__mixed-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--flow-accent) 8%, transparent);
+  color: var(--flow-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+.flow-mo__node-panel-warning {
+  margin-left: auto;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.flow-mo__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
