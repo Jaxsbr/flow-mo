@@ -146,6 +146,19 @@ function FlowEditor() {
     [setEdges],
   )
 
+  const updateSelectedEdgeLabel = useCallback(
+    (text: string) => {
+      const trimmed = text.trim()
+      setEdges((eds) =>
+        eds.map((e) => {
+          if (!e.selected || e.type !== 'flowMoEdge') return e
+          return { ...e, label: trimmed === '' ? undefined : text }
+        }),
+      )
+    },
+    [setEdges],
+  )
+
   const onConnect = useCallback(
     (connection: Connection) => {
       setEdges((eds) =>
@@ -233,10 +246,17 @@ function FlowEditor() {
       const first = allData[0][key]
       return allData.every((d) => d[key] === first) ? first : 'mixed' as const
     }
+    const firstLabel = (selectedFlowMoEdges[0].label ?? '') as string
+    const label: string | 'mixed' = selectedFlowMoEdges.every(
+      (e) => (e.label ?? '') === firstLabel,
+    )
+      ? firstLabel
+      : 'mixed'
     return {
       marker_start: getShared('marker_start'),
       marker_end: getShared('marker_end'),
       midpoint_color: getShared('midpoint_color'),
+      label,
     }
   }, [selectedFlowMoEdges])
 
@@ -331,6 +351,23 @@ function FlowEditor() {
               <option value="red">Red circle</option>
               <option value="green">Green circle</option>
             </select>
+          </label>
+          <label className="flow-mo__edge-field flow-mo__edge-field--label">
+            <span>Label</span>
+            <input
+              type="text"
+              className="flow-mo__edge-label-input"
+              value={
+                multiEdgeValues
+                  ? multiEdgeValues.label === 'mixed'
+                    ? ''
+                    : multiEdgeValues.label
+                  : ((selectedEdge?.label as string | undefined) ?? '')
+              }
+              placeholder={multiEdgeValues?.label === 'mixed' ? 'Mixed' : 'none'}
+              onChange={(e) => updateSelectedEdgeLabel(e.target.value)}
+              aria-label="Edge label"
+            />
           </label>
         </div>
         <NodeStylePanel

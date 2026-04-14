@@ -159,7 +159,8 @@
   font-size: 0.8rem;
 }
 
-.flow-mo__edge-field select {
+.flow-mo__edge-field select,
+.flow-mo__edge-field input[type="text"] {
   font: inherit;
   font-size: 0.875rem;
   padding: 4px 8px;
@@ -167,6 +168,10 @@
   border: 1px solid var(--flow-border);
   background: var(--flow-button-bg);
   color: var(--flow-text);
+}
+
+.flow-mo__edge-label-input {
+  min-width: 140px;
 }
 
 .flow-mo__selection-count {
