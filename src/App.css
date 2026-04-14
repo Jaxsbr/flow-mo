@@ -406,7 +406,9 @@
 
 /* Rectangle card depth — subtle bottom border for grounding */
 .flow-mo-node--rectangle {
-  border-bottom-width: 3px !important;
+  background: var(--flow-node-bg);
+  border: 2px solid var(--flow-node-border);
+  border-bottom-width: 3px;
 }
 
 /* Gradient overlay for depth — top-lit effect on rectangles */
@@ -528,11 +530,11 @@
   padding: 10px 14px;
   overflow: visible;
   position: relative;
-  background: var(--flow-circle-bg) !important;
-  border-style: dashed !important;
-  border-width: 2.5px !important;
-  border-color: var(--flow-circle-border) !important;
-  box-shadow: var(--flow-node-shadow), inset 0 1px 2px rgba(0,0,0,0.04) !important;
+  background: var(--flow-circle-bg);
+  border-style: dashed;
+  border-width: 2.5px;
+  border-color: var(--flow-circle-border);
+  box-shadow: var(--flow-node-shadow), inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .flow-mo-node--circle .flow-mo-node__label {
@@ -586,8 +588,8 @@
   border-radius: 2px;
   overflow: visible;
   position: relative;
-  background: var(--flow-diamond-bg) !important;
-  border-color: var(--flow-diamond-border) !important;
+  background: var(--flow-diamond-bg);
+  border: 2px solid var(--flow-diamond-border);
   box-shadow: var(--flow-node-shadow);
 }
 

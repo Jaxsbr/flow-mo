@@ -10,6 +10,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
 } from 'react'
@@ -114,9 +115,12 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
 
   const w = data.width ?? 160
   const minH = data.height ?? 56
-  const bg = data.background ?? 'var(--flow-node-bg)'
-  const bc = data.border_color ?? 'var(--flow-node-border)'
-  const bw = data.border_width ?? 1
+  // Only apply inline longhands for fields the user explicitly set so the shape
+  // default CSS (circle / diamond / rectangle theme vars) still wins when unset.
+  const styleOverrides: CSSProperties = {}
+  if (data.background != null) styleOverrides.backgroundColor = data.background
+  if (data.border_color != null) styleOverrides.borderColor = data.border_color
+  if (data.border_width != null) styleOverrides.borderWidth = `${data.border_width}px`
   const labelColorStyle = data.label_color ? { color: data.label_color } : undefined
   const labelOrInput = editing ? (
     <input
@@ -166,8 +170,7 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
         style={{
           width: size,
           height: size,
-          background: bg,
-          border: `${bw}px solid ${bc}`,
+          ...styleOverrides,
         }}
       >
         {handles}
@@ -194,10 +197,7 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
         {handles}
         <div
           className="flow-mo-node--diamond-inner"
-          style={{
-            background: bg,
-            border: `${bw}px solid ${bc}`,
-          }}
+          style={styleOverrides}
         >
           <div className="flow-mo-node__content flow-mo-node__content--diamond">
             {labelOrInput}
@@ -213,8 +213,7 @@ export function FlowMoNode({ data }: NodeProps<FlowMoRfNode>) {
       style={{
         width: w,
         minHeight: minH,
-        background: bg,
-        border: `${bw}px solid ${bc}`,
+        ...styleOverrides,
       }}
     >
       {handles}
