@@ -15,7 +15,7 @@ state:
   review_complete: false
   retro_complete: false
   pr_number: null
-  status: running
+  status: paused
   last_result: pass
   next_task: null
   consecutive_fails: 0
