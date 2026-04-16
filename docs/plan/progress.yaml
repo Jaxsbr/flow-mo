@@ -8,7 +8,7 @@ config:
     builds: [8, 9, 13]
 
 state:
-  task_number: 1
+  task_number: 2
   phase: github-readme
   phase_complete: false
   review_stage: null
@@ -16,8 +16,8 @@ state:
   retro_complete: false
   pr_number: null
   status: running
-  last_result: null
-  next_task: "[US-RM1] Write GitHub-optimized README with tagline, features, quick start, YAML example, agent instructions, MCP section, packages table, dev commands, and doc links"
+  last_result: pass
+  next_task: null
   consecutive_fails: 0
   completed_stories:
     - US-RM1

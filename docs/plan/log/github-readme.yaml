@@ -8,3 +8,10 @@ entries:
     result: pass
     notes: "All 13 done-when criteria unmet. Current README is 41-line developer reference. Phase is documentation-only, no investigate-first mandate."
     tokens: ~
+  - task: 2
+    at: "2026-04-16T03:55:00Z"
+    story: US-RM1
+    description: "Write GitHub-optimized README with human+AI collaboration narrative, features, quick start, YAML example, agent instructions, MCP server, packages table, dev commands, and doc links"
+    result: pass
+    notes: "All 13 US-RM1 done-when criteria verified. Story complete. README rewritten from 41-line developer reference to 188-line visitor-friendly landing page."
+    tokens: ~

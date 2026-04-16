@@ -1,0 +1,4 @@
+
+> flow-mo@0.0.0 lint
+> eslint .
+
