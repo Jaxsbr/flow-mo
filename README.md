@@ -32,6 +32,8 @@ Two-way **YAML**-to-**visual diagram** editor for VS Code and Cursor. Designed f
    npm run deploy:vscode    # for VS Code
    ```
 
+   > **Note:** These scripts use the `cursor` / `code` CLI commands to install the extension. If the command is not in your PATH, open your editor and install it: Cursor — *Command Palette → "Install 'cursor' command in PATH"*; VS Code — *Command Palette → "Shell Command: Install 'code' command in PATH"*.
+
    Reload the editor when prompted.
 
 3. Create a new flow file: open the Command Palette (Ctrl/Cmd+Shift+P) and run **FlowMo: New Flow**, or right-click a folder in the explorer.
