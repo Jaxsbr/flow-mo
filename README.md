@@ -37,4 +37,4 @@ npm run lint             # Lint all packages
 
 <!-- build-loop -->
 ---
-*Built with [build-loop](docs/plan/) — init v8 | builds v8, v9*
+*Built with [build-loop](docs/plan/) — init v8 | builds v8, v9, v13*

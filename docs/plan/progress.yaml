@@ -8,20 +8,15 @@ config:
     builds: [8, 9, 13]
 
 state:
-  task_number: 2
-  phase: node-style-panel
-  phase_complete: true
+  task_number: 1
+  phase: github-readme
+  phase_complete: false
   review_stage: null
   review_complete: false
-  retro_complete: true
-  pr_number: 14
+  retro_complete: false
+  pr_number: null
   status: running
-  last_result: pass
+  last_result: null
   next_task: null
   consecutive_fails: 0
-  completed_stories:
-    - US-NS1
-    - US-NS2
-    - US-NS3
-    - US-NS4
-    - US-NS5
+  completed_stories: []
