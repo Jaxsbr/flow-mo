@@ -1,6 +1,6 @@
 # Phase: github-readme
 
-Status: draft
+Status: shipped
 
 ## Stories
 

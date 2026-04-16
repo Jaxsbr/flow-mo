@@ -21,7 +21,7 @@ FlowMo is a YAML-backed flow diagram tool. Phase 1 delivers an **agent-first** l
 | [Edge waypoint dragging](phases/edge-waypoint-dragging.md) | Interactive edge waypoints — drag to create bend points, persist in YAML | [Shipped] |
 | [MCP tools](phases/mcp-tools.md) | stdio MCP server — validate, read, write tools for FlowMo YAML | [Shipped] |
 | [Node style panel](phases/node-style-panel.md) | Visual style picker panel for node background, text, border, and shape with multi-select bulk edit | [Shipped] |
-| [GitHub README](phases/github-readme.md) | GitHub-optimized README with human+AI narrative, agent instructions, and quickstart | Draft |
+| [GitHub README](phases/github-readme.md) | GitHub-optimized README with human+AI narrative, agent instructions, and quickstart | [Shipped] |
 
 ---
 
