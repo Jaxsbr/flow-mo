@@ -19,4 +19,5 @@ state:
   last_result: null
   next_task: "[US-RM1] Write GitHub-optimized README with tagline, features, quick start, YAML example, agent instructions, MCP section, packages table, dev commands, and doc links"
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories:
+    - US-RM1
