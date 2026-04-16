@@ -1,6 +1,6 @@
 # Phase: node-style-panel
 
-Status: draft
+Status: shipped
 
 Adds a contextual header-strip panel for styling selected FlowMo nodes — shape, background, border color, and border width — covering every visual field the `@flow-mo/core` schema already supports and that `FlowMoNode.tsx` already renders. Editing today requires hand-authoring YAML; this phase closes that gap without a schema change. The panel is a shared component consumed by both the Vite dev app (`src/App.tsx`) and the VS Code/Cursor extension webview (`src/webview/WebviewApp.tsx`), mirrors the edge panel's smooth-transition / multi-select / "Mixed" vocabulary, and integrates cleanly with the 800 ms auto-sync pipeline.
 

@@ -1,0 +1,27 @@
+phase: "github-readme"
+started: "2026-04-16T03:47:09Z"
+entries:
+  - task: 1
+    at: "2026-04-16T03:52:00Z"
+    story: US-RM1
+    description: "Investigation — gathered reference materials (SKILL.md, schema.md, GUIDE.md, package.json scripts, current README) and queued README rewrite task"
+    result: pass
+    notes: "All 13 done-when criteria unmet. Current README is 41-line developer reference. Phase is documentation-only, no investigate-first mandate."
+    tokens: ~
+  - task: 2
+    at: "2026-04-16T03:55:00Z"
+    story: US-RM1
+    description: "Write GitHub-optimized README with human+AI collaboration narrative, features, quick start, YAML example, agent instructions, MCP server, packages table, dev commands, and doc links"
+    result: pass
+    notes: "All 13 US-RM1 done-when criteria verified. Story complete. README rewritten from 41-line developer reference to 188-line visitor-friendly landing page."
+    tokens: ~
+  - task: 3
+    at: "2026-04-16T03:57:00Z"
+    story: phase
+    description: "Phase Completion Gate — all 14 done-when criteria verified, AGENTS.md unmodified, verify passes, no error-path concerns (docs-only phase)"
+    result: pass
+    notes: |
+      Evidence: all 13 US-RM1 criteria verified against specific README lines.
+      [phase] criterion: AGENTS.md git diff main returns empty — unmodified.
+      Final verify: tsc + lint pass. No endpoints in this phase (docs-only).
+    tokens: ~

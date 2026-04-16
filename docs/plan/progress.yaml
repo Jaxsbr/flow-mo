@@ -9,19 +9,15 @@ config:
 
 state:
   task_number: 2
-  phase: node-style-panel
+  phase: github-readme
   phase_complete: true
   review_stage: null
   review_complete: false
   retro_complete: true
-  pr_number: 14
-  status: running
+  pr_number: null
+  status: paused
   last_result: pass
   next_task: null
   consecutive_fails: 0
   completed_stories:
-    - US-NS1
-    - US-NS2
-    - US-NS3
-    - US-NS4
-    - US-NS5
+    - US-RM1
